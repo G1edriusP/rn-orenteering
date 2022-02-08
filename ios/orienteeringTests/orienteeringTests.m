@@ -7,11 +7,11 @@
 #define TIMEOUT_SECONDS 600
 #define TEXT_TO_LOOK_FOR @"Welcome to React"
 
-@interface orenteeringTests : XCTestCase
+@interface orienteeringTests : XCTestCase
 
 @end
 
-@implementation orenteeringTests
+@implementation orienteeringTests
 
 - (BOOL)findSubviewInView:(UIView *)view matching:(BOOL(^)(UIView *view))test
 {
