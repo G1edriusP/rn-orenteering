@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 import { View, StyleSheet, ViewStyle, Image, ImageStyle, Text } from "react-native";
 
 // Constants
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "../constants/values";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/values";
 
 // Splash screen
 import SplashScreen from "react-native-splash-screen";
