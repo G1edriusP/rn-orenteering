@@ -8,6 +8,21 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
   ],
+  settings: {
+    "import/resolver": {
+      "babel-module": {
+        alias: {
+          assets: "./src/assets",
+          components: "./src/components",
+          constants: "./src/constants",
+          screens: "./src/screens",
+          utils: "./src/utils",
+          styles: "./src/styles",
+        },
+        allowExistingDirectories: true,
+      },
+    },
+  },
   parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
