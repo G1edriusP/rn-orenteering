@@ -13,9 +13,9 @@ module.exports = {
       "babel-module": {
         alias: {
           assets: "./src/assets",
-          components: "./src/components",
+          "components/*": "./src/components",
           constants: "./src/constants",
-          screens: "./src/screens",
+          containers: "./src/containers",
           utils: "./src/utils",
           styles: "./src/styles",
         },

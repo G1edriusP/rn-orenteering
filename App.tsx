@@ -1,9 +1,16 @@
+import "react-native-gesture-handler";
 import React from "react";
+import Navigator from "navigation/navigator";
 
-import SplashScreen from "screens/Splash";
+// Providers
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const App = () => {
-  return <SplashScreen />;
+  return (
+    <SafeAreaProvider>
+      <Navigator />
+    </SafeAreaProvider>
+  );
 };
 
 export default App;
