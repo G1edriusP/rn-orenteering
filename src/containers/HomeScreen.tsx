@@ -1,10 +1,16 @@
 import { HomeScreenProps } from "constants/navigation/types";
-import React from "react";
+import React, { useEffect } from "react";
 
 // Components
 import { View, Text } from "react-native";
 
-const HomeScreen = ({}: HomeScreenProps) => {
+const HomeScreen = ({ route: { params } }: HomeScreenProps) => {
+  const { user } = params;
+
+  useEffect(() => {
+    console.log(user);
+  }, [user]);
+
   return (
     <View>
       <Text>Home screen</Text>

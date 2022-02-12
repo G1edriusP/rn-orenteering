@@ -1,3 +1,4 @@
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { StackScreenProps } from "@react-navigation/stack";
 import { Routes, Stacks } from "constants/navigation/routes";
 
@@ -10,11 +11,11 @@ export type RootStackParams = {
 export type AuthStackParams = {
   [Routes.LOGIN_SCREEN]: undefined;
   [Routes.REGISTER_SCREEN]: undefined;
-  [Stacks.HOME]: undefined;
+  [Stacks.HOME]: { user: FirebaseAuthTypes.User | null };
 };
 
 export type HomeStackParams = {
-  [Routes.HOME_SCREEN]: undefined;
+  [Routes.HOME_SCREEN]: { user: FirebaseAuthTypes.User | null };
 };
 
 // Screen props
