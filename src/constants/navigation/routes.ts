@@ -1,0 +1,12 @@
+export enum Routes {
+  SPLASH_SCREEN = "SPLASH_SCREEN",
+  HOME_SCREEN = "HOME_SCREEN",
+  LOGIN_SCREEN = "LOGIN_SCREEN",
+  REGISTER_SCREEN = "REGISTER_SCREEN",
+}
+
+export enum Stacks {
+  ROOT = "ROOT",
+  AUTH = "AUTH",
+  HOME = "HOME",
+}

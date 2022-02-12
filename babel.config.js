@@ -9,8 +9,8 @@ module.exports = {
         alias: {
           assets: "./src/assets",
           constants: "./src/constants",
-          components: "./src/components",
-          screens: "./src/screens",
+          "components/*": "./src/components",
+          containers: "./src/containers",
           utils: "./src/utils",
           styles: "./src/styles",
         },
