@@ -1,3 +1,11 @@
-import { Dimensions } from "react-native";
+import { EmailLoginData } from "./types";
 
-export const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get("window");
+export const defaultEmailLoginData: EmailLoginData = {
+  email: "",
+  password: "",
+};
+
+export const IDS = {
+  EMAIL: "email",
+  PASSWORD: "password",
+};

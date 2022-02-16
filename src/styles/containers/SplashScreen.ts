@@ -1,7 +1,7 @@
 import { ImageStyle, StyleSheet, ViewStyle } from "react-native";
 
 // Constants
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/values";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
 
 type Props = {
   wrap: ViewStyle;
