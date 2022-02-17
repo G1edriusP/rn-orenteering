@@ -24,7 +24,7 @@ const noHeader: StackNavigationOptions = { headerShown: false, gestureEnabled: f
 
 const HomeStack = () => {
   return (
-    <Home.Navigator>
+    <Home.Navigator initialRouteName={Routes.HOME_SCREEN}>
       <Home.Screen name={Routes.HOME_SCREEN} component={HomeScreen} options={noHeader} />
     </Home.Navigator>
   );
@@ -43,7 +43,7 @@ const AuthStack = () => {
 const RootStack = () => {
   return (
     <Root.Navigator initialRouteName={Routes.SPLASH_SCREEN}>
-      <Root.Screen name={Routes.SPLASH_SCREEN} component={SplashScreen} />
+      <Root.Screen name={Routes.SPLASH_SCREEN} component={SplashScreen} options={noHeader} />
       <Root.Screen name={Stacks.AUTH} component={AuthStack} options={noHeader} />
     </Root.Navigator>
   );
