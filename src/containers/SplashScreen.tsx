@@ -1,22 +1,20 @@
-import React, { useEffect } from "react";
+import React, { useLayoutEffect } from "react";
 
 // Styles
 import styles from "styles/containers/SplashScreen";
 
 // Components
 import { View, Text } from "react-native";
-import { default as Splash } from "react-native-splash-screen";
 
 // Types
 import { SplashScreenProps } from "constants/navigation/types";
 
 // Constants
-import { Routes, Stacks } from "constants/navigation/routes";
+import { checkIfLoggedIn } from "utils/firebase/auth";
 
-const SplashScreen = ({ navigation }: SplashScreenProps) => {
-  useEffect(() => {
-    Splash.hide();
-    navigation.navigate(Stacks.AUTH);
+const SplashScreen = ({ navigation: { dispatch } }: SplashScreenProps) => {
+  useLayoutEffect(() => {
+    checkIfLoggedIn(dispatch);
   }, []);
 
   return (

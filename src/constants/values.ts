@@ -1,3 +1,22 @@
-import { Dimensions } from "react-native";
+import { EmailAuthData, LocalStorageKeys } from "./types";
 
-export const { height: SCREEN_HEIGHT, width: SCREEN_WIDTH } = Dimensions.get("window");
+export const defaultEmailLoginData: EmailAuthData = {
+  email: "",
+  password: "",
+};
+
+export const defaultEmailRegisterData: EmailAuthData = {
+  email: "",
+  password: "",
+  repeatedPassword: "",
+};
+
+export const IDS = {
+  EMAIL: "email",
+  PASSWORD: "password",
+  REPEATED_PASSWORD: "repeatedPassword",
+};
+
+export const LOCAL_STORAGE_KEYS: LocalStorageKeys = {
+  ACCESS_TOKEN: "accessToken",
+};

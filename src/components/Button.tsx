@@ -1,13 +1,22 @@
 import React, { memo } from "react";
-import { View, Text } from "react-native";
 
-export type Props = {};
+// Style
+import styles from "styles/components/Button";
 
-const Button: React.FC<Props> = () => {
+// Components
+import { Text, TouchableOpacity, ViewStyle } from "react-native";
+
+export type Props = {
+  title: string;
+  onPress: () => void;
+  style?: ViewStyle;
+};
+
+const Button: React.FC<Props> = ({ title, onPress, style }) => {
   return (
-    <View>
-      <Text>Home screen</Text>
-    </View>
+    <TouchableOpacity onPress={onPress} style={[styles.wrap, style]}>
+      <Text style={styles.title}>{title}</Text>
+    </TouchableOpacity>
   );
 };
 

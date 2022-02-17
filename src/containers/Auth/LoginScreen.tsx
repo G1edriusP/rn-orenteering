@@ -1,47 +1,71 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useReducer } from "react";
+
+// Styles
+import styles from "styles/containers/LoginScreen";
 
 // Components
-import { Alert, Button } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { TextInput, Button } from "components";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+
+// Utils
+import { emailAuthReducer, onLoginPress } from "utils/firebase/auth";
+import { resetNavigation } from "utils/navigation/navigation";
+import { setValue } from "utils/storage";
 
 // Types
 import { LoginScreenProps } from "constants/navigation/types";
 
-// Components
-import { Text } from "react-native";
-import { Stacks } from "constants/navigation/routes";
-import { SafeAreaView } from "react-native-safe-area-context";
+// Constants
+import { Routes, Stacks } from "constants/navigation/routes";
+import { defaultEmailLoginData, IDS, LOCAL_STORAGE_KEYS } from "constants/values";
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [data, dispatch] = useReducer(emailAuthReducer, defaultEmailLoginData);
 
-  const onLoginPress = (): void => {
-    auth()
-      .signInWithEmailAndPassword("giedrius.pakalniskis@nfq.lt", "testas123")
-      .then(() => setIsLoading(true)) // User has been successfully created
-      .catch((error: FirebaseAuthTypes.NativeFirebaseAuthError) => {
-        console.log(error.code);
-      });
+  const onLoginCallback = async ({ user }: FirebaseAuthTypes.UserCredential): Promise<void> => {
+    setIsLoading(true);
+    const token = await user.getIdToken();
+    await setValue(token, LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
+    navigation.dispatch(resetNavigation(Stacks.HOME));
+    setIsLoading(false);
   };
 
-  const onAuthStateChanged = (user: FirebaseAuthTypes.User | null): void => {
-    if (user) {
-      console.log(user);
-      // navigation.navigate(Stacks.HOME, { user });
-      setIsLoading(false);
-    }
+  const onInputChange = (id: string, text: string): void => {
+    dispatch({ type: id, value: text });
   };
 
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  }, []);
+  const onRegisterButtonPress = (): void => navigation.navigate(Routes.REGISTER_SCREEN);
 
   return (
-    <SafeAreaView>
-      <Text>Login screen</Text>
-      <Text>{isLoading ? "true" : false}</Text>
-      <Button title={"Login"} onPress={onLoginPress} />
+    <SafeAreaView style={styles.wrap}>
+      <TextInput
+        id={IDS.EMAIL}
+        editable={!isLoading}
+        value={data.email}
+        placeholder={"El. paštas"}
+        onChangeText={onInputChange}
+        keyboardType='email-address'
+        autoCapitalize='none'
+        style={styles.smallBottomSpacer}
+      />
+      <TextInput
+        id={IDS.PASSWORD}
+        editable={!isLoading}
+        value={data.password}
+        placeholder={"Slaptažodis"}
+        onChangeText={onInputChange}
+        autoCapitalize='none'
+        secureTextEntry
+        style={styles.mediumBottomSpacer}
+      />
+      <Button
+        title={"Prisijungti"}
+        onPress={() => onLoginPress(data, user => onLoginCallback(user))}
+        style={styles.mediumBottomSpacer}
+      />
+      <Button title={"Registracija"} onPress={onRegisterButtonPress} />
     </SafeAreaView>
   );
 };
