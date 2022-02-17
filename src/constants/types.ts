@@ -1,6 +1,7 @@
-export type EmailLoginData = {
+export type EmailAuthData = {
   email: string;
   password: string;
+  repeatedPassword?: string;
 };
 
-export type EmailLoginDataAction = { type: string; value: string };
+export type EmailAuthDataAction = { type: string; value: string };

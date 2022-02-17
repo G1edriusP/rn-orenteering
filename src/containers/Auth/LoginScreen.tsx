@@ -9,33 +9,35 @@ import { TextInput, Button } from "components";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
 // Utils
-import { emailLoginReducer, onLoginPress } from "utils/firebase/auth";
+import { emailAuthReducer, onLoginPress } from "utils/firebase/auth";
 import { resetNavigation } from "utils/navigation";
 
 // Types
 import { LoginScreenProps } from "constants/navigation/types";
 
 // Constants
-import { Stacks } from "constants/navigation/routes";
+import { Routes, Stacks } from "constants/navigation/routes";
 import { defaultEmailLoginData, IDS } from "constants/values";
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
-  const [data, dispatch] = useReducer(emailLoginReducer, defaultEmailLoginData);
+  const [data, dispatch] = useReducer(emailAuthReducer, defaultEmailLoginData);
   const [userInfo, setUserInfo] = useState<FirebaseAuthTypes.UserCredential | null>(null);
 
-  const onLoginCallback = (user: FirebaseAuthTypes.UserCredential) => {
+  const onLoginCallback = (user: FirebaseAuthTypes.UserCredential): void => {
     setIsLoading(true);
     setUserInfo(user);
   };
 
-  const onInputChange = (id: string, text: string) => {
+  const onInputChange = (id: string, text: string): void => {
     dispatch({ type: id, value: text });
   };
 
+  const onRegisterButtonPress = (): void => navigation.navigate(Routes.REGISTER_SCREEN);
+
   useEffect(() => {
     if (userInfo) {
-      navigation.dispatch(resetNavigation(Stacks.HOME, { user: userInfo }));
+      navigation.dispatch(resetNavigation(Stacks.HOME));
       setIsLoading(false);
     }
   }, [userInfo]);
@@ -62,7 +64,12 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         secureTextEntry
         style={styles.mediumBottomSpacer}
       />
-      <Button title={"Login"} onPress={() => onLoginPress(data, user => onLoginCallback(user))} />
+      <Button
+        title={"Prisijungti"}
+        onPress={() => onLoginPress(data, user => onLoginCallback(user))}
+        style={styles.mediumBottomSpacer}
+      />
+      <Button title={"Registracija"} onPress={onRegisterButtonPress} />
     </SafeAreaView>
   );
 };

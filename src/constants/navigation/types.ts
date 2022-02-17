@@ -11,11 +11,11 @@ export type RootStackParams = {
 export type AuthStackParams = {
   [Routes.LOGIN_SCREEN]: undefined;
   [Routes.REGISTER_SCREEN]: undefined;
-  [Stacks.HOME]: { user: FirebaseAuthTypes.User | null };
+  [Stacks.HOME]: undefined;
 };
 
 export type HomeStackParams = {
-  [Routes.HOME_SCREEN]: { user: FirebaseAuthTypes.User | null };
+  [Routes.HOME_SCREEN]: undefined;
 };
 
 // Screen props
