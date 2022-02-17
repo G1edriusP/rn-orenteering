@@ -2,7 +2,7 @@ import "react-native-gesture-handler";
 import React from "react";
 
 // Components
-import Navigator from "navigation/navigator";
+import Navigator from "utils/navigation/navigator";
 
 // Providers
 import { SafeAreaProvider } from "react-native-safe-area-context";

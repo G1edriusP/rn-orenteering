@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useReducer } from "react";
 
 // Styles
 import styles from "styles/containers/LoginScreen";
@@ -10,23 +10,26 @@ import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
 // Utils
 import { emailAuthReducer, onLoginPress } from "utils/firebase/auth";
-import { resetNavigation } from "utils/navigation";
+import { resetNavigation } from "utils/navigation/navigation";
+import { setValue } from "utils/storage";
 
 // Types
 import { LoginScreenProps } from "constants/navigation/types";
 
 // Constants
 import { Routes, Stacks } from "constants/navigation/routes";
-import { defaultEmailLoginData, IDS } from "constants/values";
+import { defaultEmailLoginData, IDS, LOCAL_STORAGE_KEYS } from "constants/values";
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [data, dispatch] = useReducer(emailAuthReducer, defaultEmailLoginData);
-  const [userInfo, setUserInfo] = useState<FirebaseAuthTypes.UserCredential | null>(null);
 
-  const onLoginCallback = (user: FirebaseAuthTypes.UserCredential): void => {
+  const onLoginCallback = async ({ user }: FirebaseAuthTypes.UserCredential): Promise<void> => {
     setIsLoading(true);
-    setUserInfo(user);
+    const token = await user.getIdToken();
+    await setValue(token, LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
+    navigation.dispatch(resetNavigation(Stacks.HOME));
+    setIsLoading(false);
   };
 
   const onInputChange = (id: string, text: string): void => {
@@ -34,13 +37,6 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
   };
 
   const onRegisterButtonPress = (): void => navigation.navigate(Routes.REGISTER_SCREEN);
-
-  useEffect(() => {
-    if (userInfo) {
-      navigation.dispatch(resetNavigation(Stacks.HOME));
-      setIsLoading(false);
-    }
-  }, [userInfo]);
 
   return (
     <SafeAreaView style={styles.wrap}>

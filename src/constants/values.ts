@@ -1,4 +1,4 @@
-import { EmailAuthData } from "./types";
+import { EmailAuthData, LocalStorageKeys } from "./types";
 
 export const defaultEmailLoginData: EmailAuthData = {
   email: "",
@@ -15,4 +15,8 @@ export const IDS = {
   EMAIL: "email",
   PASSWORD: "password",
   REPEATED_PASSWORD: "repeatedPassword",
+};
+
+export const LOCAL_STORAGE_KEYS: LocalStorageKeys = {
+  ACCESS_TOKEN: "accessToken",
 };

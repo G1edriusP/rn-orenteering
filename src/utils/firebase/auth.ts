@@ -1,5 +1,14 @@
+// Components
+import SplashScreen from "react-native-splash-screen";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+
+// Constants
 import { EmailAuthData, EmailAuthDataAction } from "constants/types";
+
+// Utils
+import { resetNavigation } from "utils/navigation/navigation";
+import { getValue } from "utils/storage";
+import { Routes, Stacks } from "constants/navigation/routes";
 
 export const emailAuthReducer = (
   state: EmailAuthData,
@@ -43,4 +52,14 @@ export const onSignOutPress = (onSuccess: () => void): void => {
     .catch((error: FirebaseAuthTypes.NativeFirebaseAuthError) => {
       console.log(error.code);
     });
+};
+
+export const checkIfLoggedIn = async (dispatch: any) => {
+  const accessToken = await getValue("accessToken").catch(e => console.log(e));
+  if (accessToken) {
+    dispatch(resetNavigation(Stacks.HOME));
+  } else {
+    dispatch(resetNavigation(Routes.LOGIN_SCREEN));
+  }
+  SplashScreen.hide();
 };

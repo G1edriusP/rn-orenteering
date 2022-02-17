@@ -7,6 +7,5 @@ export enum Routes {
 
 export enum Stacks {
   ROOT = "ROOT",
-  AUTH = "AUTH",
   HOME = "HOME",
 }

@@ -5,3 +5,7 @@ export type EmailAuthData = {
 };
 
 export type EmailAuthDataAction = { type: string; value: string };
+
+export type LocalStorageKeys = {
+  ACCESS_TOKEN: string;
+};
