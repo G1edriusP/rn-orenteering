@@ -15,16 +15,15 @@ import { resetNavigation } from "utils/navigation";
 // Constants
 import { Stacks } from "constants/navigation/routes";
 
-const HomeScreen = ({ navigation, route: { params } }: HomeScreenProps) => {
-  const onLoginCallback = () => {
+const HomeScreen = ({ navigation }: HomeScreenProps) => {
+  const onSignOutCallback = () => {
     navigation.dispatch(resetNavigation(Stacks.AUTH));
   };
-  console.log(params);
 
   return (
     <SafeAreaView style={styles.wrap}>
       <Text>Home screen</Text>
-      <Button title={"Sign out"} onPress={() => onSignOutPress(onLoginCallback)} />
+      <Button title={"Sign out"} onPress={() => onSignOutPress(onSignOutCallback)} />
     </SafeAreaView>
   );
 };
