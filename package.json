@@ -16,6 +16,7 @@
     "@react-navigation/native": "^6.0.8",
     "@react-navigation/stack": "^6.1.1",
     "eslint-plugin-prettier": "^4.0.0",
+    "jwt-decode": "^3.1.2",
     "prettier": "^2.5.1",
     "react": "17.0.2",
     "react-native": "0.67.2",

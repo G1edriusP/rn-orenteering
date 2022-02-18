@@ -1,9 +1,11 @@
 // Components
 import SplashScreen from "react-native-splash-screen";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import jwtDecode from "jwt-decode";
 
 // Constants
-import { EmailAuthData, EmailAuthDataAction } from "constants/types";
+import { EmailAuthData, EmailAuthDataAction } from "constants/types/types";
+import { FirebaseToken } from "constants/types/auth";
 
 // Utils
 import { resetNavigation } from "utils/navigation/navigation";
@@ -54,9 +56,22 @@ export const onSignOutPress = (onSuccess: () => void): void => {
     });
 };
 
-export const checkIfLoggedIn = async (dispatch: any) => {
+export const isTokenExpired = (token: string): boolean => {
+  if (!token) return true;
+  try {
+    const { exp }: FirebaseToken = jwtDecode(token);
+    if (exp * 1000 < Date.now()) return true;
+    return false;
+  } catch (e) {
+    console.error("JWT parse failed");
+    console.error(e);
+    return true;
+  }
+};
+
+export const checkIfLoggedIn = async (dispatch: any): Promise<void> => {
   const accessToken = await getValue("accessToken").catch(e => console.log(e));
-  if (accessToken) {
+  if (accessToken && !isTokenExpired(accessToken)) {
     dispatch(resetNavigation(Stacks.HOME));
   } else {
     dispatch(resetNavigation(Routes.LOGIN_SCREEN));

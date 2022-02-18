@@ -1,4 +1,4 @@
-import { EmailAuthData, LocalStorageKeys } from "./types";
+import { EmailAuthData, LocalStorageKeys } from "./types/types";
 
 export const defaultEmailLoginData: EmailAuthData = {
   email: "",
