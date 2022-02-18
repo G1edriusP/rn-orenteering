@@ -7,7 +7,7 @@ import styles from "styles/containers/HomeScreen";
 // Components
 import { View, Text, Button, FlatList, ListRenderItemInfo } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { HomeCard } from "components";
+import { HomeCard, Fab } from "components";
 
 // Utils
 import { onSignOutPress } from "utils/firebase/auth";
@@ -45,7 +45,8 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
         numColumns={2}
         columnWrapperStyle={styles.listColumn}
       />
-      <Button title={"Sign out"} onPress={() => onSignOutPress(onSignOutCallback)} />
+      <Fab onPress={() => console.log("somtheing")} />
+      {/* <Button title={"Sign out"} onPress={() => onSignOutPress(onSignOutCallback)} /> */}
     </SafeAreaView>
   );
 };
