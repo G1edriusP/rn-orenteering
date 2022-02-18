@@ -7,11 +7,16 @@ import { padding } from "constants/spacing";
 
 type Props = {
   wrap: ViewStyle;
+  listColumn: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
   wrap: {
     flex: 1,
     padding: padding.MEDIUM,
+  },
+  listColumn: {
+    justifyContent: "space-evenly",
+    paddingBottom: padding.SMALL * 1.5,
   },
 });
