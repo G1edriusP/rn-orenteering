@@ -1,7 +1,7 @@
 import React, { useState, useReducer } from "react";
 
 // Styles
-import styles from "styles/containers/LoginScreen";
+import styles from "styles/containers/Auth/LoginScreen";
 
 // Components
 import { SafeAreaView } from "react-native-safe-area-context";

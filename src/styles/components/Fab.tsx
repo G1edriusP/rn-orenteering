@@ -9,6 +9,7 @@ type Props = {
 };
 
 const buttonSize = 56;
+export const iconSize = 24;
 
 export default StyleSheet.create<Props>({
   wrap: {

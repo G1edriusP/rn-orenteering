@@ -1,10 +1,11 @@
 import React, { memo } from "react";
 
 // Styles
-import styles from "styles/components/Fab";
+import styles, { iconSize } from "styles/components/Fab";
 
 // Components
 import { Text, TouchableOpacity, ViewStyle } from "react-native";
+import { Plus } from "assets/svg";
 
 export type Props = {
   onPress: () => void;
@@ -14,7 +15,7 @@ export type Props = {
 const Fab: React.FC<Props> = ({ onPress, style }) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.wrap, style]}>
-      <Text>+</Text>
+      <Plus size={iconSize} />
     </TouchableOpacity>
   );
 };

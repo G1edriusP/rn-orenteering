@@ -3,6 +3,7 @@ export enum Routes {
   HOME_SCREEN = "HOME_SCREEN",
   LOGIN_SCREEN = "LOGIN_SCREEN",
   REGISTER_SCREEN = "REGISTER_SCREEN",
+  TRACK_INFO = "TRACK_INFO",
 }
 
 export enum Stacks {

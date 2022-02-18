@@ -12,6 +12,7 @@ export type RootStackParams = {
 
 export type HomeStackParams = {
   [Routes.HOME_SCREEN]: undefined;
+  [Routes.TRACK_INFO]: { type: "CREATE" | "EDIT" };
 };
 
 // Screen props
@@ -19,3 +20,4 @@ export type SplashScreenProps = StackScreenProps<RootStackParams, Routes.SPLASH_
 export type HomeScreenProps = StackScreenProps<HomeStackParams, Routes.HOME_SCREEN>;
 export type LoginScreenProps = StackScreenProps<RootStackParams, Routes.LOGIN_SCREEN>;
 export type RegisterScreenProps = StackScreenProps<RootStackParams, Routes.REGISTER_SCREEN>;
+export type TrackInfoScreenProps = StackScreenProps<HomeStackParams, Routes.TRACK_INFO>;

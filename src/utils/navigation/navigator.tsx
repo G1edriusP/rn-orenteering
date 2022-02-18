@@ -14,7 +14,8 @@ import SplashScreen from "containers/SplashScreen";
 import LoginScreen from "containers/Auth/LoginScreen";
 import RegisterScreen from "containers/Auth/RegisterScreen";
 // Home Stack
-import HomeScreen from "containers/HomeScreen";
+import HomeScreen from "containers/Home/HomeScreen";
+import TrackInfoScreen from "containers/Home/TrackInfo";
 
 const Root = createStackNavigator<RootStackParams>();
 const Home = createStackNavigator<HomeStackParams>();
@@ -25,6 +26,7 @@ const HomeStack = () => {
   return (
     <Home.Navigator initialRouteName={Routes.HOME_SCREEN}>
       <Home.Screen name={Routes.HOME_SCREEN} component={HomeScreen} options={noHeader} />
+      <Home.Screen name={Routes.TRACK_INFO} component={TrackInfoScreen} />
     </Home.Navigator>
   );
 };

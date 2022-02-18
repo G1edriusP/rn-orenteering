@@ -1,11 +1,10 @@
-import { HomeScreenProps } from "constants/navigation/types";
 import React, { useEffect } from "react";
 
 // Styles
-import styles from "styles/containers/HomeScreen";
+import styles from "styles/containers/Home/HomeScreen";
 
 // Components
-import { View, Text, Button, FlatList, ListRenderItemInfo } from "react-native";
+import { FlatList, ListRenderItemInfo } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HomeCard, Fab } from "components";
 
@@ -17,14 +16,12 @@ import { resetNavigation } from "utils/navigation/navigation";
 import { Routes } from "constants/navigation/routes";
 import { removeValue } from "utils/storage";
 import { LOCAL_STORAGE_KEYS } from "constants/values";
+
+// Types
 import { CardsDataType } from "constants/types/components";
+import { HomeScreenProps } from "constants/navigation/types";
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
-  const onSignOutCallback = async () => {
-    navigation.dispatch(resetNavigation(Routes.LOGIN_SCREEN));
-    await removeValue(LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
-  };
-
   const cardsData: CardsDataType[] = [
     { title: "Maršrutai", onPress: () => console.log("Tracks") },
     { title: "Prisijungti prie maršruto", onPress: () => console.log("Join track") },
@@ -36,6 +33,13 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     <HomeCard title={item.title} onPress={item.onPress} />
   );
 
+  const onSignOutCallback = async () => {
+    navigation.dispatch(resetNavigation(Routes.LOGIN_SCREEN));
+    await removeValue(LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
+  };
+
+  const onFabPress = () => navigation.navigate(Routes.TRACK_INFO, { type: "CREATE" });
+
   return (
     <SafeAreaView style={styles.wrap}>
       <FlatList
@@ -45,7 +49,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
         numColumns={2}
         columnWrapperStyle={styles.listColumn}
       />
-      <Fab onPress={() => console.log("somtheing")} />
+      <Fab onPress={onFabPress} />
       {/* <Button title={"Sign out"} onPress={() => onSignOutPress(onSignOutCallback)} /> */}
     </SafeAreaView>
   );
