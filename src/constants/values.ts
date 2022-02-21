@@ -1,4 +1,4 @@
-import { EmailAuthData, LocalStorageKeys } from "./types/types";
+import { EmailAuthData, LocalStorageKeys, TrackData } from "./types/types";
 
 export const defaultEmailLoginData: EmailAuthData = {
   email: "",
@@ -11,10 +11,18 @@ export const defaultEmailRegisterData: EmailAuthData = {
   repeatedPassword: "",
 };
 
+export const defaultTrackData: TrackData = {
+  title: "",
+  description: "",
+  markers: [],
+};
+
 export const IDS = {
   EMAIL: "email",
   PASSWORD: "password",
   REPEATED_PASSWORD: "repeatedPassword",
+  TRACK_TITLE: "title",
+  TRACK_DESCRIPTION: "description",
 };
 
 export const LOCAL_STORAGE_KEYS: LocalStorageKeys = {

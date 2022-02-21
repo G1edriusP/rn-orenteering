@@ -9,6 +9,7 @@ export const padding = {
 };
 
 export const fontSizes = {
+  EXTRA_SMALL: 12,
   SMALL: 16,
   MEDIUM: 28,
   LARGE: 40,
