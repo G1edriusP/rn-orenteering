@@ -24,6 +24,7 @@ type Props = {
     | ((e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => void)
     | undefined;
   secureTextEntry?: boolean | undefined;
+  multiline?: boolean | undefined;
   style?: TextStyle;
 };
 
@@ -37,6 +38,7 @@ const TextInput: React.FC<Props> = ({
   secureTextEntry,
   value,
   onChangeText,
+  multiline,
   style,
 }) => {
   return (
@@ -50,6 +52,7 @@ const TextInput: React.FC<Props> = ({
       onSubmitEditing={onSubmitEditing}
       returnKeyType='done'
       secureTextEntry={secureTextEntry}
+      multiline={multiline}
       style={[styles.input, style]}
     />
   );
