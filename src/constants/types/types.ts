@@ -20,6 +20,7 @@ export type TrackData = {
 
 export type EmailAuthDataAction = { type: string; value: string };
 export type TrackDataAction = { type: string; value: string | MarkerType[] };
+export type MarkerDataAction = { type: string; value: string | LatLng };
 
 export type LocalStorageKeys = {
   ACCESS_TOKEN: string;

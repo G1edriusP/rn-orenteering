@@ -1,8 +1,7 @@
-import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, ViewStyle } from "react-native";
 
 // Constants
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
-import colors from "constants/colors";
+import { SCREEN_WIDTH } from "constants/spacing";
 import { padding } from "constants/spacing";
 
 type Props = {
@@ -12,6 +11,10 @@ type Props = {
   multilineInput: ViewStyle;
   addMarker: ViewStyle;
   addMarkerWrap: ViewStyle;
+  locationWrap: ViewStyle;
+  locationInput: ViewStyle;
+  markerMap: ViewStyle;
+  markerFixed: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
@@ -38,5 +41,24 @@ export default StyleSheet.create<Props>({
     justifyContent: "space-between",
     alignItems: "center",
     marginVertical: padding.SMALL,
+  },
+  locationWrap: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  locationInput: {
+    width: "45%",
+  },
+  markerMap: {
+    height: 192,
+    width: SCREEN_WIDTH - padding.MEDIUM * 2,
+    marginVertical: padding.SMALL,
+  },
+  markerFixed: {
+    left: "50%",
+    top: "50%",
+    marginLeft: -11.6546762588,
+    marginTop: -36,
+    position: "absolute",
   },
 });

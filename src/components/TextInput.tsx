@@ -4,25 +4,17 @@ import React, { memo } from "react";
 import styles from "styles/components/TextInput";
 
 // Components
-import {
-  KeyboardTypeOptions,
-  NativeSyntheticEvent,
-  TextInput as Input,
-  TextInputSubmitEditingEventData,
-  TextStyle,
-} from "react-native";
+import { KeyboardTypeOptions, TextInput as Input, TextStyle } from "react-native";
 
 type Props = {
   id: string;
   value: string;
-  onChangeText: (id: string, text: string) => void;
+  onChangeText?: (id: string, text: string) => void;
   placeholder?: string | undefined;
   keyboardType?: KeyboardTypeOptions | undefined;
   autoCapitalize?: "none" | "sentences" | "words" | "characters" | undefined;
   editable?: boolean | undefined;
-  onSubmitEditing?:
-    | ((e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => void)
-    | undefined;
+  onSubmitEditing?: (id: string, text: string) => void;
   secureTextEntry?: boolean | undefined;
   multiline?: boolean | undefined;
   style?: TextStyle;
@@ -44,12 +36,12 @@ const TextInput: React.FC<Props> = ({
   return (
     <Input
       value={value}
-      onChangeText={text => onChangeText(id, text)}
+      onChangeText={text => onChangeText && onChangeText(id, text)}
       placeholder={placeholder}
       keyboardType={keyboardType}
       autoCapitalize={autoCapitalize}
       editable={editable}
-      onSubmitEditing={onSubmitEditing}
+      onSubmitEditing={e => onSubmitEditing && onSubmitEditing(id, e.nativeEvent.text)}
       returnKeyType='done'
       secureTextEntry={secureTextEntry}
       multiline={multiline}

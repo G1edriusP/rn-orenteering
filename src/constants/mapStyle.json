@@ -69,6 +69,15 @@
     ]
   },
   {
+    "featureType": "landscape.natural",
+    "elementType": "geometry.fill",
+    "stylers": [
+      {
+        "color": "#a8b18c"
+      }
+    ]
+  },
+  {
     "featureType": "poi",
     "stylers": [
       {
