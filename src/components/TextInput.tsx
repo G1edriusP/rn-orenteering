@@ -39,6 +39,7 @@ const TextInput: React.FC<Props> = ({
       onChangeText={text => onChangeText && onChangeText(id, text)}
       placeholder={placeholder}
       keyboardType={keyboardType}
+      autoCorrect={false}
       autoCapitalize={autoCapitalize}
       editable={editable}
       onSubmitEditing={e => onSubmitEditing && onSubmitEditing(id, e.nativeEvent.text)}

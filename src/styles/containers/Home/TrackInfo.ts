@@ -15,6 +15,7 @@ type Props = {
   locationInput: ViewStyle;
   markerMap: ViewStyle;
   markerFixed: ViewStyle;
+  dropdown: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
@@ -60,5 +61,8 @@ export default StyleSheet.create<Props>({
     marginLeft: -11.6546762588,
     marginTop: -36,
     position: "absolute",
+  },
+  dropdown: {
+    marginBottom: padding.MEDIUM,
   },
 });

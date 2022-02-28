@@ -8,19 +8,22 @@ export type EmailAuthData = {
 };
 export type MarkerCardType = {
   onPress: () => void;
+  onRemove: (index: number) => void;
+  type?: "COGNITIVE" | "INDICATIVE";
   title?: string;
   description?: string;
   location?: LatLng;
 };
 export type TrackData = {
+  type: "COGNITIVE" | "INDICATIVE";
   title: string;
   description: string;
-  markers: MarkerCardType[];
+  markers: MarkerType[];
 };
 
 export type EmailAuthDataAction = { type: string; value: string };
-export type TrackDataAction = { type: string; value: string | MarkerType[] };
-export type MarkerDataAction = { type: string; value: string | LatLng };
+export type TrackDataAction = { type: string; value?: string | MarkerType[] };
+export type MarkerDataAction = { type: string; value?: string | LatLng };
 
 export type LocalStorageKeys = {
   ACCESS_TOKEN: string;

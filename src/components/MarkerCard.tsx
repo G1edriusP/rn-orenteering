@@ -7,7 +7,14 @@ import styles from "styles/components/MarkerCard";
 import { View, Text, TouchableOpacity } from "react-native";
 import { MarkerCardType } from "constants/types/types";
 
-const MarkerCard: React.FC<MarkerCardType> = ({ onPress, title, description, location }) => {
+const MarkerCard: React.FC<MarkerCardType> = ({
+  onPress,
+  onRemove,
+  type,
+  title,
+  description,
+  location,
+}) => {
   return (
     <TouchableOpacity style={styles.wrap} onPress={onPress}>
       <View
@@ -26,8 +33,12 @@ const MarkerCard: React.FC<MarkerCardType> = ({ onPress, title, description, loc
         <Text style={styles.description} numberOfLines={2}>
           {description}
         </Text>
+        <Text style={styles.location}>{type}</Text>
         <Text style={styles.location}>{`${location?.latitude}, ${location?.longitude}`}</Text>
       </View>
+      <TouchableOpacity onPress={onRemove}>
+        <Text>X</Text>
+      </TouchableOpacity>
     </TouchableOpacity>
   );
 };
