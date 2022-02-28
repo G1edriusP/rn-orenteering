@@ -23,7 +23,7 @@ import { HomeScreenProps } from "constants/navigation/types";
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const cardsData: CardsDataType[] = [
-    { title: "Maršrutai", onPress: () => console.log("Tracks") },
+    { title: "Maršrutai", onPress: () => navigation.navigate(Routes.TRACKS_SCREEN) },
     { title: "Prisijungti prie maršruto", onPress: () => console.log("Join track") },
     { title: "Nustatymai", onPress: () => console.log("Settings") },
     { title: "Paskyra", onPress: () => console.log("Profile") },
