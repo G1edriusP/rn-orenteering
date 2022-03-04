@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 
 // Styles
 import styles from "styles/components/MarkerCard";
@@ -43,4 +43,4 @@ const MarkerCard: React.FC<MarkerCardType> = ({
   );
 };
 
-export default MarkerCard;
+export default memo(MarkerCard);

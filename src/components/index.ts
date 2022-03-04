@@ -4,3 +4,6 @@ export { default as HomeCard } from "./HomeCard";
 export { default as Fab } from "./Fab";
 export { default as MarkerCard } from "./MarkerCard";
 export { default as Dropdown } from "./Dropdown";
+export { default as TrackCard } from "./TrackCard";
+export { default as TextButton } from "./TextButton";
+export { default as Header } from "./Header";

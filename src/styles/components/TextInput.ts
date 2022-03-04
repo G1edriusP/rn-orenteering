@@ -13,7 +13,7 @@ export default StyleSheet.create<Props>({
     height: 48,
     paddingHorizontal: padding.MEDIUM,
     borderWidth: 1,
-    borderColor: colors.BLACK,
+    borderColor: colors.DARK_GREEN,
     borderRadius: padding.SMALL,
   },
 });

@@ -6,6 +6,12 @@ export type EmailAuthData = {
   password: string;
   repeatedPassword?: string;
 };
+export type TrackCardType = {
+  onPress: () => void;
+  onFavouritePress: (index: number) => void;
+  title?: string;
+  description?: string;
+};
 export type MarkerCardType = {
   onPress: () => void;
   onRemove: (index: number) => void;
@@ -15,6 +21,7 @@ export type MarkerCardType = {
   location?: LatLng;
 };
 export type TrackData = {
+  id: string;
   type: "COGNITIVE" | "INDICATIVE";
   title: string;
   description: string;
@@ -27,4 +34,9 @@ export type MarkerDataAction = { type: string; value?: string | LatLng };
 
 export type LocalStorageKeys = {
   ACCESS_TOKEN: string;
+};
+
+export type Route = {
+  key: string;
+  title: string;
 };

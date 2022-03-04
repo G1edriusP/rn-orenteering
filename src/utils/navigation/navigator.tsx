@@ -1,8 +1,19 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 
+// Components
+import { Platform } from "react-native";
+import { Header } from "components";
+
 // Navigators
-import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
+import {
+  CardStyleInterpolators,
+  createStackNavigator,
+  StackCardInterpolationProps,
+  StackCardStyleInterpolator,
+  StackHeaderProps,
+  StackNavigationOptions,
+} from "@react-navigation/stack";
 import { Routes, Stacks } from "constants/navigation/routes";
 
 // Types
@@ -21,13 +32,25 @@ import TracksScreen from "containers/Home/TracksScreen";
 const Root = createStackNavigator<RootStackParams>();
 const Home = createStackNavigator<HomeStackParams>();
 
+const forFade: StackCardStyleInterpolator = ({ current }: StackCardInterpolationProps) => ({
+  cardStyle: { opacity: current.progress },
+});
+const cardStyleInterpolator: StackCardStyleInterpolator = Platform.select({
+  android: CardStyleInterpolators.forFadeFromBottomAndroid,
+  default: forFade,
+});
 const noHeader: StackNavigationOptions = { headerShown: false, gestureEnabled: false };
+const customHeader: StackNavigationOptions = {
+  cardStyleInterpolator,
+  gestureEnabled: false,
+  header: (props: StackHeaderProps) => <Header {...props} />,
+};
 
 const HomeStack = () => {
   return (
     <Home.Navigator initialRouteName={Routes.HOME_SCREEN}>
       <Home.Screen name={Routes.HOME_SCREEN} component={HomeScreen} options={noHeader} />
-      <Home.Screen name={Routes.TRACK_INFO} component={TrackInfoScreen} />
+      <Home.Screen name={Routes.TRACK_INFO} component={TrackInfoScreen} options={customHeader} />
       <Home.Screen name={Routes.TRACKS_SCREEN} component={TracksScreen} />
     </Home.Navigator>
   );
@@ -38,7 +61,11 @@ const RootStack = () => {
     <Root.Navigator initialRouteName={Routes.SPLASH_SCREEN}>
       <Root.Screen name={Routes.SPLASH_SCREEN} component={SplashScreen} options={noHeader} />
       <Root.Screen name={Routes.LOGIN_SCREEN} component={LoginScreen} options={noHeader} />
-      <Root.Screen name={Routes.REGISTER_SCREEN} component={RegisterScreen} options={noHeader} />
+      <Root.Screen
+        name={Routes.REGISTER_SCREEN}
+        component={RegisterScreen}
+        options={customHeader}
+      />
       <Root.Screen name={Stacks.HOME} component={HomeStack} options={noHeader} />
     </Root.Navigator>
   );

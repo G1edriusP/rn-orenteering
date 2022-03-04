@@ -17,13 +17,13 @@ export default StyleSheet.create<Props>({
     width: cardWidth,
     padding: padding.MEDIUM,
     borderRadius: padding.SMALL,
-    backgroundColor: colors.GREEN,
+    backgroundColor: colors.DARK_GREEN,
     justifyContent: "flex-end",
     alignItems: "flex-start",
   },
   title: {
     // fontFamily: '',
-    fontSize: fontSizes.SMALL,
+    fontSize: fontSizes.SMALL + 2,
     color: colors.WHITE,
   },
 });

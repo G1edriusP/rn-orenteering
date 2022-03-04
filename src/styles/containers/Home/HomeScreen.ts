@@ -14,6 +14,7 @@ export default StyleSheet.create<Props>({
   wrap: {
     flex: 1,
     padding: padding.MEDIUM,
+    backgroundColor: colors.KHAKI,
   },
   listColumn: {
     justifyContent: "space-evenly",
