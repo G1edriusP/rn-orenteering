@@ -9,7 +9,7 @@ import { TouchableOpacity, Text } from "react-native";
 type Props = {
   text: string;
   onPress: () => void;
-  color: string;
+  color?: string;
 };
 
 const TextButton: React.FC<Props> = ({ text, onPress, color }) => {

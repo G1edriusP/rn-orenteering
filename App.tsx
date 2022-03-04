@@ -10,6 +10,9 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 // Utils
 import { combineProviders } from "utils/other";
 
+// Translations
+import "utils/localization/Localize";
+
 const App = () => {
   const Providers = combineProviders(SafeAreaProvider);
 
