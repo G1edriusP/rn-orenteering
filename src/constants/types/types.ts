@@ -22,6 +22,7 @@ export type MarkerCardType = {
 };
 export type TrackData = {
   id?: string;
+  uid?: string;
   type: "COGNITIVE" | "INDICATIVE" | "";
   title: string;
   description: string;
@@ -45,4 +46,5 @@ export type LocalStorageKeys = {
 export type Route = {
   key: string;
   title: string;
+  tracks: TrackData[];
 };

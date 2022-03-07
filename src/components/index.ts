@@ -7,3 +7,4 @@ export { default as Dropdown } from "./Dropdown";
 export { default as TrackCard } from "./TrackCard";
 export { default as TextButton } from "./TextButton";
 export { default as Header } from "./Header";
+export { default as SmallButton } from "./SmallButton";

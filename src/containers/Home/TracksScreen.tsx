@@ -24,13 +24,13 @@ const TracksList = ({
 }: SceneRendererProps & {
   route: Route;
 }) => {
-  const [tracks, setTracks] = useState<TrackData[]>([]); // Cognitive or Indicative tracks
+  // const [tracks, setTracks] = useState<TrackData[]>([]); // Cognitive or Indicative tracks
 
-  useEffect(() => {
-    if (!!!tracks.length) {
-      fetchTracks(route.key, setTracks);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!!!tracks.length) {
+  //     fetchTracks(route.key, setTracks);
+  //   }
+  // }, []);
 
   const onPress = () => {
     console.log("Pressed");
@@ -43,7 +43,7 @@ const TracksList = ({
   return (
     <FlatList
       keyExtractor={(item: TrackData) => String(item.id)}
-      data={tracks}
+      data={route.tracks}
       contentContainerStyle={{ padding: 16 }}
       renderItem={({ item }: ListRenderItemInfo<TrackData>) => (
         <TrackCard
@@ -78,12 +78,22 @@ const renderTabBar = (props: any) => (
   />
 );
 
-const TracksScreen = ({}: TracksScreenProps) => {
+const TracksScreen = ({ route: { params } }: TracksScreenProps) => {
+  const { tracks } = params;
+
   // Tabs info
   const [index, setIndex] = useState(0);
   const [routes] = useState<Route[]>([
-    { key: "COGNITIVE", title: "Pažintiniai" },
-    { key: "INDICATIVE", title: "Orientaciniai" },
+    {
+      key: "COGNITIVE",
+      title: "Pažintiniai",
+      tracks: tracks.filter(track => track.type === "COGNITIVE"),
+    },
+    {
+      key: "INDICATIVE",
+      title: "Orientaciniai",
+      tracks: tracks.filter(track => track.type === "INDICATIVE"),
+    },
   ]);
 
   return (

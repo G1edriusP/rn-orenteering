@@ -22,6 +22,7 @@ export const defaultTrackData: TrackData = {
   title: "",
   description: "",
   markers: [],
+  uid: "",
 };
 
 export const defaultMarkerData: MarkerType = {

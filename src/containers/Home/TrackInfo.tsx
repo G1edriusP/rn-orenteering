@@ -30,6 +30,7 @@ import mapStyle from "constants/mapStyle";
 // Utils
 import { markerReducer, saveTrack, tracksReducer } from "utils/firebase/track";
 import { padding } from "constants/spacing";
+import { firebase } from "@react-native-firebase/auth";
 
 const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
   const { type } = params;
@@ -165,7 +166,9 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
 
       <Button
         title={"Sukurti"}
-        onPress={() => saveTrack(trackData, onTrackSave)}
+        onPress={() =>
+          saveTrack({ ...trackData, uid: firebase.auth().currentUser?.uid }, onTrackSave)
+        }
         style={{ marginTop: 12 }}
       />
 
@@ -254,42 +257,3 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
 };
 
 export default TrackInfo;
-
-// useEffect(() => {
-//   const fetchTracks = async () => {
-//     const data: TrackType[] = [];
-//     return await firestore()
-//       .collection("tracks")
-//       .get()
-//       .then(docs => {
-//         docs.forEach(doc => {
-//           data.push(doc.data() as TrackType);
-//         });
-//         setTracks(data);
-//       })
-//       .catch(e => console.log(e));
-//   };
-//   fetchTracks();
-// }, []);
-
-// <MapView
-//       customMapStyle={mapStyle}
-//       provider={"google"}
-//       style={{ flex: 1 }}
-//       initialRegion={{
-//         latitude: !!tracks.length ? tracks[0].markers[0].location.latitude : 0,
-//         longitude: !!tracks.length ? tracks[0].markers[0].location.longitude : 0,
-//         latitudeDelta: 0.0922,
-//         longitudeDelta: 0.0421,
-//       }}>
-//       {!!tracks.length
-//         ? tracks[0].markers.map((marker: MarkerType, index: number) => (
-//             <Marker
-//               key={index}
-//               coordinate={marker.location}
-//               title={marker.title}
-//               description={marker.description}
-//             />
-//           ))
-//         : null}
-//     </MapView>

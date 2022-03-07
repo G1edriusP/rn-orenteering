@@ -27,12 +27,12 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const cardsData: CardsDataType[] = [
     {
       title: "Mano maršrutai",
-      onPress: () => navigation.navigate(Routes.TRACKS_MAP_SCREEN),
+      onPress: () => navigation.navigate(Routes.TRACKS_MAP_SCREEN, { infoType: "MY_TRACKS" }),
       icon: TracksIcon,
     },
     {
-      title: "Kiti maršrutai",
-      onPress: () => navigation.navigate(Routes.TRACKS_SCREEN),
+      title: "Visi maršrutai",
+      onPress: () => navigation.navigate(Routes.TRACKS_MAP_SCREEN, { infoType: "OTHER_TRACKS" }),
       icon: TracksIcon,
     },
     {

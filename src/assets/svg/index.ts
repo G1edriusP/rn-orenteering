@@ -7,3 +7,4 @@ export { default as SettingsIcon } from "./Settings";
 export { default as ProfileIcon } from "./Profile";
 export { default as TracksIcon } from "./Tracks";
 export { default as GameTrackIcon } from "./GameTrack";
+export { default as SearchIcon } from "./Search";

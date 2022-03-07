@@ -1,6 +1,7 @@
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { StackScreenProps } from "@react-navigation/stack";
 import { Routes, Stacks } from "constants/navigation/routes";
+import { TrackData } from "constants/types/types";
 
 // Navigators
 export type RootStackParams = {
@@ -13,8 +14,8 @@ export type RootStackParams = {
 export type HomeStackParams = {
   [Routes.HOME_SCREEN]: undefined;
   [Routes.TRACK_INFO]: { type: "CREATE" | "EDIT" };
-  [Routes.TRACKS_SCREEN]: undefined;
-  [Routes.TRACKS_MAP_SCREEN]: undefined;
+  [Routes.TRACKS_SCREEN]: { tracks: TrackData[] };
+  [Routes.TRACKS_MAP_SCREEN]: { infoType: "MY_TRACKS" | "OTHER_TRACKS" };
 };
 
 // Screen props

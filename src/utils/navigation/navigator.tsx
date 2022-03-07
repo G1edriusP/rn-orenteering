@@ -28,6 +28,7 @@ import RegisterScreen from "containers/Auth/RegisterScreen";
 import HomeScreen from "containers/Home/HomeScreen";
 import TrackInfoScreen from "containers/Home/TrackInfo";
 import TracksScreen from "containers/Home/TracksScreen";
+import TracksmapScreen from "containers/Home/TracksMap";
 
 const Root = createStackNavigator<RootStackParams>();
 const Home = createStackNavigator<HomeStackParams>();
@@ -51,7 +52,8 @@ const HomeStack = () => {
     <Home.Navigator initialRouteName={Routes.HOME_SCREEN}>
       <Home.Screen name={Routes.HOME_SCREEN} component={HomeScreen} options={noHeader} />
       <Home.Screen name={Routes.TRACK_INFO} component={TrackInfoScreen} options={customHeader} />
-      <Home.Screen name={Routes.TRACKS_SCREEN} component={TracksScreen} />
+      <Home.Screen name={Routes.TRACKS_SCREEN} component={TracksScreen} options={customHeader} />
+      <Home.Screen name={Routes.TRACKS_MAP_SCREEN} component={TracksmapScreen} options={noHeader} />
     </Home.Navigator>
   );
 };
