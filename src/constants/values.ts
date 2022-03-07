@@ -1,5 +1,5 @@
 import { MarkerType } from "./types/firestore";
-import { EmailAuthData, LocalStorageKeys, TrackData } from "./types/types";
+import { EmailAuthData, ItemProps, LocalStorageKeys, TrackData } from "./types/types";
 
 export const defaultEmailLoginData: EmailAuthData = {
   email: "",
@@ -12,13 +12,13 @@ export const defaultEmailRegisterData: EmailAuthData = {
   repeatedPassword: "",
 };
 
-export const defaultTrackTypes = [
+export const defaultTrackTypes: Array<ItemProps> = [
   { value: "COGNITIVE", label: "Pažintinis" },
   { value: "INDICATIVE", label: "Orientacinis" },
 ];
 
 export const defaultTrackData: TrackData = {
-  type: "COGNITIVE",
+  type: "",
   title: "",
   description: "",
   markers: [],

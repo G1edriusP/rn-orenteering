@@ -5,6 +5,7 @@ export enum Routes {
   REGISTER_SCREEN = "REGISTER_SCREEN",
   TRACK_INFO = "TRACK_INFO",
   TRACKS_SCREEN = "TRACKS_SCREEN",
+  TRACKS_MAP_SCREEN = "TRACKS_MAP_SCREEN",
 }
 
 export enum Stacks {

@@ -1,16 +1,12 @@
-import React, { memo, useEffect } from "react";
+import React, { memo } from "react";
+import { useCallbackOne } from "use-memo-one";
 
 // Styling
 import styles, { chevronColor, chevronSize } from "styles/components/Dropdown";
 
 // Components
 import { View, Text, TouchableOpacity, ViewStyle } from "react-native";
-import {
-  PanGestureHandlerGestureEvent,
-  TapGestureHandler,
-  TapGestureHandlerEventPayload,
-  TapGestureHandlerGestureEvent,
-} from "react-native-gesture-handler";
+import { TapGestureHandler, TapGestureHandlerGestureEvent } from "react-native-gesture-handler";
 import Animated, {
   measure,
   useAnimatedGestureHandler,
@@ -22,23 +18,24 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 import { DropdownIcon } from "assets/svg";
-import { useCallbackOne } from "use-memo-one";
-import { springConfig, timingConfig } from "constants/animations";
 
-type ItemProps = {
-  value: any;
-  label: string;
-};
+// Constants
+import { springConfig, timingConfig } from "constants/animations";
+import { ItemProps } from "constants/types/types";
+import { padding } from "constants/spacing";
+
 type DropdownProps = {
   items: Array<ItemProps>;
-  title: string;
+  title?: string;
   selected: any;
   onChange: (value: any) => void;
   style?: ViewStyle;
 };
 
-const Item: React.FC<ItemProps> = memo(({ value, label, onSelect }) => (
-  <TouchableOpacity onPress={() => onSelect(value)} style={styles.itemWrap}>
+const Item: React.FC<ItemProps> = memo(({ value, label, onSelect, isLast }) => (
+  <TouchableOpacity
+    onPress={() => onSelect && onSelect(value)}
+    style={[styles.itemWrap, !isLast && styles.borderBottom]}>
     <Text style={styles.itemLabel}>{label}</Text>
   </TouchableOpacity>
 ));
@@ -51,6 +48,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   style,
 }) => {
   const open = useSharedValue<boolean>(false);
+  const selectedLabel = items.find(item => item.value === selected)?.label || title || "";
   const progress = useDerivedValue(() =>
     open.value ? withSpring(1, springConfig) : withTiming(0),
   );
@@ -81,8 +79,8 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   const animatedPlaceholderStyle = useAnimatedStyle(() => ({
     opacity: placeholderOpacity.value,
-    borderBottomLeftRadius: progress.value === 0 ? withTiming(4, timingConfig) : 0,
-    borderBottomRightRadius: progress.value === 0 ? withTiming(4, timingConfig) : 0,
+    borderBottomLeftRadius: progress.value === 0 ? withTiming(padding.SMALL, timingConfig) : 0,
+    borderBottomRightRadius: progress.value === 0 ? withTiming(padding.SMALL, timingConfig) : 0,
   }));
 
   const animatedChevronStyle = useAnimatedStyle(() => ({
@@ -96,11 +94,10 @@ const Dropdown: React.FC<DropdownProps> = ({
 
   return (
     <View style={[styles.wrap, style]}>
-      <Text style={styles.title}>{title}</Text>
       <TapGestureHandler onGestureEvent={eventHandler}>
         <Animated.View style={[styles.placeholder, animatedPlaceholderStyle]}>
-          <Text style={styles.placeholderLabel}>
-            {items.find(item => item.value === selected)?.label || title}
+          <Text style={[styles.placeholderLabel, selectedLabel === title && { opacity: 0.3 }]}>
+            {selectedLabel}
           </Text>
           <Animated.View style={[styles.chevronWrap, animatedChevronStyle]}>
             <DropdownIcon size={chevronSize} color={chevronColor} />
@@ -109,12 +106,14 @@ const Dropdown: React.FC<DropdownProps> = ({
       </TapGestureHandler>
       <Animated.View style={[styles.items, animatedItemsStyle]}>
         <View>
+          {/* @ts-ignore */}
           <View ref={itemsRef} style={styles.itemsContent}>
             {items.map((item, index) => (
               <Item
                 value={item.value}
                 label={item.label}
                 onSelect={onSelect}
+                isLast={index === items.length - 1}
                 key={`d_item_${index}`}
               />
             ))}

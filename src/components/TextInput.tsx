@@ -4,9 +4,10 @@ import React, { memo } from "react";
 import styles from "styles/components/TextInput";
 
 // Components
-import { KeyboardTypeOptions, TextInput as Input, TextStyle } from "react-native";
+import { KeyboardTypeOptions, Text, TextInput as Input, TextStyle, View } from "react-native";
 
 type Props = {
+  title?: string;
   id: string;
   value: string;
   onChangeText?: (id: string, text: string) => void;
@@ -21,6 +22,7 @@ type Props = {
 };
 
 const TextInput: React.FC<Props> = ({
+  title,
   id,
   placeholder,
   keyboardType,
@@ -34,20 +36,23 @@ const TextInput: React.FC<Props> = ({
   style,
 }) => {
   return (
-    <Input
-      value={value}
-      onChangeText={text => onChangeText && onChangeText(id, text)}
-      placeholder={placeholder}
-      keyboardType={keyboardType}
-      autoCorrect={false}
-      autoCapitalize={autoCapitalize}
-      editable={editable}
-      onSubmitEditing={e => onSubmitEditing && onSubmitEditing(id, e.nativeEvent.text)}
-      returnKeyType='done'
-      secureTextEntry={secureTextEntry}
-      multiline={multiline}
-      style={[styles.input, style]}
-    />
+    <View>
+      {title ? <Text style={styles.title}>{title}</Text> : null}
+      <Input
+        value={value}
+        onChangeText={text => onChangeText && onChangeText(id, text)}
+        placeholder={placeholder}
+        keyboardType={keyboardType}
+        autoCorrect={false}
+        autoCapitalize={autoCapitalize}
+        editable={editable}
+        onSubmitEditing={e => onSubmitEditing && onSubmitEditing(id, e.nativeEvent.text)}
+        returnKeyType='done'
+        secureTextEntry={secureTextEntry}
+        multiline={multiline}
+        style={[styles.input, style]}
+      />
+    </View>
   );
 };
 

@@ -3,10 +3,13 @@ import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
 // Constants
 import colors from "constants/colors";
 import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
+import { fontMedium } from "constants/fonts";
 
 type Props = {
   wrap: ViewStyle;
+  emptyWrap: ViewStyle;
   title: TextStyle;
+  icon: ViewStyle;
 };
 
 const cardWidth = SCREEN_WIDTH / 2 - padding.MEDIUM * 2;
@@ -21,9 +24,22 @@ export default StyleSheet.create<Props>({
     justifyContent: "flex-end",
     alignItems: "flex-start",
   },
+  emptyWrap: {
+    height: cardWidth,
+    width: cardWidth,
+  },
   title: {
-    // fontFamily: '',
+    fontFamily: fontMedium,
     fontSize: fontSizes.SMALL + 2,
-    color: colors.WHITE,
+    color: colors.KHAKI,
+  },
+  icon: {
+    ...StyleSheet.absoluteFillObject,
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
+    paddingTop: padding.MEDIUM,
+    paddingRight: padding.SMALL,
+    overflow: "hidden",
+    borderRadius: padding.SMALL,
   },
 });

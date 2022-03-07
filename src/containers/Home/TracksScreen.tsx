@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from "react";
 
+// Styles
+import styles from "styles/containers/Home/TracksScreen";
+
 // Components
-import { FlatList, ListRenderItemInfo } from "react-native";
+import { FlatList, ListRenderItemInfo, Text } from "react-native";
 import { TrackCard } from "components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SceneMap, SceneRendererProps, TabBar, TabView } from "react-native-tab-view";
@@ -13,7 +16,8 @@ import { Route, TrackData } from "constants/types/types";
 import { fetchTracks } from "utils/firebase/track";
 import colors from "constants/colors";
 import { TracksScreenProps } from "constants/navigation/types";
-import { SCREEN_WIDTH } from "constants/spacing";
+import { fontLight, fontMedium, fontRegular, fontSemiBold } from "constants/fonts";
+import { fontSizes, padding } from "constants/spacing";
 
 const TracksList = ({
   route,
@@ -24,7 +28,6 @@ const TracksList = ({
 
   useEffect(() => {
     if (!!!tracks.length) {
-      console.log(route.key);
       fetchTracks(route.key, setTracks);
     }
   }, []);
@@ -39,7 +42,7 @@ const TracksList = ({
 
   return (
     <FlatList
-      keyExtractor={(item: TrackData) => item.id}
+      keyExtractor={(item: TrackData) => String(item.id)}
       data={tracks}
       contentContainerStyle={{ padding: 16 }}
       renderItem={({ item }: ListRenderItemInfo<TrackData>) => (
@@ -62,9 +65,16 @@ const renderScene = SceneMap({
 const renderTabBar = (props: any) => (
   <TabBar
     {...props}
-    indicatorStyle={{ backgroundColor: colors.BLACK }}
-    style={{ backgroundColor: colors.WHITE }}
-    labelStyle={{ color: colors.BLACK }}
+    indicatorStyle={{ backgroundColor: colors.ORANGE }}
+    style={{ backgroundColor: colors.KHAKI }}
+    labelStyle={{ fontFamily: fontMedium, fontSize: fontSizes.SMALL }}
+    inactiveColor={colors.BLACK}
+    activeColor={colors.ORANGE}
+    renderLabel={({ route, focused, color }) => (
+      <Text style={[{ color }, styles.tabBarLabel, focused && { fontFamily: fontSemiBold }]}>
+        {route.title}
+      </Text>
+    )}
   />
 );
 
@@ -77,12 +87,13 @@ const TracksScreen = ({}: TracksScreenProps) => {
   ]);
 
   return (
-    <SafeAreaView style={{ flex: 1 }} edges={["bottom", "left", "right"]}>
+    <SafeAreaView
+      style={{ flex: 1, backgroundColor: colors.WHITE }}
+      edges={["bottom", "left", "right"]}>
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}
         onIndexChange={setIndex}
-        // initialLayout={{ width: SCREEN_WIDTH - 48 }}
         renderTabBar={renderTabBar}
       />
     </SafeAreaView>

@@ -24,10 +24,12 @@ import {
 } from "constants/values";
 import { MarkerType } from "constants/types/firestore";
 import colors from "constants/colors";
+// @ts-ignore
 import mapStyle from "constants/mapStyle";
 
 // Utils
 import { markerReducer, saveTrack, tracksReducer } from "utils/firebase/track";
+import { padding } from "constants/spacing";
 
 const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
   const { type } = params;
@@ -110,8 +112,7 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
 
   return (
     <SafeAreaView style={styles.wrap} edges={["bottom", "left", "right"]}>
-      <Text>Bendra informacija</Text>
-
+      <Text style={[styles.title, { marginBottom: padding.MIDI }]}>Bendra informacija</Text>
       <TextInput
         id={IDS.TRACK_TITLE}
         editable={!isLoading}
@@ -136,13 +137,13 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
         onChangeText={onTrackInputChange}
         keyboardType='default'
         multiline
-        style={[styles.smallBottomSpacer, styles.multilineInput] as TextStyle}
+        style={[styles.mediumBottomSpacer, styles.multilineInput] as TextStyle}
       />
 
       <View style={styles.addMarkerWrap}>
-        <Text>Maršruto taškai</Text>
+        <Text style={styles.title}>Maršruto taškai</Text>
         <TouchableOpacity style={styles.addMarker} onPress={bottomSheetOpen}>
-          <PlusIcon size={24} color={colors.BLACK} />
+          <PlusIcon size={24} color={colors.WHITE} />
         </TouchableOpacity>
       </View>
 
@@ -173,70 +174,77 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
         snapPoints={bottomSheetSnapPoints}
         index={-1}
         enablePanDownToClose
-        detached>
-        <BottomSheetScrollView style={styles.wrap}>
-          <Text>Maršruto taško informacija</Text>
-
-          <TextInput
-            id={IDS.MARKER_TITLE}
-            editable={!isLoading}
-            value={markerData.title}
-            placeholder={"Pavadinimas"}
-            onChangeText={onMarkerInputChange}
-            keyboardType='default'
-            style={styles.smallBottomSpacer}
-          />
-          <TextInput
-            id={IDS.MARKER_DESCRIPTION}
-            editable={!isLoading}
-            value={markerData.description}
-            placeholder={"Aprašymas"}
-            onChangeText={onMarkerInputChange}
-            keyboardType='default'
-            multiline
-            style={[styles.smallBottomSpacer, styles.multilineInput] as TextStyle}
-          />
-
-          <Text>Maršruto taško vieta</Text>
-
-          <BottomSheetView style={styles.locationWrap}>
-            <TextInput
-              id={IDS.MARKER_LATITUDE}
-              editable={!isLoading}
-              value={!!markerData.location.latitude ? String(markerData.location.latitude) : ""}
-              placeholder={"Platuma"}
-              onChangeText={onMarkerLocationManualChange}
-              onSubmitEditing={onMarkerLocationManualChangeSubmit}
-              keyboardType='decimal-pad'
-              style={styles.locationInput}
-            />
-            <TextInput
-              id={IDS.MARKER_LONGITUDE}
-              editable={!isLoading}
-              value={!!markerData.location.longitude ? String(markerData.location.longitude) : ""}
-              placeholder={"Ilguma"}
-              onChangeText={onMarkerLocationManualChange}
-              onSubmitEditing={onMarkerLocationManualChangeSubmit}
-              keyboardType='decimal-pad'
-              style={styles.locationInput}
-            />
-          </BottomSheetView>
-
+        detached
+        backgroundStyle={styles.sheetBackground}>
+        <BottomSheetScrollView style={styles.wrap} contentContainerStyle={styles.sheetScrollWrap}>
           <BottomSheetView>
-            <MapView
-              ref={markerMapRef}
-              customMapStyle={mapStyle}
-              provider={"google"}
-              style={styles.markerMap}
-              initialRegion={initialMarkerMapRegion}
-              onRegionChange={onMarkerMapRegionChange}
+            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
+              Maršruto taško informacija
+            </Text>
+
+            <TextInput
+              id={IDS.MARKER_TITLE}
+              editable={!isLoading}
+              value={markerData.title}
+              placeholder={"Pavadinimas"}
+              onChangeText={onMarkerInputChange}
+              keyboardType='default'
+              style={styles.smallBottomSpacer}
+            />
+            <TextInput
+              id={IDS.MARKER_DESCRIPTION}
+              editable={!isLoading}
+              value={markerData.description}
+              placeholder={"Aprašymas"}
+              onChangeText={onMarkerInputChange}
+              keyboardType='default'
+              multiline
+              style={[styles.mediumBottomSpacer, styles.multilineInput] as TextStyle}
             />
 
-            <View style={styles.markerFixed} pointerEvents='none'>
-              <MarkerIcon size={36} />
-            </View>
+            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>Maršruto taško vieta</Text>
 
-            <Text>*Nuveskite žymeklį į norimą vietą</Text>
+            <BottomSheetView style={styles.locationWrap}>
+              <View style={styles.locationInput}>
+                <TextInput
+                  id={IDS.MARKER_LATITUDE}
+                  editable={!isLoading}
+                  value={!!markerData.location.latitude ? String(markerData.location.latitude) : ""}
+                  placeholder={"Platuma"}
+                  onChangeText={onMarkerLocationManualChange}
+                  onSubmitEditing={onMarkerLocationManualChangeSubmit}
+                  keyboardType='decimal-pad'
+                />
+              </View>
+              <View style={styles.locationInput}>
+                <TextInput
+                  id={IDS.MARKER_LONGITUDE}
+                  editable={!isLoading}
+                  value={
+                    !!markerData.location.longitude ? String(markerData.location.longitude) : ""
+                  }
+                  placeholder={"Ilguma"}
+                  onChangeText={onMarkerLocationManualChange}
+                  onSubmitEditing={onMarkerLocationManualChangeSubmit}
+                  keyboardType='decimal-pad'
+                />
+              </View>
+            </BottomSheetView>
+
+            <BottomSheetView>
+              <MapView
+                ref={markerMapRef}
+                customMapStyle={mapStyle}
+                provider={"google"}
+                style={styles.markerMap}
+                initialRegion={initialMarkerMapRegion}
+                onRegionChange={onMarkerMapRegionChange}
+              />
+              <View style={styles.markerFixed} pointerEvents='none'>
+                <MarkerIcon size={36} />
+              </View>
+              <Text style={styles.subtitle}>* Nuveskite žymeklį į norimą vietą</Text>
+            </BottomSheetView>
           </BottomSheetView>
           <Button title={"Išsaugoti"} onPress={onNewMarkerSavePress} style={{ marginTop: 12 }} />
         </BottomSheetScrollView>

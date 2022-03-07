@@ -11,7 +11,7 @@ type Props = {
   color?: string;
 };
 
-const Marker: React.FC<Props> = ({ size, color = "#C09A39" }) => {
+const Marker: React.FC<Props> = ({ size, color = colors.ORANGE }) => {
   return (
     <Svg
       height={size}

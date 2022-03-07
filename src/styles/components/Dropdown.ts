@@ -3,6 +3,7 @@ import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
 // Constants
 import colors from "constants/colors";
 import { fontSizes, padding } from "constants/spacing";
+import { fontRegular } from "constants/fonts";
 
 type Props = {
   wrap: ViewStyle;
@@ -17,54 +18,56 @@ type Props = {
   separator: ViewStyle;
   placeholder: ViewStyle;
   chevronWrap: ViewStyle;
+  borderBottom: ViewStyle;
 };
 
-export const chevronSize = 18;
-export const chevronColor = colors.BLACK;
+export const chevronSize = 20;
+export const chevronColor = colors.DARK_GREEN;
+const inputHeight = padding.MIDI;
 
 export default StyleSheet.create<Props>({
   wrap: {
-    marginTop: padding.MEDIUM,
+    // marginTop: padding.MEDIUM,
   },
   title: {
-    // color: primaryTextColor,
-    fontSize: fontSizes.EXTRA_SMALL,
-    marginBottom: padding.SMALL / 2,
-    fontWeight: "700",
+    fontFamily: fontRegular,
+    fontSize: fontSizes.MIDI,
+    marginBottom: padding.SMALL,
   },
   itemWrap: {
-    padding: padding.SMALL,
-    borderBottomColor: colors.BLACK,
+    paddingVertical: inputHeight,
+    paddingHorizontal: padding.MEDIUM,
+  },
+  borderBottom: {
+    borderBottomColor: colors.DARK_GREEN,
     borderBottomWidth: 1,
   },
   selected: {
-    backgroundColor: colors.GREEN,
+    // backgroundColor: colors.GREEN,
   },
   selectedText: {
     color: colors.WHITE,
   },
   itemLabel: {
-    fontSize: fontSizes.EXTRA_SMALL,
-    // fontFamily: fontMedium,
+    fontFamily: fontRegular,
+    fontSize: fontSizes.SMALL,
     color: colors.BLACK,
   },
   placeholderLabel: {
-    fontSize: fontSizes.EXTRA_SMALL,
-    // fontFamily: fontSemiBold,
+    fontFamily: fontRegular,
+    fontSize: fontSizes.SMALL,
     color: colors.BLACK,
   },
   items: {
     overflow: "hidden",
   },
   itemsContent: {
-    // marginTop: marginSmall,
-    borderColor: colors.BLACK,
+    borderColor: colors.DARK_GREEN,
     borderLeftWidth: 1,
     borderRightWidth: 1,
     borderBottomWidth: 1,
-    borderBottomLeftRadius: 4,
-    borderBottomRightRadius: 4,
-    // borderWidth: borderWidth
+    borderBottomLeftRadius: padding.SMALL,
+    borderBottomRightRadius: padding.SMALL,
   },
   separator: {
     height: padding.SMALL,
@@ -73,11 +76,11 @@ export default StyleSheet.create<Props>({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    borderTopLeftRadius: 4,
-    borderTopRightRadius: 4,
-    padding: padding.SMALL,
-    backgroundColor: colors.WHITE,
-    borderColor: colors.BLACK,
+    borderRadius: padding.SMALL,
+    paddingVertical: inputHeight,
+    paddingHorizontal: padding.MEDIUM,
+    // backgroundColor: colors.WHITE,
+    borderColor: colors.DARK_GREEN,
     borderWidth: 1,
   },
   chevronWrap: {

@@ -39,9 +39,11 @@ const LANGUAGE_DETECTOR = {
 };
 
 i18n
+  //@ts-ignore
   .use(LANGUAGE_DETECTOR)
   .use(initReactI18next)
   .init({
+    compatibilityJSON: "v3",
     resources: LANGUAGES,
     react: { useSuspense: false },
     interpolation: { escapeValue: false },

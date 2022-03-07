@@ -1,9 +1,10 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 
 // Constants
-import { SCREEN_WIDTH } from "constants/spacing";
+import { fontSizes, SCREEN_WIDTH } from "constants/spacing";
 import { padding } from "constants/spacing";
 import colors from "constants/colors";
+import { fontMedium, fontRegular } from "constants/fonts";
 
 type Props = {
   wrap: ViewStyle;
@@ -17,6 +18,10 @@ type Props = {
   markerMap: ViewStyle;
   markerFixed: ViewStyle;
   dropdown: ViewStyle;
+  title: TextStyle;
+  sheetBackground: ViewStyle;
+  subtitle: TextStyle;
+  sheetScrollWrap: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
@@ -25,32 +30,39 @@ export default StyleSheet.create<Props>({
     padding: padding.MEDIUM,
     backgroundColor: colors.WHITE,
   },
+  sheetScrollWrap: {
+    flex: 1,
+    justifyContent: "space-between",
+    paddingBottom: padding.MEDIUM,
+  },
   smallBottomSpacer: {
-    marginBottom: padding.SMALL,
+    marginBottom: padding.MIDI,
   },
   mediumBottomSpacer: {
-    marginBottom: padding.MEDIUM,
+    marginBottom: padding.LARGE,
   },
   multilineInput: {
     height: 96,
     textAlignVertical: "top",
+    paddingTop: padding.SMALL,
   },
   addMarker: {
-    borderWidth: 1,
-    borderRadius: 8,
+    borderRadius: padding.MEDIUM,
+    backgroundColor: colors.DARK_GREEN,
   },
   addMarkerWrap: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginVertical: padding.SMALL,
+    marginBottom: padding.MIDI,
   },
   locationWrap: {
     flexDirection: "row",
     justifyContent: "space-between",
+    marginBottom: padding.SMALL,
   },
   locationInput: {
-    width: "45%",
+    width: "46%",
   },
   markerMap: {
     height: 192,
@@ -65,6 +77,24 @@ export default StyleSheet.create<Props>({
     position: "absolute",
   },
   dropdown: {
-    marginBottom: padding.MEDIUM,
+    marginBottom: padding.MIDI,
+  },
+  title: {
+    fontFamily: fontMedium,
+    fontSize: fontSizes.MEDIUM,
+    color: colors.BLACK,
+  },
+  sheetBackground: {
+    backgroundColor: colors.WHITE,
+    shadowColor: colors.BLACK,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.39,
+    shadowRadius: 8.3,
+    elevation: 13,
+  },
+  subtitle: {
+    fontFamily: fontRegular,
+    fontSize: fontSizes.SMALL,
+    color: colors.BLACK,
   },
 });

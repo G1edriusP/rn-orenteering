@@ -6,6 +6,7 @@ import styles from "styles/components/MarkerCard";
 // Components
 import { View, Text, TouchableOpacity } from "react-native";
 import { MarkerCardType } from "constants/types/types";
+import { CloseIcon } from "assets/svg";
 
 const MarkerCard: React.FC<MarkerCardType> = ({
   onPress,
@@ -17,15 +18,7 @@ const MarkerCard: React.FC<MarkerCardType> = ({
 }) => {
   return (
     <TouchableOpacity style={styles.wrap} onPress={onPress}>
-      <View
-        style={{
-          backgroundColor: "orange",
-          justifyContent: "center",
-          alignItems: "center",
-          height: 80,
-          width: 80,
-          marginRight: 16,
-        }}>
+      <View style={styles.image}>
         <Text>Foto</Text>
       </View>
       <View style={styles.trackData}>
@@ -34,10 +27,13 @@ const MarkerCard: React.FC<MarkerCardType> = ({
           {description}
         </Text>
         <Text style={styles.location}>{type}</Text>
-        <Text style={styles.location}>{`${location?.latitude}, ${location?.longitude}`}</Text>
+        <Text
+          style={styles.location}
+          numberOfLines={1}>{`${location?.latitude}, ${location?.longitude}`}</Text>
       </View>
-      <TouchableOpacity onPress={onRemove}>
-        <Text>X</Text>
+      {/* @ts-ignore */}
+      <TouchableOpacity onPress={onRemove} style={styles.remove}>
+        <CloseIcon size={24} />
       </TouchableOpacity>
     </TouchableOpacity>
   );

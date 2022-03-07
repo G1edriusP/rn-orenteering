@@ -21,11 +21,17 @@ export type MarkerCardType = {
   location?: LatLng;
 };
 export type TrackData = {
-  id: string;
-  type: "COGNITIVE" | "INDICATIVE";
+  id?: string;
+  type: "COGNITIVE" | "INDICATIVE" | "";
   title: string;
   description: string;
   markers: MarkerType[];
+};
+export type ItemProps = {
+  value: any;
+  label: string;
+  onSelect?: (value: string) => void;
+  isLast?: boolean;
 };
 
 export type EmailAuthDataAction = { type: string; value: string };

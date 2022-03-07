@@ -7,8 +7,11 @@ import React, { memo } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import { TrackCardType } from "constants/types/types";
 import { SCREEN_WIDTH } from "constants/spacing";
+import colors from "constants/colors";
 
 const TrackCard: React.FC<TrackCardType> = ({ onPress, onFavouritePress, title, description }) => {
+  // console.log(Object.values(colors).map((val, index) => index));
+  // console.log(Object.values(colors).at(0));
   return (
     <TouchableOpacity
       style={{
