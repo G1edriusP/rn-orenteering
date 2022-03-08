@@ -16,6 +16,10 @@ export const markerReducer = (state: MarkerType, action: MarkerDataAction) => {
   return { ...state, [action.type]: action.value };
 };
 
+export const getTracksStartingMarkers = (tracks: TrackData[]): MarkerType[] => {
+  return tracks.map(track => track.markers[0]);
+};
+
 export const saveTrack = (track: TrackData, callback: () => void): void => {
   try {
     firestore().collection("tracks").add(track);

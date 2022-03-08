@@ -48,3 +48,8 @@ export type Route = {
   title: string;
   tracks: TrackData[];
 };
+
+export type TrackInfoHandle = {
+  open: (track: TrackData) => void;
+  close: () => void;
+};

@@ -8,3 +8,4 @@ export { default as TrackCard } from "./TrackCard";
 export { default as TextButton } from "./TextButton";
 export { default as Header } from "./Header";
 export { default as SmallButton } from "./SmallButton";
+export { default as TrackInfoSheet } from "./TrackInfoSheet";

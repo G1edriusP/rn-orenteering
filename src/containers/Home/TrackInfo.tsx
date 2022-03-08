@@ -177,7 +177,6 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
         snapPoints={bottomSheetSnapPoints}
         index={-1}
         enablePanDownToClose
-        detached
         backgroundStyle={styles.sheetBackground}>
         <BottomSheetScrollView style={styles.wrap} contentContainerStyle={styles.sheetScrollWrap}>
           <BottomSheetView>
