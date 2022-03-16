@@ -77,11 +77,6 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
 
   return (
     <SafeAreaView style={styles.wrap}>
-      <Animated.View
-        style={[styles.headerWrap, headerRStyle, { paddingTop: top + padding.MEDIUM }]}>
-        <SmallButton Icon={BackIcon} size={28} onPress={onBackPress} />
-        <SmallButton Icon={SearchIcon} size={28} onPress={onSearchPress} />
-      </Animated.View>
       <MapView
         ref={mapRef}
         customMapStyle={mapStyle}
@@ -89,7 +84,7 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
         style={styles.map}
         toolbarEnabled={false}
         showsCompass={false}
-        onMarkerDeselect={onMapPress}
+        onTouchStart={onMapPress}
         initialRegion={{
           latitude: 54.901102,
           longitude: 23.89155,
@@ -108,6 +103,11 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
             ))
           : null}
       </MapView>
+      <Animated.View
+        style={[styles.headerWrap, headerRStyle, { paddingTop: top + padding.MEDIUM }]}>
+        <SmallButton Icon={BackIcon} size={28} onPress={onBackPress} />
+        <SmallButton Icon={SearchIcon} size={28} onPress={onSearchPress} />
+      </Animated.View>
       <TrackInfoSheet ref={sheetRef} topSnap={SCREEN_HEIGHT - top} headerPos={headerPos} />
     </SafeAreaView>
   );
