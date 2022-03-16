@@ -4,30 +4,25 @@ import React, { memo } from "react";
 import styles from "styles/components/TextInput";
 
 // Components
-import {
-  KeyboardTypeOptions,
-  NativeSyntheticEvent,
-  TextInput as Input,
-  TextInputSubmitEditingEventData,
-  TextStyle,
-} from "react-native";
+import { KeyboardTypeOptions, Text, TextInput as Input, TextStyle, View } from "react-native";
 
 type Props = {
+  title?: string;
   id: string;
   value: string;
-  onChangeText: (id: string, text: string) => void;
+  onChangeText?: (id: string, text: string) => void;
   placeholder?: string | undefined;
   keyboardType?: KeyboardTypeOptions | undefined;
   autoCapitalize?: "none" | "sentences" | "words" | "characters" | undefined;
   editable?: boolean | undefined;
-  onSubmitEditing?:
-    | ((e: NativeSyntheticEvent<TextInputSubmitEditingEventData>) => void)
-    | undefined;
+  onSubmitEditing?: (id: string, text: string) => void;
   secureTextEntry?: boolean | undefined;
+  multiline?: boolean | undefined;
   style?: TextStyle;
 };
 
 const TextInput: React.FC<Props> = ({
+  title,
   id,
   placeholder,
   keyboardType,
@@ -37,21 +32,27 @@ const TextInput: React.FC<Props> = ({
   secureTextEntry,
   value,
   onChangeText,
+  multiline,
   style,
 }) => {
   return (
-    <Input
-      value={value}
-      onChangeText={text => onChangeText(id, text)}
-      placeholder={placeholder}
-      keyboardType={keyboardType}
-      autoCapitalize={autoCapitalize}
-      editable={editable}
-      onSubmitEditing={onSubmitEditing}
-      returnKeyType='done'
-      secureTextEntry={secureTextEntry}
-      style={[styles.input, style]}
-    />
+    <View>
+      {title ? <Text style={styles.title}>{title}</Text> : null}
+      <Input
+        value={value}
+        onChangeText={text => onChangeText && onChangeText(id, text)}
+        placeholder={placeholder}
+        keyboardType={keyboardType}
+        autoCorrect={false}
+        autoCapitalize={autoCapitalize}
+        editable={editable}
+        onSubmitEditing={e => onSubmitEditing && onSubmitEditing(id, e.nativeEvent.text)}
+        returnKeyType='done'
+        secureTextEntry={secureTextEntry}
+        multiline={multiline}
+        style={[styles.input, style]}
+      />
+    </View>
   );
 };
 

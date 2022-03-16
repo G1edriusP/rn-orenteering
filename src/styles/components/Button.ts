@@ -14,7 +14,7 @@ export default StyleSheet.create<Props>({
     height: 48,
     paddingHorizontal: padding.SMALL,
     borderRadius: padding.SMALL,
-    backgroundColor: colors.GREEN,
+    backgroundColor: colors.DARK_GREEN,
     justifyContent: "center",
     alignItems: "center",
   },

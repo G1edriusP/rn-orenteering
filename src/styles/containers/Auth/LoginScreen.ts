@@ -9,17 +9,32 @@ type Props = {
   wrap: ViewStyle;
   smallBottomSpacer: ViewStyle;
   mediumBottomSpacer: ViewStyle;
+  icon: ViewStyle;
+  scroll: ViewStyle;
+  content: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
   wrap: {
     flex: 1,
+    backgroundColor: colors.WHITE,
     padding: padding.MEDIUM,
+  },
+  scroll: {
+    flex: 1,
+    // justifyContent: "space-around",
   },
   smallBottomSpacer: {
     marginBottom: padding.SMALL,
   },
   mediumBottomSpacer: {
     marginBottom: padding.MEDIUM,
+  },
+  icon: {
+    flex: 0.3,
+    alignItems: "center",
+  },
+  content: {
+    flex: 0.7,
   },
 });

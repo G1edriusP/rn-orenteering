@@ -1,7 +1,10 @@
 import React from "react";
 
 export const combineProviders =
-  (...providers) =>
-  ({ children }) => {
-    return providers.reduceRight((child, Provider) => <Provider>{child}</Provider>, children);
+  (...providers: any) =>
+  ({ children }: any) => {
+    return providers.reduceRight(
+      (child: any, Provider: any) => <Provider>{child}</Provider>,
+      children,
+    );
   };
