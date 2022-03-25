@@ -8,7 +8,7 @@ import { Platform, TouchableWithoutFeedback, View } from "react-native";
 import { SmallButton, TrackInfoSheet } from "components";
 import { BackIcon, SearchIcon } from "assets/svg";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
-import MapView, { LatLng, Marker } from "react-native-maps";
+import MapView, { Callout, CalloutSubview, LatLng, Marker, Polyline } from "react-native-maps";
 import { firebase } from "@react-native-firebase/auth";
 import Animated, {
   useSharedValue,
@@ -98,8 +98,7 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
                 key={index}
                 coordinate={marker.location}
                 title={marker.title}
-                description={marker.description}
-              />
+                description={marker.description}></Marker>
             ))
           : null}
       </MapView>

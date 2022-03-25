@@ -5,15 +5,14 @@ import { useMemoOne } from "use-memo-one";
 import styles from "styles/components/TrackInfoSheet";
 
 // Components
-import BottomSheet from "@gorhom/bottom-sheet";
-import { SmallButton } from "components";
-import { CloseIcon } from "assets/svg";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 // Constants
 import { TrackData, TrackInfoHandle } from "constants/types/types";
 import { Text, View } from "react-native";
 import { SharedValue } from "react-native-reanimated";
-import { padding, SCREEN_WIDTH } from "constants/spacing";
+import { SCREEN_WIDTH } from "constants/spacing";
+import Button from "./Button";
 
 type Props = {
   topSnap: number;
@@ -42,13 +41,12 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(({ topSnap, headerPos 
 
   return (
     <BottomSheet ref={sheetRef} snapPoints={sheetSnapPoints} index={-1} style={styles.wrap}>
-      <Text>
-        {info.title}
-        {info.title}
-      </Text>
-      <View style={{ position: "absolute" }}>
-        <SmallButton Icon={CloseIcon} onPress={onSheetClose} size={28} />
-      </View>
+      <BottomSheetScrollView>
+        <View style={styles.image}></View>
+        {info.title ? <Text style={styles.title}>{info.title}</Text> : null}
+        {info.description ? <Text style={styles.description}>{info.description}</Text> : null}
+        <Button title={"Pradėti"} onPress={() => console.log("Start")} />
+      </BottomSheetScrollView>
     </BottomSheet>
   );
 });

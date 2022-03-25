@@ -31,6 +31,7 @@ import mapStyle from "constants/mapStyle";
 import { markerReducer, saveTrack, tracksReducer } from "utils/firebase/track";
 import { padding } from "constants/spacing";
 import { firebase } from "@react-native-firebase/auth";
+import { createUID } from "utils/other";
 
 const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
   const { type } = params;
@@ -167,7 +168,10 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
       <Button
         title={"Sukurti"}
         onPress={() =>
-          saveTrack({ ...trackData, uid: firebase.auth().currentUser?.uid }, onTrackSave)
+          saveTrack(
+            { ...trackData, uid: firebase.auth().currentUser?.uid, id: createUID() },
+            onTrackSave,
+          )
         }
         style={{ marginTop: 12 }}
       />
