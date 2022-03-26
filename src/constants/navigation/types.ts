@@ -16,7 +16,9 @@ export type HomeStackParams = {
   [Routes.TRACK_INFO]: { type: "CREATE" | "EDIT" };
   [Routes.TRACKS_SCREEN]: { tracks: TrackData[] };
   [Routes.TRACKS_MAP_SCREEN]: { infoType: "MY_TRACKS" | "OTHER_TRACKS" };
-  [Routes.TRACK_MAP_SCREEN]: { track: TrackData };
+  [Routes.TRACK_SCREEN_COGNITIVE]: { track: TrackData };
+  [Routes.TRACK_SCREEN_INDICATIVE]: { track: TrackData };
+  [Routes.WAITING_ROOM]: { trackID: string | undefined };
 };
 
 // Screen props
@@ -27,4 +29,12 @@ export type RegisterScreenProps = StackScreenProps<RootStackParams, Routes.REGIS
 export type TrackInfoScreenProps = StackScreenProps<HomeStackParams, Routes.TRACK_INFO>;
 export type TracksScreenProps = StackScreenProps<HomeStackParams, Routes.TRACKS_SCREEN>;
 export type TracksMapScreenProps = StackScreenProps<HomeStackParams, Routes.TRACKS_MAP_SCREEN>;
-export type TrackMapScreenProps = StackScreenProps<HomeStackParams, Routes.TRACK_MAP_SCREEN>;
+export type TrackMapCognitiveScreenProps = StackScreenProps<
+  HomeStackParams,
+  Routes.TRACK_SCREEN_COGNITIVE
+>;
+export type TrackMapIndicativeScreenProps = StackScreenProps<
+  HomeStackParams,
+  Routes.TRACK_SCREEN_INDICATIVE
+>;
+export type WaitingRoomScreenProps = StackScreenProps<HomeStackParams, Routes.WAITING_ROOM>;

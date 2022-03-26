@@ -4,18 +4,22 @@ import React, { memo } from "react";
 import styles from "styles/components/SmallButton";
 
 // Components
-import { TouchableOpacity } from "react-native";
+import { Text, TouchableOpacity } from "react-native";
 
 type Props = {
-  Icon: React.FC<{ size: number }>;
-  size: number;
-  onPress: () => void;
+  Icon?: React.FC<{ size: number }>;
+  size?: number;
+  onPress?: () => void;
+  isTimer?: boolean;
+  time?: string;
 };
 
-const SmallButton: React.FC<Props> = ({ Icon, size, onPress }) => {
+const SmallButton: React.FC<Props> = ({ Icon, size, onPress, isTimer = false, time }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.wrap}>
-      <Icon size={size} />
+    <TouchableOpacity onPress={onPress} style={[styles.wrap, isTimer && { width: 100 }]}>
+      {/* @ts-ignore */}
+      {!isTimer ? <Icon size={size} /> : null}
+      {isTimer ? <Text style={styles.time}>{time}</Text> : null}
     </TouchableOpacity>
   );
 };

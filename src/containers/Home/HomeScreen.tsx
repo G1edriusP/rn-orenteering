@@ -37,7 +37,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     },
     {
       title: "Prisijungti prie maršruto",
-      onPress: () => console.log("Join track"),
+      onPress: () => navigation.navigate(Routes.WAITING_ROOM),
       icon: GameTrackIcon,
     },
     { title: "Paskyra", onPress: () => console.log("Profile"), icon: ProfileIcon },

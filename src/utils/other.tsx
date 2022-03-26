@@ -12,10 +12,11 @@ export const combineProviders =
     );
   };
 
-export const createUID = (): string => {
+export const createUID = (size?: number): string => {
   const head: string = Date.now().toString(36);
   const tail: string = Math.random().toString(36).substring(2);
-  return head + tail;
+  const uid = head + tail;
+  return size ? String(uid).substring(uid.length - size, size) : uid;
 };
 
 const configureCoordsFetchRoute = (coords: LatLng[]): string => {

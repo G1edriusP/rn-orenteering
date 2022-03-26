@@ -18,7 +18,7 @@ import Animated, {
 } from "react-native-reanimated";
 
 // Constants
-import { TrackMapScreenProps } from "constants/navigation/types";
+import { TrackMapCognitiveScreenProps } from "constants/navigation/types";
 // @ts-ignore
 import mapStyle from "constants/mapStyle";
 import { TrackData, TrackInfoHandle } from "constants/types/types";
@@ -26,14 +26,16 @@ import { MarkerType } from "constants/types/firestore";
 import { padding, SCREEN_HEIGHT } from "constants/spacing";
 import { fetchCoordinatesBetweenPoints } from "utils/other";
 import colors from "constants/colors";
+import { formatTimeString } from "utils/time";
 
 // Utils
 
-const TrackScreen = ({ navigation, route: { params } }: TrackMapScreenProps) => {
+const TrackCognitiveScreen = ({ navigation, route: { params } }: TrackMapCognitiveScreenProps) => {
   const { top } = useSafeAreaInsets();
   const { track } = params;
 
   const [coordinates, setCoordinates] = useState<LatLng[]>([]);
+  const [time, setTime] = useState(0); // in mili seconds
 
   const sheetRef = useRef<TrackInfoHandle>(null);
   const mapRef = useRef<MapView>(null);
@@ -56,9 +58,16 @@ const TrackScreen = ({ navigation, route: { params } }: TrackMapScreenProps) => 
   };
 
   useEffect(() => {
+    let interval: any = null;
     if (track) {
+      // Fetches route coordinates for map polylines
       fetchCoordinatesBetweenPoints(track.markers, setCoordinates);
+      // Starts the timer
+      interval = setInterval(() => {
+        setTime(old => old + 16.5);
+      }, 10);
     }
+    return () => clearInterval(interval);
   }, []);
 
   return (
@@ -97,10 +106,11 @@ const TrackScreen = ({ navigation, route: { params } }: TrackMapScreenProps) => 
       <Animated.View
         style={[styles.headerWrap, headerRStyle, { paddingTop: top + padding.MEDIUM }]}>
         <SmallButton Icon={CloseIcon} size={28} onPress={onBackPress} />
+        <SmallButton isTimer time={formatTimeString(time)} />
       </Animated.View>
       <TrackInfoSheet ref={sheetRef} topSnap={SCREEN_HEIGHT - top} headerPos={headerPos} />
     </SafeAreaView>
   );
 };
 
-export default TrackScreen;
+export default TrackCognitiveScreen;

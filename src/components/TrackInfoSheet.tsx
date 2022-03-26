@@ -10,7 +10,7 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 
 // Constants
 import { TrackData, TrackInfoHandle } from "constants/types/types";
-import { Text, View } from "react-native";
+import { Alert, Text, View } from "react-native";
 import { SharedValue } from "react-native-reanimated";
 import { SCREEN_WIDTH } from "constants/spacing";
 import Button from "./Button";
@@ -42,7 +42,22 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(({ topSnap, headerPos 
     headerPos.value = -SCREEN_WIDTH;
   };
 
-  const onTrackStartPress = () => navigation.navigate(Routes.TRACK_MAP_SCREEN, { track: info });
+  const onTrackNav = (route: string, props: {}) =>
+    navigation.navigate(route as never, props as never);
+
+  const onTrackStartPress = () => {
+    Alert.alert("Pasirinkite maršruto tipą:", undefined, [
+      {
+        text: "Pažintinis",
+        onPress: () => onTrackNav(Routes.TRACK_SCREEN_COGNITIVE, { track: info }),
+      },
+      {
+        text: "Orientacinis",
+        // @ts-ignore
+        onPress: () => onTrackNav(Routes.WAITING_ROOM, { trackID: info.id }),
+      },
+    ]);
+  };
 
   useImperativeHandle(ref, () => ({ open: onSheetOpen, close: onSheetClose }), [sheetRef]);
 
