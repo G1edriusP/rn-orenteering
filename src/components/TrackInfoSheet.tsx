@@ -1,5 +1,6 @@
 import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { useMemoOne } from "use-memo-one";
+import { useNavigation } from "@react-navigation/native";
 
 // Styles
 import styles from "styles/components/TrackInfoSheet";
@@ -13,6 +14,8 @@ import { Text, View } from "react-native";
 import { SharedValue } from "react-native-reanimated";
 import { SCREEN_WIDTH } from "constants/spacing";
 import Button from "./Button";
+import { Routes } from "constants/navigation/routes";
+import { MarkerType } from "constants/types/firestore";
 
 type Props = {
   topSnap: number;
@@ -20,8 +23,10 @@ type Props = {
 };
 
 const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(({ topSnap, headerPos }, ref) => {
+  const navigation = useNavigation();
+
   const sheetRef = useRef<BottomSheet>(null);
-  const [info, setInfo] = useState<TrackData>({} as TrackData);
+  const [info, setInfo] = useState<TrackData | MarkerType>({} as TrackData | MarkerType);
 
   const sheetSnapPoints = useMemoOne(() => ["35%", topSnap], []);
 
@@ -31,11 +36,13 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(({ topSnap, headerPos 
     headerPos.value = 0;
   };
 
-  const onSheetOpen = (track: TrackData) => {
-    setInfo(track);
+  const onSheetOpen = (data: TrackData | MarkerType) => {
+    setInfo(data);
     sheetRef.current?.snapToIndex(0);
     headerPos.value = -SCREEN_WIDTH;
   };
+
+  const onTrackStartPress = () => navigation.navigate(Routes.TRACK_MAP_SCREEN, { track: info });
 
   useImperativeHandle(ref, () => ({ open: onSheetOpen, close: onSheetClose }), [sheetRef]);
 
@@ -45,7 +52,7 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(({ topSnap, headerPos 
         <View style={styles.image}></View>
         {info.title ? <Text style={styles.title}>{info.title}</Text> : null}
         {info.description ? <Text style={styles.description}>{info.description}</Text> : null}
-        <Button title={"Pradėti"} onPress={() => console.log("Start")} />
+        <Button title={"Pradėti"} onPress={onTrackStartPress} />
       </BottomSheetScrollView>
     </BottomSheet>
   );

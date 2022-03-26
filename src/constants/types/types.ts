@@ -50,6 +50,6 @@ export type Route = {
 };
 
 export type TrackInfoHandle = {
-  open: (track: TrackData) => void;
+  open: (track: TrackData | MarkerType) => void;
   close: () => void;
 };

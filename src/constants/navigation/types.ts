@@ -16,6 +16,7 @@ export type HomeStackParams = {
   [Routes.TRACK_INFO]: { type: "CREATE" | "EDIT" };
   [Routes.TRACKS_SCREEN]: { tracks: TrackData[] };
   [Routes.TRACKS_MAP_SCREEN]: { infoType: "MY_TRACKS" | "OTHER_TRACKS" };
+  [Routes.TRACK_MAP_SCREEN]: { track: TrackData };
 };
 
 // Screen props
@@ -26,3 +27,4 @@ export type RegisterScreenProps = StackScreenProps<RootStackParams, Routes.REGIS
 export type TrackInfoScreenProps = StackScreenProps<HomeStackParams, Routes.TRACK_INFO>;
 export type TracksScreenProps = StackScreenProps<HomeStackParams, Routes.TRACKS_SCREEN>;
 export type TracksMapScreenProps = StackScreenProps<HomeStackParams, Routes.TRACKS_MAP_SCREEN>;
+export type TrackMapScreenProps = StackScreenProps<HomeStackParams, Routes.TRACK_MAP_SCREEN>;

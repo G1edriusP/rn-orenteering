@@ -6,6 +6,7 @@ export enum Routes {
   TRACK_INFO = "TRACK_INFO",
   TRACKS_SCREEN = "TRACKS_SCREEN",
   TRACKS_MAP_SCREEN = "TRACKS_MAP_SCREEN",
+  TRACK_MAP_SCREEN = "TRACK_MAP_SCREEN",
 }
 
 export enum Stacks {
