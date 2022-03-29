@@ -86,7 +86,9 @@ const HomeStack = () => {
 
 const RootStack = () => {
   return (
-    <Root.Navigator initialRouteName={Routes.SPLASH_SCREEN}>
+    <Root.Navigator
+      initialRouteName={Routes.SPLASH_SCREEN}
+      screenOptions={{ cardStyleInterpolator }}>
       <Root.Screen name={Routes.SPLASH_SCREEN} component={SplashScreen} options={noHeader} />
       <Root.Screen name={Routes.LOGIN_SCREEN} component={LoginScreen} options={noHeader} />
       <Root.Screen
@@ -94,11 +96,7 @@ const RootStack = () => {
         component={RegisterScreen}
         options={customHeader}
       />
-      <Root.Screen
-        name={Stacks.HOME}
-        component={HomeStack}
-        options={{ ...noHeader, cardStyleInterpolator }}
-      />
+      <Root.Screen name={Stacks.HOME} component={HomeStack} options={noHeader} />
     </Root.Navigator>
   );
 };

@@ -15,11 +15,11 @@ import { firebase } from "@react-native-firebase/auth";
 import { resetNavigation } from "utils/navigation/navigation";
 import { Routes, Stacks } from "constants/navigation/routes";
 
-const SplashScreen = ({ navigation: { navigate } }: SplashScreenProps) => {
+const SplashScreen = ({ navigation: { navigate, dispatch } }: SplashScreenProps) => {
   useLayoutEffect(() => {
     firebase.auth().onIdTokenChanged(user => {
       if (user) navigate(Stacks.HOME);
-      else navigate(Routes.LOGIN_SCREEN);
+      else dispatch(resetNavigation(Routes.LOGIN_SCREEN));
       Splash.hide();
     });
   }, []);

@@ -13,6 +13,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Routes } from "constants/navigation/routes";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
+import { onSignOutPress } from "utils/firebase/auth";
 
 const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
   const { t } = useTranslation();
@@ -35,8 +36,8 @@ const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
           <BackIcon size={24} />
         </TouchableOpacity>
         {route.name === Routes.PROFILE_SCREEN ? (
-          <TouchableOpacity>
-            <Text>{t("profileScreen:logout")}</Text>
+          <TouchableOpacity onPress={onSignOutPress}>
+            <Text style={styles.text}>{t("profileScreen:logout")}</Text>
           </TouchableOpacity>
         ) : null}
       </View>

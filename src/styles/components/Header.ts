@@ -1,11 +1,13 @@
 import colors from "constants/colors";
-import { padding } from "constants/spacing";
+import { fontMedium } from "constants/fonts";
+import { fontSizes, padding } from "constants/spacing";
 import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 
 interface Styles {
   wrap: ViewStyle;
   button: ViewStyle;
   row: ViewStyle;
+  text: TextStyle;
 }
 
 export default StyleSheet.create<Styles>({
@@ -31,5 +33,10 @@ export default StyleSheet.create<Styles>({
     alignItems: "center",
     justifyContent: "space-between",
     paddingHorizontal: padding.MEDIUM,
+  },
+  text: {
+    fontFamily: fontMedium,
+    fontSize: fontSizes.SMALL,
+    color: colors.BLACK,
   },
 });
