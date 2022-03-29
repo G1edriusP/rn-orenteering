@@ -54,7 +54,7 @@ const customHeader: StackNavigationOptions = {
 
 const HomeStack = () => {
   return (
-    <Home.Navigator initialRouteName={Routes.HOME_SCREEN}>
+    <Home.Navigator initialRouteName={Routes.HOME_SCREEN} screenOptions={{ cardStyleInterpolator }}>
       <Home.Screen name={Routes.HOME_SCREEN} component={HomeScreen} options={noHeader} />
       <Home.Screen name={Routes.TRACK_INFO} component={TrackInfoScreen} options={customHeader} />
       <Home.Screen name={Routes.TRACKS_SCREEN} component={TracksScreen} options={customHeader} />

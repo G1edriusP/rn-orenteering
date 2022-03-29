@@ -1,4 +1,11 @@
 {
+  "navigation": {
+    "REGISTER_SCREEN": "Registracija",
+    "WAITING_ROOM": "Prisijungti prie žaidimo",
+    "PROFILE_SCREEN": "Paskyra",
+    "SETTINGS_SCREEN": "Nustatymai",
+    "TRACKS_SCREEN": "Maršrutai"
+  },
   "authStack": {
     "email": "El. paštas",
     "username": "Slapyvardis",

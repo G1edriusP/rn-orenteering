@@ -1,4 +1,11 @@
 {
+  "navigation": {
+    "REGISTER_SCREEN": "Registration",
+    "WAITING_ROOM": "Join game",
+    "PROFILE_SCREEN": "Profile",
+    "SETTINGS_SCREEN": "Settings",
+    "TRACKS_SCREEN": "Routes"
+  },
   "authStack": {
     "email": "Email",
     "username": "Username",

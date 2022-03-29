@@ -1,5 +1,5 @@
 import colors from "constants/colors";
-import { fontMedium } from "constants/fonts";
+import { fontBold, fontMedium, fontRegular } from "constants/fonts";
 import { fontSizes, padding } from "constants/spacing";
 import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 
@@ -7,7 +7,9 @@ interface Styles {
   wrap: ViewStyle;
   button: ViewStyle;
   row: ViewStyle;
+  title: TextStyle;
   text: TextStyle;
+  titleWrap: ViewStyle;
 }
 
 export default StyleSheet.create<Styles>({
@@ -21,6 +23,7 @@ export default StyleSheet.create<Styles>({
     shadowRadius: 2.62,
     elevation: 6,
     backgroundColor: colors.WHITE,
+    paddingVertical: padding.SMALL / 4,
   },
   button: {
     height: 48,
@@ -34,9 +37,21 @@ export default StyleSheet.create<Styles>({
     justifyContent: "space-between",
     paddingHorizontal: padding.MEDIUM,
   },
-  text: {
+  title: {
     fontFamily: fontMedium,
+    fontSize: fontSizes.MIDI,
+    color: colors.BLACK,
+  },
+  text: {
+    fontFamily: fontRegular,
     fontSize: fontSizes.SMALL,
     color: colors.BLACK,
+  },
+  titleWrap: {
+    position: "absolute",
+    right: 0,
+    left: 0,
+    alignItems: "center",
+    zIndex: -5,
   },
 });

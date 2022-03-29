@@ -17,17 +17,9 @@ import { onSignOutPress } from "utils/firebase/auth";
 
 const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
   const { t } = useTranslation();
+  const isProfileScreen = route.name === Routes.PROFILE_SCREEN;
 
   const goBack = () => navigation.goBack();
-
-  // const resetNavigation = useCallbackOne(
-  //   (): CommonActions.Action =>
-  //     CommonActions.reset({
-  //       index: 0,
-  //       routes: [{ name: NAV.LOGIN }],
-  //     }),
-  //   [],
-  // );
 
   return (
     <SafeAreaView style={styles.wrap} edges={["top"]}>
@@ -35,7 +27,12 @@ const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
         <TouchableOpacity style={styles.button} onPress={goBack}>
           <BackIcon size={24} />
         </TouchableOpacity>
-        {route.name === Routes.PROFILE_SCREEN ? (
+        <View style={styles.titleWrap}>
+          <Text style={[styles.title, !isProfileScreen && {}]}>
+            {t(`navigation:${route.name}`)}
+          </Text>
+        </View>
+        {isProfileScreen ? (
           <TouchableOpacity onPress={onSignOutPress}>
             <Text style={styles.text}>{t("profileScreen:logout")}</Text>
           </TouchableOpacity>
