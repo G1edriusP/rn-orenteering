@@ -36,14 +36,6 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
     return i18n.changeLanguage(code);
   };
 
-  const onLoginCallback = async ({ user }: FirebaseAuthTypes.UserCredential): Promise<void> => {
-    setIsLoading(true);
-    const token = await user.getIdToken();
-    await setValue(token, LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
-    navigation.dispatch(resetNavigation(Stacks.HOME));
-    setIsLoading(false);
-  };
-
   const onInputChange = (id: string, text: string): void => {
     dispatch({ type: id, value: text });
   };
@@ -83,7 +75,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
           />
           <Button
             title={t("common:login")}
-            onPress={() => onLoginPress(data, user => onLoginCallback(user))}
+            onPress={() => onLoginPress(data)}
             style={styles.smallBottomSpacer}
           />
           <TextButton

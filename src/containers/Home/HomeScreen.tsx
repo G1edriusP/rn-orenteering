@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 
 // Styles
 import styles from "styles/containers/Home/HomeScreen";
@@ -11,12 +11,9 @@ import { GameTrackIcon, ProfileIcon, SettingsIcon, TracksIcon } from "assets/svg
 
 // Utils
 import { onSignOutPress } from "utils/firebase/auth";
-import { resetNavigation } from "utils/navigation/navigation";
 
 // Constants
 import { Routes } from "constants/navigation/routes";
-import { removeValue } from "utils/storage";
-import { LOCAL_STORAGE_KEYS } from "constants/values";
 
 // Types
 import { CardsDataType } from "constants/types/components";
@@ -49,18 +46,13 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
     <HomeCard title={item.title} onPress={item.onPress} Icon={item.icon} />
   );
 
-  const onSignOutCallback = async () => {
-    navigation.dispatch(resetNavigation(Routes.LOGIN_SCREEN));
-    await removeValue(LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
-  };
-
   const onFabPress = () => navigation.navigate(Routes.TRACK_INFO, { type: "CREATE" });
 
   return (
     <SafeAreaView style={styles.wrap}>
       <Button
         title={"Sign out"}
-        onPress={() => onSignOutPress(onSignOutCallback)}
+        onPress={onSignOutPress}
         style={{ backgroundColor: colors.KHAKI, marginBottom: 16, marginHorizontal: 12 }}
       />
       <FlatList

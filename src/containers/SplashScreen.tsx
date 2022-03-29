@@ -5,16 +5,23 @@ import styles from "styles/containers/SplashScreen";
 
 // Components
 import { View, Text } from "react-native";
+import Splash from "react-native-splash-screen";
 
 // Types
 import { SplashScreenProps } from "constants/navigation/types";
 
 // Constants
-import { checkIfLoggedIn } from "utils/firebase/auth";
+import { firebase } from "@react-native-firebase/auth";
+import { resetNavigation } from "utils/navigation/navigation";
+import { Routes, Stacks } from "constants/navigation/routes";
 
 const SplashScreen = ({ navigation: { dispatch } }: SplashScreenProps) => {
   useLayoutEffect(() => {
-    checkIfLoggedIn(dispatch);
+    firebase.auth().onIdTokenChanged(user => {
+      if (user) dispatch(resetNavigation(Stacks.HOME));
+      else dispatch(resetNavigation(Routes.LOGIN_SCREEN));
+      Splash.hide();
+    });
   }, []);
 
   return (

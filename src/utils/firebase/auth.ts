@@ -7,11 +7,6 @@ import jwtDecode from "jwt-decode";
 import { EmailAuthData, EmailAuthDataAction } from "constants/types/types";
 import { FirebaseToken } from "constants/types/auth";
 
-// Utils
-import { resetNavigation } from "utils/navigation/navigation";
-import { getValue } from "utils/storage";
-import { Routes, Stacks } from "constants/navigation/routes";
-
 export const emailAuthReducer = (
   state: EmailAuthData,
   action: EmailAuthDataAction,
@@ -19,13 +14,9 @@ export const emailAuthReducer = (
   return { ...state, [action.type]: action.value };
 };
 
-export const onLoginPress = (
-  data: EmailAuthData,
-  onSuccess: (user: FirebaseAuthTypes.UserCredential) => void,
-): void => {
+export const onLoginPress = (data: EmailAuthData): void => {
   auth()
     .signInWithEmailAndPassword(data.email, data.password)
-    .then(onSuccess) // User has been successfully logged in
     .catch((error: FirebaseAuthTypes.NativeFirebaseAuthError) => {
       console.log(error.code);
     });
@@ -47,10 +38,9 @@ export const onRegisterPress = (
   }
 };
 
-export const onSignOutPress = (onSuccess: () => void): void => {
+export const onSignOutPress = (): void => {
   auth()
     .signOut()
-    .then(onSuccess)
     .catch((error: FirebaseAuthTypes.NativeFirebaseAuthError) => {
       console.log(error.code);
     });
@@ -67,14 +57,4 @@ export const isTokenExpired = (token: string): boolean => {
     console.error(e);
     return true;
   }
-};
-
-export const checkIfLoggedIn = async (dispatch: any): Promise<void> => {
-  const accessToken = await getValue("accessToken").catch(e => console.log(e));
-  if (accessToken && !isTokenExpired(accessToken)) {
-    dispatch(resetNavigation(Stacks.HOME));
-  } else {
-    dispatch(resetNavigation(Routes.LOGIN_SCREEN));
-  }
-  SplashScreen.hide();
 };

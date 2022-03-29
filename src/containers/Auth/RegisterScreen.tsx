@@ -33,10 +33,6 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
     // Save user data in firebase
     const userData = { uid: user.uid, username: data.username, email: data.email };
     firestore().collection("users").doc(user.uid).set(userData);
-    // Handle user auth token
-    const token = await user.getIdToken();
-    await setValue(token, LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
-    navigation.dispatch(resetNavigation(Stacks.HOME));
     setIsLoading(false);
   };
 
