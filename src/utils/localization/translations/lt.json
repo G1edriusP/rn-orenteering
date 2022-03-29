@@ -41,5 +41,8 @@
   },
   "profileScreen": {
     "logout": "Atsijungti"
+  },
+  "settingsScreen": {
+    "language": "Kalba"
   }
 }

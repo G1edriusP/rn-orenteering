@@ -5,18 +5,18 @@ import styles from "styles/components/IconButton";
 
 // Components
 import { TouchableOpacity, ViewStyle } from "react-native";
-import colors from "constants/colors";
 
 type Props = {
   selected: boolean;
   onPress: () => void;
   Icon: React.FC<{ size: number; selected: boolean }>;
   size: number;
+  style?: ViewStyle;
 };
 
-const IconButton: React.FC<Props> = ({ selected, onPress, Icon, size }) => {
+const IconButton: React.FC<Props> = ({ selected, onPress, Icon, size, style }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.wrap}>
+    <TouchableOpacity onPress={onPress} style={[styles.wrap, style]}>
       <Icon size={size} selected={selected} />
     </TouchableOpacity>
   );

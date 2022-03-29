@@ -41,5 +41,8 @@
   },
   "profileScreen": {
     "logout": "Log out"
+  },
+  "settingsScreen": {
+    "language": "Language"
   }
 }

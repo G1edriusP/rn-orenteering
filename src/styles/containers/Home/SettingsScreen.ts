@@ -1,12 +1,15 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 
 // Constants
 import colors from "constants/colors";
-import { padding } from "constants/spacing";
+import { fontSizes, padding } from "constants/spacing";
+import { fontMedium } from "constants/fonts";
 
 type Props = {
   wrap: ViewStyle;
-  listColumn: ViewStyle;
+  block: ViewStyle;
+  languages: ViewStyle;
+  subtitle: TextStyle;
 };
 
 export default StyleSheet.create<Props>({
@@ -15,9 +18,16 @@ export default StyleSheet.create<Props>({
     padding: padding.MEDIUM,
     backgroundColor: colors.WHITE,
   },
-  listColumn: {
-    justifyContent: "space-evenly",
-
-    paddingBottom: padding.SMALL * 1.5,
+  block: {
+    marginBottom: padding.LARGE,
+  },
+  languages: {
+    flexDirection: "row",
+  },
+  subtitle: {
+    fontFamily: fontMedium,
+    fontSize: fontSizes.MEDIUM,
+    color: colors.BLACK,
+    marginBottom: padding.SMALL,
   },
 });

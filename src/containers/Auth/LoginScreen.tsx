@@ -21,6 +21,7 @@ import { defaultEmailLoginData, IDS } from "constants/values";
 import colors from "constants/colors";
 import { PlusIcon } from "assets/svg";
 import { LANGUAGES } from "constants/languages";
+import { padding } from "constants/spacing";
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
@@ -50,6 +51,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
               Icon={lang.Icon}
               size={24}
               selected={lang.code === selectedLanguageCode}
+              style={{ marginLeft: padding.SMALL }}
             />
           ))}
         </View>
