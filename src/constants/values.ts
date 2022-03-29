@@ -3,11 +3,13 @@ import { EmailAuthData, ItemProps, LocalStorageKeys, TrackData } from "./types/t
 
 export const defaultEmailLoginData: EmailAuthData = {
   email: "",
+  username: "",
   password: "",
 };
 
 export const defaultEmailRegisterData: EmailAuthData = {
   email: "",
+  username: "",
   password: "",
   repeatedPassword: "",
 };
@@ -34,6 +36,7 @@ export const defaultMarkerData: MarkerType = {
 export const IDS = {
   RESET: "RESET",
   EMAIL: "email",
+  USERNAME: "username",
   PASSWORD: "password",
   REPEATED_PASSWORD: "repeatedPassword",
   TRACK_TITLE: "title",

@@ -22,6 +22,7 @@ import { defaultEmailRegisterData, IDS, LOCAL_STORAGE_KEYS } from "constants/val
 import { ScrollView, StatusBar, View } from "react-native";
 import { PlusIcon } from "assets/svg";
 import colors from "constants/colors";
+import firestore from "@react-native-firebase/firestore";
 
 const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const [isLoading, setIsLoading] = useState<Boolean>(false);
@@ -29,6 +30,10 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
 
   const onRegisterCallback = async ({ user }: FirebaseAuthTypes.UserCredential): Promise<void> => {
     setIsLoading(true);
+    // Save user data in firebase
+    const userData = { uid: user.uid, username: data.username, email: data.email };
+    firestore().collection("users").doc(user.uid).set(userData);
+    // Handle user auth token
     const token = await user.getIdToken();
     await setValue(token, LOCAL_STORAGE_KEYS.ACCESS_TOKEN);
     navigation.dispatch(resetNavigation(Stacks.HOME));
@@ -53,6 +58,15 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             placeholder={"El. paštas"}
             onChangeText={onInputChange}
             keyboardType='email-address'
+            autoCapitalize='none'
+            style={styles.smallBottomSpacer}
+          />
+          <TextInput
+            id={IDS.USERNAME}
+            editable={!isLoading}
+            value={data.username}
+            placeholder={"Slapyvardis"}
+            onChangeText={onInputChange}
             autoCapitalize='none'
             style={styles.smallBottomSpacer}
           />

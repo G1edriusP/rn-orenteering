@@ -3,6 +3,7 @@ import { MarkerType } from "./firestore";
 
 export type EmailAuthData = {
   email: string;
+  username: string;
   password: string;
   repeatedPassword?: string;
 };
