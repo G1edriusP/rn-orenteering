@@ -41,8 +41,16 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
       onPress: () => navigation.navigate(Routes.WAITING_ROOM),
       icon: GameTrackIcon,
     },
-    { title: t("homeTabs:profile"), onPress: () => console.log("Profile"), icon: ProfileIcon },
-    { title: t("homeTabs:settings"), onPress: () => console.log("Settings"), icon: SettingsIcon },
+    {
+      title: t("homeTabs:profile"),
+      onPress: () => navigation.navigate(Routes.PROFILE_SCREEN),
+      icon: ProfileIcon,
+    },
+    {
+      title: t("homeTabs:settings"),
+      onPress: () => navigation.navigate(Routes.SETTINGS_SCREEN),
+      icon: SettingsIcon,
+    },
     { title: "", onPress: () => {}, icon: undefined },
   ];
 

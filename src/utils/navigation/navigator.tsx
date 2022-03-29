@@ -32,6 +32,8 @@ import TracksmapScreen from "containers/Home/TracksMap";
 import TrackCognitiveScreen from "containers/Home/TrackCognitiveScreen";
 import TrackIndicativeScreen from "containers/Home/TrackIndicativeScreen";
 import WaitingRoomScreen from "containers/Home/WaitingRoomScreen";
+import ProfileScreen from "containers/Home/ProfileScreen";
+import SettingsScreen from "containers/Home/SettingsScreen";
 
 const Root = createStackNavigator<RootStackParams>();
 const Home = createStackNavigator<HomeStackParams>();
@@ -70,6 +72,12 @@ const HomeStack = () => {
       <Home.Screen
         name={Routes.WAITING_ROOM}
         component={WaitingRoomScreen}
+        options={customHeader}
+      />
+      <Home.Screen name={Routes.PROFILE_SCREEN} component={ProfileScreen} options={customHeader} />
+      <Home.Screen
+        name={Routes.SETTINGS_SCREEN}
+        component={SettingsScreen}
         options={customHeader}
       />
     </Home.Navigator>

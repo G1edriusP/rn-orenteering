@@ -19,6 +19,8 @@ export type HomeStackParams = {
   [Routes.TRACK_SCREEN_COGNITIVE]: { track: TrackData };
   [Routes.TRACK_SCREEN_INDICATIVE]: { track: TrackData };
   [Routes.WAITING_ROOM]: { trackID: string | undefined };
+  [Routes.PROFILE_SCREEN]: undefined;
+  [Routes.SETTINGS_SCREEN]: undefined;
 };
 
 // Screen props
@@ -38,3 +40,5 @@ export type TrackMapIndicativeScreenProps = StackScreenProps<
   Routes.TRACK_SCREEN_INDICATIVE
 >;
 export type WaitingRoomScreenProps = StackScreenProps<HomeStackParams, Routes.WAITING_ROOM>;
+export type ProfileScreenProps = StackScreenProps<HomeStackParams, Routes.PROFILE_SCREEN>;
+export type SettingsScreenProps = StackScreenProps<HomeStackParams, Routes.SETTINGS_SCREEN>;
