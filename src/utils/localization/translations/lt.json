@@ -38,5 +38,8 @@
   "waitingRoom": {
     "roomCode": "Kambario kodas",
     "join": "Prisijungti"
+  },
+  "profileScreen": {
+    "logout": "Atsijungti"
   }
 }

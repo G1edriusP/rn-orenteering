@@ -5,24 +5,21 @@ import { useTranslation } from "react-i18next";
 import styles from "styles/containers/Auth/LoginScreen";
 
 // Components
-import { ScrollView, Text, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, Button, TextButton, IconButton } from "components";
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
 // Utils
 import { emailAuthReducer, onLoginPress } from "utils/firebase/auth";
-import { resetNavigation } from "utils/navigation/navigation";
-import { setValue } from "utils/storage";
 
 // Types
 import { LoginScreenProps } from "constants/navigation/types";
 
 // Constants
 import { Routes, Stacks } from "constants/navigation/routes";
-import { defaultEmailLoginData, IDS, LOCAL_STORAGE_KEYS } from "constants/values";
+import { defaultEmailLoginData, IDS } from "constants/values";
 import colors from "constants/colors";
-import { LithuaniaFlag, PlusIcon } from "assets/svg";
+import { PlusIcon } from "assets/svg";
 import { LANGUAGES } from "constants/languages";
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {

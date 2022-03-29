@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 
 // Styles
@@ -6,21 +6,19 @@ import styles from "styles/containers/Auth/RegisterScreen";
 
 // Components
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TextInput, Button, Header } from "components";
+import { TextInput, Button } from "components";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
 // Utils
 import { emailAuthReducer, onRegisterPress } from "utils/firebase/auth";
-import { resetNavigation } from "utils/navigation/navigation";
-import { setValue } from "utils/storage";
 
 // Types
 import { RegisterScreenProps } from "constants/navigation/types";
 
 // Constants
 import { Stacks } from "constants/navigation/routes";
-import { defaultEmailRegisterData, IDS, LOCAL_STORAGE_KEYS } from "constants/values";
-import { ScrollView, StatusBar, View } from "react-native";
+import { defaultEmailRegisterData, IDS } from "constants/values";
+import { ScrollView, View } from "react-native";
 import { PlusIcon } from "assets/svg";
 import colors from "constants/colors";
 import firestore from "@react-native-firebase/firestore";

@@ -38,5 +38,8 @@
   "waitingRoom": {
     "roomCode": "Room code",
     "join": "Join"
+  },
+  "profileScreen": {
+    "logout": "Log out"
   }
 }

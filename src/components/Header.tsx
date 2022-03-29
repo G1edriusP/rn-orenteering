@@ -4,14 +4,19 @@ import React, { memo } from "react";
 import styles from "styles/components/Header";
 
 // Components
-import { View, TouchableOpacity } from "react-native";
+import { View, TouchableOpacity, Text } from "react-native";
 import { BackIcon } from "assets/svg";
 
 // Types
 import { StackHeaderProps } from "@react-navigation/stack";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Routes } from "constants/navigation/routes";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
-const Header: React.FC<StackHeaderProps> = ({ navigation }) => {
+const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
+  const { t } = useTranslation();
+
   const goBack = () => navigation.goBack();
 
   // const resetNavigation = useCallbackOne(
@@ -29,6 +34,11 @@ const Header: React.FC<StackHeaderProps> = ({ navigation }) => {
         <TouchableOpacity style={styles.button} onPress={goBack}>
           <BackIcon size={24} />
         </TouchableOpacity>
+        {route.name === Routes.PROFILE_SCREEN ? (
+          <TouchableOpacity>
+            <Text>{t("profileScreen:logout")}</Text>
+          </TouchableOpacity>
+        ) : null}
       </View>
     </SafeAreaView>
   );

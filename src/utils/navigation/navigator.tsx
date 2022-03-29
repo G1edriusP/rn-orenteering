@@ -94,7 +94,11 @@ const RootStack = () => {
         component={RegisterScreen}
         options={customHeader}
       />
-      <Root.Screen name={Stacks.HOME} component={HomeStack} options={noHeader} />
+      <Root.Screen
+        name={Stacks.HOME}
+        component={HomeStack}
+        options={{ ...noHeader, cardStyleInterpolator }}
+      />
     </Root.Navigator>
   );
 };

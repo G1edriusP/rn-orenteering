@@ -62,11 +62,6 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
 
   return (
     <SafeAreaView style={styles.wrap}>
-      {/* <Button
-        title={"Sign out"}
-        onPress={onSignOutPress}
-        style={{ backgroundColor: colors.KHAKI, marginBottom: 16, marginHorizontal: 12 }}
-      /> */}
       <FlatList
         data={cardsData}
         keyExtractor={(item: CardsDataType) => item.title}

@@ -24,10 +24,12 @@ export default StyleSheet.create<Styles>({
     height: 48,
     alignItems: "flex-start",
     justifyContent: "center",
-    paddingHorizontal: padding.MEDIUM,
     backgroundColor: colors.WHITE,
   },
   row: {
     flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: padding.MEDIUM,
   },
 });
