@@ -3,16 +3,15 @@ import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
 // Constants
 import colors from "constants/colors";
 import { fontSizes, padding } from "constants/spacing";
-import { fontRegular } from "constants/fonts";
 
 type Props = {
-  text: TextStyle;
+  wrap: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
-  text: {
-    fontFamily: fontRegular,
-    fontSize: fontSizes.EXTRA_SMALL + 2,
-    textDecorationLine: "underline",
+  wrap: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginLeft: padding.SMALL,
   },
 });

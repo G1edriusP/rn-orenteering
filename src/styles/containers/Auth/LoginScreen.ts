@@ -12,6 +12,7 @@ type Props = {
   icon: ViewStyle;
   scroll: ViewStyle;
   content: ViewStyle;
+  languages: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
@@ -36,5 +37,10 @@ export default StyleSheet.create<Props>({
   },
   content: {
     flex: 0.7,
+  },
+  languages: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
 });

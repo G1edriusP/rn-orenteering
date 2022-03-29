@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 // Styles
 import styles from "styles/containers/Home/WaitingRoom";
@@ -19,6 +20,7 @@ import colors from "constants/colors";
 import { padding } from "constants/spacing";
 
 const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenProps) => {
+  const { t } = useTranslation();
   const { trackID } = params || {};
   const isCreator = !!trackID;
   const currUser = firebase.auth().currentUser;
@@ -73,10 +75,13 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
           id={"roomID"}
           value={roomData.roomID}
           onChangeText={onRoomIdInput}
-          placeholder={"Kambario kodas"}
+          placeholder={t("waitingRoom:roomCode")}
           autoCapitalize='characters'
         />
-        <Button title={"Prisijungti"} onPress={() => onRoomDataSingleFetch(roomData.roomID)} />
+        <Button
+          title={t("waitingRoom:join")}
+          onPress={() => onRoomDataSingleFetch(roomData.roomID)}
+        />
         <Text>{roomData.roomID}</Text>
       </View>
     );

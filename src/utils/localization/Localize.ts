@@ -1,22 +1,19 @@
-import i18n from "i18next";
+import i18n, { LanguageDetectorAsyncModule } from "i18next";
 import { initReactI18next } from "react-i18next";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as RNLocalize from "react-native-localize";
 
-import lt from "./translations/lt";
-import en from "./translations/en";
+import lt from "./translations/lt.json";
+import en from "./translations/en.json";
+import { LANGUAGES } from "constants/languages";
 
-const LANGUAGES = { lt, en };
+const LANG_CODES = Object.keys(LANGUAGES.map(lang => lang.code));
 
-const LANG_CODES = Object.keys(LANGUAGES);
-
-const LANGUAGE_DETECTOR = {
+const LANGUAGE_DETECTOR: LanguageDetectorAsyncModule = {
   type: "languageDetector",
   async: true,
   detect: (callback: any) => {
     AsyncStorage.getItem("user-language", (err, language) => {
-      // if error fetching stored data or no language was stored
-      // display errors when in DEV mode as console statements
       if (err || !language) {
         if (err) {
           console.log("Error fetching Languages from asyncstorage ", err);
@@ -38,13 +35,17 @@ const LANGUAGE_DETECTOR = {
   },
 };
 
+const resources = {
+  en,
+  lt,
+} as const;
+
 i18n
-  //@ts-ignore
   .use(LANGUAGE_DETECTOR)
   .use(initReactI18next)
   .init({
     compatibilityJSON: "v3",
-    resources: LANGUAGES,
+    resources: resources,
     react: { useSuspense: false },
     interpolation: { escapeValue: false },
   });

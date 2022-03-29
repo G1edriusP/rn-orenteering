@@ -19,26 +19,30 @@ import { Routes } from "constants/navigation/routes";
 import { CardsDataType } from "constants/types/components";
 import { HomeScreenProps } from "constants/navigation/types";
 import colors from "constants/colors";
+import { useTranslation } from "react-i18next";
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
+  const { t } = useTranslation();
+
   const cardsData: CardsDataType[] = [
     {
-      title: "Mano maršrutai",
+      title: t("homeTabs:myRoutes"),
       onPress: () => navigation.navigate(Routes.TRACKS_MAP_SCREEN, { infoType: "MY_TRACKS" }),
       icon: TracksIcon,
     },
     {
-      title: "Visi maršrutai",
+      title: t("homeTabs:allRoutes"),
       onPress: () => navigation.navigate(Routes.TRACKS_MAP_SCREEN, { infoType: "OTHER_TRACKS" }),
       icon: TracksIcon,
     },
     {
-      title: "Prisijungti prie maršruto",
+      title: t("homeTabs:joinRoute"),
+      //@ts-ignore
       onPress: () => navigation.navigate(Routes.WAITING_ROOM),
       icon: GameTrackIcon,
     },
-    { title: "Paskyra", onPress: () => console.log("Profile"), icon: ProfileIcon },
-    { title: "Nustatymai", onPress: () => console.log("Settings"), icon: SettingsIcon },
+    { title: t("homeTabs:profile"), onPress: () => console.log("Profile"), icon: ProfileIcon },
+    { title: t("homeTabs:settings"), onPress: () => console.log("Settings"), icon: SettingsIcon },
     { title: "", onPress: () => {}, icon: undefined },
   ];
 
@@ -50,11 +54,11 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
 
   return (
     <SafeAreaView style={styles.wrap}>
-      <Button
+      {/* <Button
         title={"Sign out"}
         onPress={onSignOutPress}
         style={{ backgroundColor: colors.KHAKI, marginBottom: 16, marginHorizontal: 12 }}
-      />
+      /> */}
       <FlatList
         data={cardsData}
         keyExtractor={(item: CardsDataType) => item.title}

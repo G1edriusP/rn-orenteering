@@ -32,9 +32,12 @@ import { markerReducer, saveTrack, tracksReducer } from "utils/firebase/track";
 import { padding } from "constants/spacing";
 import { firebase } from "@react-native-firebase/auth";
 import { createUID } from "utils/other";
+import { useTranslation } from "react-i18next";
 
 const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
   const { type } = params;
+
+  const { t } = useTranslation();
 
   // Refs
   const bottomSheetRef = useRef<BottomSheet>(null);
@@ -114,19 +117,21 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
 
   return (
     <SafeAreaView style={styles.wrap} edges={["bottom", "left", "right"]}>
-      <Text style={[styles.title, { marginBottom: padding.MIDI }]}>Bendra informacija</Text>
+      <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
+        {t("createTrack:commonInfo")}
+      </Text>
       <TextInput
         id={IDS.TRACK_TITLE}
         editable={!isLoading}
         value={trackData.title}
-        placeholder={"Pavadinimas"}
+        placeholder={t("createTrack:name")}
         onChangeText={onTrackInputChange}
         keyboardType='default'
         style={styles.smallBottomSpacer}
       />
       <Dropdown
         items={defaultTrackTypes}
-        title={"Tipas"}
+        title={t("createTrack:type")}
         selected={trackData.type}
         onChange={value => onTrackInputChange(IDS.TRACK_TYPE, value)}
         style={styles.dropdown}
@@ -135,7 +140,7 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
         id={IDS.TRACK_DESCRIPTION}
         editable={!isLoading}
         value={trackData.description}
-        placeholder={"Aprašymas"}
+        placeholder={t("createTrack:description")}
         onChangeText={onTrackInputChange}
         keyboardType='default'
         multiline
@@ -143,7 +148,7 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
       />
 
       <View style={styles.addMarkerWrap}>
-        <Text style={styles.title}>Maršruto taškai</Text>
+        <Text style={styles.title}>{t("createTrack:routePoints")}</Text>
         <TouchableOpacity style={styles.addMarker} onPress={bottomSheetOpen}>
           <PlusIcon size={24} color={colors.WHITE} />
         </TouchableOpacity>
@@ -166,7 +171,7 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
       />
 
       <Button
-        title={"Sukurti"}
+        title={t("createTrack:create")}
         onPress={() =>
           saveTrack(
             { ...trackData, uid: firebase.auth().currentUser?.uid, id: createUID() },
@@ -185,14 +190,14 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
         <BottomSheetScrollView style={styles.wrap} contentContainerStyle={styles.sheetScrollWrap}>
           <BottomSheetView>
             <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
-              Maršruto taško informacija
+              {t("createTrack:routePointInfo")}
             </Text>
 
             <TextInput
               id={IDS.MARKER_TITLE}
               editable={!isLoading}
               value={markerData.title}
-              placeholder={"Pavadinimas"}
+              placeholder={t("createTrack:name")}
               onChangeText={onMarkerInputChange}
               keyboardType='default'
               style={styles.smallBottomSpacer}
@@ -201,14 +206,16 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
               id={IDS.MARKER_DESCRIPTION}
               editable={!isLoading}
               value={markerData.description}
-              placeholder={"Aprašymas"}
+              placeholder={t("createTrack:description")}
               onChangeText={onMarkerInputChange}
               keyboardType='default'
               multiline
               style={[styles.mediumBottomSpacer, styles.multilineInput] as TextStyle}
             />
 
-            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>Maršruto taško vieta</Text>
+            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
+              {t("createTrack:routePointLocation")}
+            </Text>
 
             <BottomSheetView style={styles.locationWrap}>
               <View style={styles.locationInput}>
@@ -216,7 +223,7 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
                   id={IDS.MARKER_LATITUDE}
                   editable={!isLoading}
                   value={!!markerData.location.latitude ? String(markerData.location.latitude) : ""}
-                  placeholder={"Platuma"}
+                  placeholder={t("createTrack:latitude")}
                   onChangeText={onMarkerLocationManualChange}
                   onSubmitEditing={onMarkerLocationManualChangeSubmit}
                   keyboardType='decimal-pad'
@@ -229,7 +236,7 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
                   value={
                     !!markerData.location.longitude ? String(markerData.location.longitude) : ""
                   }
-                  placeholder={"Ilguma"}
+                  placeholder={t("createTrack:longitude")}
                   onChangeText={onMarkerLocationManualChange}
                   onSubmitEditing={onMarkerLocationManualChangeSubmit}
                   keyboardType='decimal-pad'
@@ -249,10 +256,14 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
               <View style={styles.markerFixed} pointerEvents='none'>
                 <MarkerIcon size={36} />
               </View>
-              <Text style={styles.subtitle}>* Nuveskite žymeklį į norimą vietą</Text>
+              <Text style={styles.subtitle}>{t("createTrack:moveCursor")}</Text>
             </BottomSheetView>
           </BottomSheetView>
-          <Button title={"Išsaugoti"} onPress={onNewMarkerSavePress} style={{ marginTop: 12 }} />
+          <Button
+            title={t("createTrack:save")}
+            onPress={onNewMarkerSavePress}
+            style={{ marginTop: 12 }}
+          />
         </BottomSheetScrollView>
       </BottomSheet>
     </SafeAreaView>

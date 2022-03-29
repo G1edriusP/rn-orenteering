@@ -7,7 +7,7 @@ import styles from "styles/containers/Auth/LoginScreen";
 // Components
 import { ScrollView, Text, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { TextInput, Button, TextButton } from "components";
+import { TextInput, Button, TextButton, IconButton } from "components";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 
 // Utils
@@ -22,7 +22,7 @@ import { LoginScreenProps } from "constants/navigation/types";
 import { Routes, Stacks } from "constants/navigation/routes";
 import { defaultEmailLoginData, IDS, LOCAL_STORAGE_KEYS } from "constants/values";
 import colors from "constants/colors";
-import { PlusIcon } from "assets/svg";
+import { LithuaniaFlag, PlusIcon } from "assets/svg";
 import { LANGUAGES } from "constants/languages";
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
@@ -45,10 +45,17 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
   return (
     <SafeAreaView style={styles.wrap} edges={["top"]}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={styles.scroll}>
-        {LANGUAGES.map(lang => (
-          <TextButton key={lang.code} text={lang.label} onPress={() => setLanguage(lang.code)} />
-        ))}
-        <Text>{selectedLanguageCode}</Text>
+        <View style={styles.languages}>
+          {LANGUAGES.map(lang => (
+            <IconButton
+              key={lang.code}
+              onPress={() => setLanguage(lang.code)}
+              Icon={lang.Icon}
+              size={24}
+              selected={lang.code === selectedLanguageCode}
+            />
+          ))}
+        </View>
         <View style={styles.icon}>
           <PlusIcon size={184} color={colors.ORANGE} />
         </View>
@@ -57,7 +64,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
             id={IDS.EMAIL}
             editable={!isLoading}
             value={data.email}
-            placeholder={t("common:email")}
+            placeholder={t("authStack:email")}
             onChangeText={onInputChange}
             keyboardType='email-address'
             autoCapitalize='none'
@@ -67,19 +74,19 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
             id={IDS.PASSWORD}
             editable={!isLoading}
             value={data.password}
-            placeholder={t("common:password")}
+            placeholder={t("authStack:password")}
             onChangeText={onInputChange}
             autoCapitalize='none'
             secureTextEntry
             style={styles.mediumBottomSpacer}
           />
           <Button
-            title={t("common:login")}
+            title={t("authStack:login")}
             onPress={() => onLoginPress(data)}
             style={styles.smallBottomSpacer}
           />
           <TextButton
-            text={t("common:noAccountRegister")}
+            text={t("authStack:noAccountRegister")}
             onPress={onRegisterButtonPress}
             color={colors.DARK_GREEN}
           />

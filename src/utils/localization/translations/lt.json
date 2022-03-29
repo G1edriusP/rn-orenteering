@@ -1,0 +1,42 @@
+{
+  "authStack": {
+    "email": "El. paštas",
+    "username": "Slapyvardis",
+    "password": "Slaptažodis",
+    "repeatPassword": "Pakartokite slaptažodį",
+    "login": "Prisijungti",
+    "register": "Registruotis",
+    "noAccountRegister": "Neturite paskyros? Užsiregistruokite!"
+  },
+  "homeTabs": {
+    "myRoutes": "Mano maršrutai",
+    "allRoutes": "Visi maršrutai",
+    "joinRoute": "Prisijungti prie maršruto",
+    "profile": "Paskyra",
+    "settings": "Nustatymai"
+  },
+  "createTrack": {
+    "commonInfo": "Bendra informacija",
+    "name": "Pavadinimas",
+    "type": "Tipas",
+    "cognitive": "Pažintinis",
+    "indicative": "Orientacinis",
+    "description": "Aprašymas",
+    "routePoints": "Maršruto taškai",
+    "routePointInfo": "Maršruto taško informacija",
+    "routePointLocation": "Maršruto taško vieta",
+    "latitude": "Platuma",
+    "longitude": "Ilguma",
+    "moveCursor": "* Nuveskite žymeklį į norimą vietą",
+    "save": "Išsaugoti",
+    "create": "Sukurti"
+  },
+  "tracks": {
+    "cognitive": "Pažintiniai",
+    "indicative": "Orientaciniai"
+  },
+  "waitingRoom": {
+    "roomCode": "Kambario kodas",
+    "join": "Prisijungti"
+  }
+}

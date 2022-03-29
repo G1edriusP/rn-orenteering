@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useReducer } from "react";
+import { useTranslation } from "react-i18next";
 
 // Styles
 import styles from "styles/containers/Auth/RegisterScreen";
@@ -25,6 +26,8 @@ import colors from "constants/colors";
 import firestore from "@react-native-firebase/firestore";
 
 const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
+  const { t } = useTranslation();
+
   const [isLoading, setIsLoading] = useState<Boolean>(false);
   const [data, dispatch] = useReducer(emailAuthReducer, defaultEmailRegisterData);
 
@@ -51,7 +54,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             id={IDS.EMAIL}
             editable={!isLoading}
             value={data.email}
-            placeholder={"El. paštas"}
+            placeholder={t("authStack:email")}
             onChangeText={onInputChange}
             keyboardType='email-address'
             autoCapitalize='none'
@@ -61,7 +64,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             id={IDS.USERNAME}
             editable={!isLoading}
             value={data.username}
-            placeholder={"Slapyvardis"}
+            placeholder={t("authStack:username")}
             onChangeText={onInputChange}
             autoCapitalize='none'
             style={styles.smallBottomSpacer}
@@ -70,7 +73,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             id={IDS.PASSWORD}
             editable={!isLoading}
             value={data.password}
-            placeholder={"Slaptažodis"}
+            placeholder={t("authStack:password")}
             onChangeText={onInputChange}
             autoCapitalize='none'
             secureTextEntry
@@ -80,14 +83,14 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             id={IDS.REPEATED_PASSWORD}
             editable={!isLoading}
             value={data.repeatedPassword || ""}
-            placeholder={"Pakartokite slaptažodį"}
+            placeholder={t("authStack:repeatPassword")}
             onChangeText={onInputChange}
             autoCapitalize='none'
             secureTextEntry
             style={styles.mediumBottomSpacer}
           />
           <Button
-            title={"Registruotis"}
+            title={t("authStack:register")}
             onPress={() => onRegisterPress(data, user => onRegisterCallback(user))}
             style={styles.mediumBottomSpacer}
           />

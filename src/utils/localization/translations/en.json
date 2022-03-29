@@ -1,0 +1,42 @@
+{
+  "authStack": {
+    "email": "Email",
+    "username": "Username",
+    "password": "Password",
+    "repeatPassword": "Repeat password",
+    "login": "Login",
+    "register": "Register",
+    "noAccountRegister": "Don't have an account? Register!"
+  },
+  "homeTabs": {
+    "myRoutes": "My routes",
+    "allRoutes": "All routes",
+    "joinRoute": "Join route",
+    "profile": "Profile",
+    "settings": "Settings"
+  },
+  "createTrack": {
+    "commonInfo": "Common information",
+    "name": "Name",
+    "type": "Type",
+    "cognitive": "Cognitive",
+    "indicative": "Indicative",
+    "description": "Description",
+    "routePoints": "Route points",
+    "routePointInfo": "Route point information",
+    "routePointLocation": "Route point location",
+    "latitude": "Latitude",
+    "longitude": "Longitude",
+    "moveCursor": "* Move the cursor to the desired location",
+    "save": "Save",
+    "create": "Create"
+  },
+  "tracks": {
+    "cognitive": "Cognitive",
+    "indicative": "Indicative"
+  },
+  "waitingRoom": {
+    "roomCode": "Room code",
+    "join": "Join"
+  }
+}

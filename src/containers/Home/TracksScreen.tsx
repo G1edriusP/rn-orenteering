@@ -18,6 +18,7 @@ import colors from "constants/colors";
 import { TracksScreenProps } from "constants/navigation/types";
 import { fontLight, fontMedium, fontRegular, fontSemiBold } from "constants/fonts";
 import { fontSizes, padding } from "constants/spacing";
+import { useTranslation } from "react-i18next";
 
 const TracksList = ({
   route,
@@ -80,18 +81,19 @@ const renderTabBar = (props: any) => (
 
 const TracksScreen = ({ route: { params } }: TracksScreenProps) => {
   const { tracks } = params;
+  const { t } = useTranslation();
 
   // Tabs info
   const [index, setIndex] = useState(0);
   const [routes] = useState<Route[]>([
     {
       key: "COGNITIVE",
-      title: "Pažintiniai",
+      title: t("tracks:cognitive"),
       tracks: tracks.filter(track => track.type === "COGNITIVE"),
     },
     {
       key: "INDICATIVE",
-      title: "Orientaciniai",
+      title: t("tracks:indicative"),
       tracks: tracks.filter(track => track.type === "INDICATIVE"),
     },
   ]);
