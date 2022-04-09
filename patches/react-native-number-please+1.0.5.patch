@@ -1,0 +1,49 @@
+diff --git a/node_modules/react-native-number-please/dist/index.js b/node_modules/react-native-number-please/dist/index.js
+index 1442d0c..3cf0d22 100644
+--- a/node_modules/react-native-number-please/dist/index.js
++++ b/node_modules/react-native-number-please/dist/index.js
+@@ -2,6 +2,7 @@
+ var __importDefault = (this && this.__importDefault) || function (mod) {
+     return (mod && mod.__esModule) ? mod : { "default": mod };
+ };
++
+ Object.defineProperty(exports, "__esModule", { value: true });
+ const NumberPlease_1 = __importDefault(require("./src/NumberPlease"));
+ exports.default = NumberPlease_1.default;
+diff --git a/node_modules/react-native-number-please/dist/src/NumberPlease.js b/node_modules/react-native-number-please/dist/src/NumberPlease.js
+index 84e4830..63e83d9 100644
+--- a/node_modules/react-native-number-please/dist/src/NumberPlease.js
++++ b/node_modules/react-native-number-please/dist/src/NumberPlease.js
+@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
+ Object.defineProperty(exports, "__esModule", { value: true });
+ const React = __importStar(require("react"));
+ const react_native_1 = require("react-native");
++const picker = require('@react-native-picker/picker');
+ const lodash_find_1 = __importDefault(require("lodash.find"));
+ const lodash_findindex_1 = __importDefault(require("lodash.findindex"));
+ const immer_1 = __importDefault(require("immer"));
+@@ -19,9 +20,9 @@ const range_1 = __importDefault(require("./utils/range"));
+ const PickerFactory = ({ pickerProps, selectedValue, onChange, pickerStyle, itemStyle, }) => {
+     const { id, label = '', min, max } = pickerProps;
+     const numbers = range_1.default(min, max);
+-    return (<react_native_1.Picker style={{ ...styles.picker, ...pickerStyle }} selectedValue={selectedValue} onValueChange={(value) => onChange({ id, value })} itemStyle={itemStyle}>
+-      {numbers.map((number, index) => (<react_native_1.Picker.Item key={`${id}-${number}-${index}`} value={number} label={`${number} ${label}`}/>))}
+-    </react_native_1.Picker>);
++    return (<picker.Picker style={{ ...styles.picker, ...pickerStyle }} selectedValue={selectedValue} onValueChange={(value) => onChange({ id, value })} itemStyle={itemStyle}>
++      {numbers.map((number, index) => (<picker.Picker.Item key={`${id}-${number}-${index}`} value={number} label={`${number} ${label}`}/>))}
++    </picker.Picker>);
+ };
+ const NumberPlease = ({ digits, values, onChange, ...rest }) => {
+     const onChangeHandle = (value) => {
+diff --git a/node_modules/react-native-number-please/src/NumberPlease.tsx b/node_modules/react-native-number-please/src/NumberPlease.tsx
+index b860179..86a7b33 100644
+--- a/node_modules/react-native-number-please/src/NumberPlease.tsx
++++ b/node_modules/react-native-number-please/src/NumberPlease.tsx
+@@ -1,5 +1,6 @@
+ import * as React from 'react';
+-import { View, StyleSheet, Picker } from 'react-native';
++import { View, StyleSheet } from 'react-native';
++import {Picker} from '@react-native-picker/picker';
+ import find from 'lodash.find';
+ import findIndex from 'lodash.findindex';
+ import produce from 'immer';

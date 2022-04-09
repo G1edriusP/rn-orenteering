@@ -9,14 +9,16 @@ import { View, Text, FlatList } from "react-native";
 import { TextInput, Button } from "components";
 import firestore from "@react-native-firebase/firestore";
 import { firebase } from "@react-native-firebase/auth";
+import NumbersPlease from "react-native-number-please";
 
 // Constants
 import { WaitingRoomScreenProps } from "constants/navigation/types";
+import { TrackData } from "constants/types/types";
+import { emptyTrackRoom, IndicativeTrackRoom, TrackPlayer } from "constants/types/track";
+import { IDigits, IValue } from "react-native-number-please/dist/src/NumberPlease.interface";
 
 // Utils
 import { createUID } from "utils/other";
-import { emptyTrackRoom, IndicativeTrackRoom, TrackPlayer } from "constants/types/track";
-import { TrackData } from "constants/types/types";
 import { formatSToMsString } from "utils/time";
 
 const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenProps) => {
@@ -28,6 +30,17 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
   const [initial, setInitial] = useState<boolean>(true);
   const [roomData, setRoomData] = useState<IndicativeTrackRoom>(emptyTrackRoom);
   const [trackData, setTrackData] = useState<TrackData>({} as TrackData);
+
+  const [time, setTime] = useState<IValue[]>([
+    // @ts-ignore
+    { id: "hours", value: 1 },
+    // @ts-ignore
+    { id: "minutes", value: 0 },
+  ]);
+  const timeNumbers: IDigits[] = [
+    { id: "hours", min: 0, max: 24 },
+    { id: "hours", min: 0, max: 59 },
+  ];
 
   const onRoomIdInput = (id: string, text: string) =>
     setRoomData(old => ({ ...old, [id]: text.toUpperCase() }));
@@ -134,6 +147,7 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
           )}
         />
       </View>
+      <NumbersPlease digits={timeNumbers} values={time} onChange={values => setTime(values)} />
     </View>
   );
 };
