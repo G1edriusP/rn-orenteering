@@ -16,8 +16,8 @@ import { WaitingRoomScreenProps } from "constants/navigation/types";
 // Utils
 import { createUID } from "utils/other";
 import { emptyTrackRoom, IndicativeTrackRoom, TrackPlayer } from "constants/types/track";
-import colors from "constants/colors";
-import { padding } from "constants/spacing";
+import { TrackData } from "constants/types/types";
+import { formatSToMsString } from "utils/time";
 
 const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenProps) => {
   const { t } = useTranslation();
@@ -27,6 +27,7 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
 
   const [initial, setInitial] = useState<boolean>(true);
   const [roomData, setRoomData] = useState<IndicativeTrackRoom>(emptyTrackRoom);
+  const [trackData, setTrackData] = useState<TrackData>({} as TrackData);
 
   const onRoomIdInput = (id: string, text: string) =>
     setRoomData(old => ({ ...old, [id]: text.toUpperCase() }));
@@ -68,6 +69,18 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
     return () => sub();
   }, [roomData.roomID, initial]);
 
+  useEffect(() => {
+    if (!!roomData.trackID.length) {
+      firestore()
+        .collection("tracks")
+        .where("id", "==", roomData.trackID)
+        .get()
+        .then(response => {
+          setTrackData(response.docs[0].data() as TrackData);
+        });
+    }
+  }, [roomData.trackID]);
+
   if (!isCreator && initial) {
     return (
       <View style={styles.guestWrap}>
@@ -91,25 +104,36 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
 
   return (
     <View style={styles.wrap}>
-      <Text>{roomData.trackID}</Text>
-      <Text>{roomData.roomID}</Text>
-      <FlatList
-        data={roomData.players}
-        numColumns={2}
-        showsVerticalScrollIndicator={false}
-        renderItem={({ item }) => (
-          <View
-            style={{
-              backgroundColor: colors.KHAKI,
-              padding: padding.SMALL,
-              margin: padding.SMALL,
-              borderRadius: padding.SMALL,
-              alignItems: "center",
-            }}>
-            <Text>{item.name}</Text>
-          </View>
-        )}
-      />
+      <View style={styles.topView}>
+        <Text style={styles.title} numberOfLines={2}>
+          {trackData.title}
+        </Text>
+        <Text style={styles.subtitle}>
+          {t("waitingRoom:roomID")}: {roomData.roomID}
+        </Text>
+        <Text style={styles.subtitle}>
+          {t("waitingRoom:duration")}: {formatSToMsString(roomData.duration)}
+        </Text>
+        <View style={styles.buttons}>
+          <Button title={t("waitingRoom:edit")} onPress={() => {}} style={styles.button} />
+          <Button title={t("waitingRoom:start")} onPress={() => {}} style={styles.button} />
+        </View>
+      </View>
+      <View style={styles.bottomView}>
+        <Text style={styles.title}>{t("waitingRoom:joined")}:</Text>
+        <FlatList
+          data={roomData.players}
+          numColumns={2}
+          showsVerticalScrollIndicator={false}
+          columnWrapperStyle={styles.columnWrap}
+          style={styles.joinedList}
+          renderItem={({ item }) => (
+            <View style={styles.card}>
+              <Text style={styles.cardTitle}>{item.name}</Text>
+            </View>
+          )}
+        />
+      </View>
     </View>
   );
 };

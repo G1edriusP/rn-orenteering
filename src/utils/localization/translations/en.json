@@ -45,7 +45,12 @@
   },
   "waitingRoom": {
     "roomCode": "Room code",
-    "join": "Join"
+    "join": "Join",
+    "roomID": "Room ID",
+    "duration": "Duration",
+    "joined": "Joined",
+    "edit": "Edit",
+    "start": "Start"
   },
   "profileScreen": {
     "logout": "Log out"

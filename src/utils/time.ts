@@ -14,3 +14,5 @@ export const formatTimeString = (time: number): string => {
 
   return formatted;
 };
+
+export const formatSToMsString = (time: number): string => formatTimeString(time * 1000);

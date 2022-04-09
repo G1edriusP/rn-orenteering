@@ -45,7 +45,12 @@
   },
   "waitingRoom": {
     "roomCode": "Kambario kodas",
-    "join": "Prisijungti"
+    "join": "Prisijungti",
+    "roomID": "Kambario nr.",
+    "duration": "Trukmė",
+    "joined": "Žaidžia kartu",
+    "edit": "Redaguoti",
+    "start": "Pradėti"
   },
   "profileScreen": {
     "logout": "Atsijungti"

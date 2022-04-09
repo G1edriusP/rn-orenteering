@@ -13,7 +13,7 @@ export type IndicativeTrackRoom = {
 };
 
 export const emptyTrackRoom: IndicativeTrackRoom = {
-  roomID: "",
+  roomID: "84I41H",
   trackID: "",
   isStarted: false,
   players: [],
