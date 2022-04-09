@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 // Styles
@@ -10,6 +10,7 @@ import { TextInput, Button } from "components";
 import firestore from "@react-native-firebase/firestore";
 import { firebase } from "@react-native-firebase/auth";
 import NumbersPlease from "react-native-number-please";
+import BottomSheet from "@gorhom/bottom-sheet";
 
 // Constants
 import { WaitingRoomScreenProps } from "constants/navigation/types";
@@ -19,7 +20,9 @@ import { IDigits, IValue } from "react-native-number-please/dist/src/NumberPleas
 
 // Utils
 import { createUID } from "utils/other";
-import { formatSToMsString } from "utils/time";
+import { formatPickerToS, formatSToMsString } from "utils/time";
+import { useMemoOne } from "use-memo-one";
+import { padding, SCREEN_WIDTH } from "constants/spacing";
 
 const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenProps) => {
   const { t } = useTranslation();
@@ -27,19 +30,19 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
   const isCreator = !!trackID;
   const currUser = firebase.auth().currentUser;
 
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const bottomSheetSnapPoints = useMemoOne(() => ["40%"], []);
+
   const [initial, setInitial] = useState<boolean>(true);
   const [roomData, setRoomData] = useState<IndicativeTrackRoom>(emptyTrackRoom);
   const [trackData, setTrackData] = useState<TrackData>({} as TrackData);
-
   const [time, setTime] = useState<IValue[]>([
-    // @ts-ignore
     { id: "hours", value: 1 },
-    // @ts-ignore
     { id: "minutes", value: 0 },
   ]);
   const timeNumbers: IDigits[] = [
     { id: "hours", min: 0, max: 24 },
-    { id: "hours", min: 0, max: 59 },
+    { id: "minutes", min: 0, max: 59 },
   ];
 
   const onRoomIdInput = (id: string, text: string) =>
@@ -53,6 +56,14 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
       .doc(roomID)
       .update({ players: [...old.data()?.players, player] })
       .finally(() => setInitial(false));
+  };
+
+  const bottomSheetOpen = (): void => {
+    bottomSheetRef.current?.snapToIndex(0);
+  };
+
+  const bottomSheetClose = (): void => {
+    bottomSheetRef.current?.close();
   };
 
   useEffect(() => {
@@ -94,6 +105,10 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
     }
   }, [roomData.trackID]);
 
+  useEffect(() => {
+    setRoomData(old => ({ ...old, duration: formatPickerToS(time) }));
+  }, [time]);
+
   if (!isCreator && initial) {
     return (
       <View style={styles.guestWrap}>
@@ -128,7 +143,7 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
           {t("waitingRoom:duration")}: {formatSToMsString(roomData.duration)}
         </Text>
         <View style={styles.buttons}>
-          <Button title={t("waitingRoom:edit")} onPress={() => {}} style={styles.button} />
+          <Button title={t("waitingRoom:edit")} onPress={bottomSheetOpen} style={styles.button} />
           <Button title={t("waitingRoom:start")} onPress={() => {}} style={styles.button} />
         </View>
       </View>
@@ -147,7 +162,24 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
           )}
         />
       </View>
-      <NumbersPlease digits={timeNumbers} values={time} onChange={values => setTime(values)} />
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={bottomSheetSnapPoints}
+        index={-1}
+        enablePanDownToClose
+        style={styles.sheetWrap}
+        backgroundStyle={styles.sheetBackground}>
+        <Text style={styles.title}>{t("waitingRoom:duration")}:</Text>
+        <NumbersPlease
+          digits={timeNumbers}
+          values={time}
+          onChange={values => setTime(values)}
+          itemStyle={{}}
+          pickerStyle={{
+            width: SCREEN_WIDTH / 4,
+          }}
+        />
+      </BottomSheet>
     </View>
   );
 };

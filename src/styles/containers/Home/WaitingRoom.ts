@@ -19,6 +19,8 @@ type Props = {
   cardTitle: TextStyle;
   columnWrap: ViewStyle;
   joinedList: ViewStyle;
+  sheetBackground: ViewStyle;
+  sheetWrap: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
@@ -92,5 +94,17 @@ export default StyleSheet.create<Props>({
   },
   joinedList: {
     marginTop: padding.MEDIUM,
+  },
+  sheetWrap: {
+    paddingHorizontal: padding.MEDIUM,
+    paddingBottom: padding.MEDIUM,
+  },
+  sheetBackground: {
+    backgroundColor: colors.WHITE,
+    shadowColor: colors.BLACK,
+    shadowOffset: { width: 0, height: 6 },
+    shadowOpacity: 0.39,
+    shadowRadius: 8.3,
+    elevation: 13,
   },
 });

@@ -10,6 +10,17 @@ index 1442d0c..3cf0d22 100644
  Object.defineProperty(exports, "__esModule", { value: true });
  const NumberPlease_1 = __importDefault(require("./src/NumberPlease"));
  exports.default = NumberPlease_1.default;
+diff --git a/node_modules/react-native-number-please/dist/src/NumberPlease.interface.d.ts b/node_modules/react-native-number-please/dist/src/NumberPlease.interface.d.ts
+index a7ee242..45dbd9e 100644
+--- a/node_modules/react-native-number-please/dist/src/NumberPlease.interface.d.ts
++++ b/node_modules/react-native-number-please/dist/src/NumberPlease.interface.d.ts
+@@ -1,5 +1,5 @@
+ export interface IValue {
+-    id: 'string';
++    id: string;
+     value: number;
+ }
+ export interface IDigits {
 diff --git a/node_modules/react-native-number-please/dist/src/NumberPlease.js b/node_modules/react-native-number-please/dist/src/NumberPlease.js
 index 84e4830..63e83d9 100644
 --- a/node_modules/react-native-number-please/dist/src/NumberPlease.js
@@ -35,6 +46,17 @@ index 84e4830..63e83d9 100644
  };
  const NumberPlease = ({ digits, values, onChange, ...rest }) => {
      const onChangeHandle = (value) => {
+diff --git a/node_modules/react-native-number-please/src/NumberPlease.interface.ts b/node_modules/react-native-number-please/src/NumberPlease.interface.ts
+index 5a83b76..8de45be 100644
+--- a/node_modules/react-native-number-please/src/NumberPlease.interface.ts
++++ b/node_modules/react-native-number-please/src/NumberPlease.interface.ts
+@@ -1,5 +1,5 @@
+ export interface IValue {
+-  id: 'string';
++  id: string;
+   value: number;
+ }
+ 
 diff --git a/node_modules/react-native-number-please/src/NumberPlease.tsx b/node_modules/react-native-number-please/src/NumberPlease.tsx
 index b860179..86a7b33 100644
 --- a/node_modules/react-native-number-please/src/NumberPlease.tsx
