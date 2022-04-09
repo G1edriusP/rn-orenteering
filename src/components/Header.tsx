@@ -29,6 +29,7 @@ const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
         </TouchableOpacity>
         <View style={styles.titleWrap}>
           <Text style={[styles.title, !isProfileScreen && {}]}>
+            {/* @ts-ignore */}
             {t(`navigation:${route.name}`)}
           </Text>
         </View>

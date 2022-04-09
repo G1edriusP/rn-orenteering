@@ -19,6 +19,7 @@ type Props = {
   secureTextEntry?: boolean | undefined;
   multiline?: boolean | undefined;
   style?: TextStyle;
+  maxLength?: number;
 };
 
 const TextInput: React.FC<Props> = ({
@@ -34,6 +35,7 @@ const TextInput: React.FC<Props> = ({
   onChangeText,
   multiline,
   style,
+  maxLength,
 }) => {
   return (
     <View>
@@ -50,6 +52,7 @@ const TextInput: React.FC<Props> = ({
         returnKeyType='done'
         secureTextEntry={secureTextEntry}
         multiline={multiline}
+        maxLength={maxLength}
         style={[styles.input, style]}
       />
     </View>

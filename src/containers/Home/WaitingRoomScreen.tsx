@@ -70,19 +70,21 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
 
   if (!isCreator && initial) {
     return (
-      <View>
+      <View style={styles.guestWrap}>
         <TextInput
           id={"roomID"}
           value={roomData.roomID}
           onChangeText={onRoomIdInput}
           placeholder={t("waitingRoom:roomCode")}
           autoCapitalize='characters'
+          style={styles.guestInput}
+          maxLength={6}
         />
         <Button
           title={t("waitingRoom:join")}
           onPress={() => onRoomDataSingleFetch(roomData.roomID)}
+          style={styles.button}
         />
-        <Text>{roomData.roomID}</Text>
       </View>
     );
   }

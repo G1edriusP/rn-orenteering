@@ -4,7 +4,8 @@
     "WAITING_ROOM": "Join game",
     "PROFILE_SCREEN": "Profile",
     "SETTINGS_SCREEN": "Settings",
-    "TRACKS_SCREEN": "Routes"
+    "TRACKS_SCREEN": "Routes",
+    "TRACK_INFO": "New route"
   },
   "authStack": {
     "email": "Email",

@@ -16,7 +16,7 @@ export const createUID = (size?: number): string => {
   const head: string = Date.now().toString(36);
   const tail: string = Math.random().toString(36).substring(2);
   const uid = head + tail;
-  return size ? String(uid).substring(uid.length - size, size) : uid;
+  return size ? String(uid).substring(uid.length - size, uid.length) : uid;
 };
 
 const configureCoordsFetchRoute = (coords: LatLng[]): string => {
