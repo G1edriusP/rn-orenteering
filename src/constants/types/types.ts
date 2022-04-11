@@ -54,3 +54,16 @@ export type TrackInfoHandle = {
   open: (track: TrackData | MarkerType) => void;
   close: () => void;
 };
+
+export type AlertHandle = {
+  showAlert: (params: AlertParams) => Promise<void>;
+};
+
+export type AlertParams = {
+  title?: string;
+  message?: string;
+  ok?: string;
+  cancel?: string;
+  onCancel?: void;
+  onOk?: void;
+};

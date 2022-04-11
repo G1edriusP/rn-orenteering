@@ -4,4 +4,5 @@ export default {
   DARK_GREEN: "#8B9473",
   KHAKI: "#E3DCC5",
   ORANGE: "#DD7E46",
+  RED: "#C97777",
 };

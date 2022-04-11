@@ -50,7 +50,11 @@
     "duration": "Trukmė",
     "joined": "Žaidžia kartu",
     "edit": "Redaguoti",
-    "start": "Pradėti"
+    "start": "Pradėti",
+    "leaveTitle": "Ar tikrai norite išeiti?",
+    "leaveDescription": "Išėjus kambarys bus uždarytas ir visi jame esantys žmonės bus atjungti.",
+    "leaveConfirm": "Išeiti",
+    "leaveCancel": "Pasilikti"
   },
   "profileScreen": {
     "logout": "Atsijungti"

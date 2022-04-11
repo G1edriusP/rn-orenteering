@@ -10,3 +10,4 @@ export { default as IconButton } from "./IconButton";
 export { default as Header } from "./Header";
 export { default as SmallButton } from "./SmallButton";
 export { default as TrackInfoSheet } from "./TrackInfoSheet";
+export { default as Alert } from "./Alert";

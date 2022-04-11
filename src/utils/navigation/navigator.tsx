@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 
 // Components
@@ -34,6 +34,8 @@ import TrackIndicativeScreen from "containers/Home/TrackIndicativeScreen";
 import WaitingRoomScreen from "containers/Home/WaitingRoomScreen";
 import ProfileScreen from "containers/Home/ProfileScreen";
 import SettingsScreen from "containers/Home/SettingsScreen";
+import EventRegister from "utils/eventRegister";
+import { AlertHandle, AlertParams } from "constants/types/types";
 
 const Root = createStackNavigator<RootStackParams>();
 const Home = createStackNavigator<HomeStackParams>();
@@ -101,7 +103,25 @@ const RootStack = () => {
   );
 };
 
-export default () => {
+type Props = {
+  alertRef: React.MutableRefObject<AlertHandle>;
+};
+
+export default ({ alertRef }: Props) => {
+  useEffect(() => {
+    // @ts-ignore
+    const alertListener = EventRegister.addEventListener("alert", ({ params }) => {
+      try {
+        return alertRef.current.showAlert(params);
+      } catch (e) {
+        console.log(e);
+      }
+    });
+    return () => {
+      EventRegister.removeEventListener(alertListener);
+    };
+  }, []);
+
   return (
     <NavigationContainer>
       <RootStack />

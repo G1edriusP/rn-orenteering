@@ -55,7 +55,11 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
       .collection("rooms")
       .doc(roomID)
       .update({ players: [...old.data()?.players, player] })
-      .finally(() => setInitial(false));
+      .finally(() => {
+        // @ts-ignore
+        navigation.setOptions({ showAlertOnBack: true });
+        setInitial(false);
+      });
   };
 
   const bottomSheetOpen = (): void => {
@@ -110,6 +114,8 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
   }, [time]);
 
   if (!isCreator && initial) {
+    // @ts-ignore
+    navigation.setOptions({ showAlertOnBack: false });
     return (
       <View style={styles.guestWrap}>
         <TextInput

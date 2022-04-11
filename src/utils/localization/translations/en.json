@@ -50,7 +50,11 @@
     "duration": "Duration",
     "joined": "Joined",
     "edit": "Edit",
-    "start": "Start"
+    "start": "Start",
+    "leaveTitle": "Do you really want to leave?",
+    "leaveDescription": "If you will leave, your room will be closed and all the other players will be disconnected.",
+    "leaveConfirm": "Leave",
+    "leaveCancel": "Stay"
   },
   "profileScreen": {
     "logout": "Log out"
