@@ -81,7 +81,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
           />
           <Button
             title={t("authStack:login")}
-            onPress={() => onLoginPress(data)}
+            onPress={() => onLoginPress(data, t)}
             style={styles.smallBottomSpacer}
           />
           <TextButton

@@ -89,7 +89,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
           />
           <Button
             title={t("authStack:register")}
-            onPress={() => onRegisterPress(data, user => onRegisterCallback(user))}
+            onPress={() => onRegisterPress(data, t, user => onRegisterCallback(user))}
             style={styles.mediumBottomSpacer}
           />
         </View>

@@ -3,7 +3,6 @@ import { EmailAuthData, ItemProps, LocalStorageKeys, TrackData } from "./types/t
 
 export const defaultEmailLoginData: EmailAuthData = {
   email: "",
-  username: "",
   password: "",
 };
 

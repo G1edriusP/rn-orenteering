@@ -1,11 +1,15 @@
 // Components
-import SplashScreen from "react-native-splash-screen";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import jwtDecode from "jwt-decode";
+import { TFunction } from "react-i18next";
 
 // Constants
 import { EmailAuthData, EmailAuthDataAction } from "constants/types/types";
 import { FirebaseToken } from "constants/types/auth";
+
+// Utils
+import { validateInputFields } from "utils/validation/auth";
+import EventRegister from "utils/eventRegister";
 
 export const emailAuthReducer = (
   state: EmailAuthData,
@@ -14,19 +18,34 @@ export const emailAuthReducer = (
   return { ...state, [action.type]: action.value };
 };
 
-export const onLoginPress = (data: EmailAuthData): void => {
-  auth()
-    .signInWithEmailAndPassword(data.email, data.password)
-    .catch((error: FirebaseAuthTypes.NativeFirebaseAuthError) => {
-      console.log(error.code);
+export const onLoginPress = (data: EmailAuthData, t: TFunction): void => {
+  const { isValid, error } = validateInputFields(data, t);
+
+  if (isValid) {
+    auth()
+      .signInWithEmailAndPassword(data.email, data.password)
+      .catch((error: FirebaseAuthTypes.NativeFirebaseAuthError) => {
+        console.log(error.code);
+      });
+  } else {
+    EventRegister.emit("alert", {
+      params: {
+        title: error.title,
+        message: error.description,
+        cancel: t("errors:goBack"),
+      },
     });
+  }
 };
 
 export const onRegisterPress = (
   data: EmailAuthData,
+  t: TFunction,
   onSuccess: (user: FirebaseAuthTypes.UserCredential) => void,
 ): void => {
-  if (data.password === data.repeatedPassword) {
+  const { isValid, error } = validateInputFields(data, t);
+
+  if (isValid) {
     auth()
       .createUserWithEmailAndPassword(data.email, data.password)
       .then(onSuccess) // User has been successfully created
@@ -34,7 +53,13 @@ export const onRegisterPress = (
         console.log(error.code);
       });
   } else {
-    console.log("Passwords do not match!");
+    EventRegister.emit("alert", {
+      params: {
+        title: error.title,
+        message: error.description,
+        cancel: t("errors:goBack"),
+      },
+    });
   }
 };
 

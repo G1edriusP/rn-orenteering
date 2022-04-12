@@ -61,5 +61,28 @@
   },
   "settingsScreen": {
     "language": "Language"
+  },
+  "errors": {
+    "email": {
+      "emptyTitle": "Empty E-Mail address field!",
+      "emptyDesc": "E-Mail address field can't be empty.",
+      "faulty": "Incorrect E-Mail address!"
+    },
+    "password": {
+      "emptyTitle": "Empty password field!",
+      "emptyDesc": "Password field can't be empty.",
+      "faulty": "Incorrect password!",
+      "shorty": "Password should contain more than 5 symbols."
+    },
+    "repeatedPassword": {
+      "emptyTitle": "Empty repeat password field!",
+      "emptyDesc": "Repeat password field can't be empty.",
+      "faulty": "Passwords don't match!"
+    },
+    "username": {
+      "emptyTitle": "Empty username field!",
+      "emptyDesc": "Username field can't be empty."
+    },
+    "goBack": "Back"
   }
 }

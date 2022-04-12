@@ -61,5 +61,28 @@
   },
   "settingsScreen": {
     "language": "Kalba"
+  },
+  "errors": {
+    "email": {
+      "emptyTitle": "Tuščias el. pašto adreso laukelis!",
+      "emptyDesc": "El. pašto laukelis negali būti tuščias.",
+      "faulty": "Neteisingas el. pašto adresas!"
+    },
+    "password": {
+      "emptyTitle": "Tuščias slaptažodžio laukelis!",
+      "emptyDesc": "Slaptažodžio laukelis negali būti tuščias.",
+      "faulty": "Neteisingas naudotojo slaptažodis!",
+      "shorty": "Slaptažodis turėtų būti ilgesnis nei 5 simboliai."
+    },
+    "repeatedPassword": {
+      "emptyTitle": "Tuščias slaptažodžio pakartojimo laukelis!",
+      "emptyDesc": "Slaptažodžio pakartojimo laukelis negali būti tuščias.",
+      "faulty": "Slaptažodžiai nesutampa!"
+    },
+    "username": {
+      "emptyTitle": "Tuščias naudotojo slapyvardžio laukelis!",
+      "emptyDesc": "Slapyvardžio laukelis negali būti tuščias."
+    },
+    "goBack": "Grįžti"
   }
 }
