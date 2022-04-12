@@ -83,6 +83,10 @@
       "emptyTitle": "Tuščias naudotojo slapyvardžio laukelis!",
       "emptyDesc": "Slapyvardžio laukelis negali būti tuščias."
     },
-    "goBack": "Grįžti"
+    "goBack": "Grįžti",
+    "userNotFoundTitle": "Naudotojas nerastas!",
+    "userNotFoundDesc": "Toks naudotojas sistemoje nėra registruotas.",
+    "userFoundTitle": "Toks naudotojas jau egzistuoja!",
+    "userFoundDesc": "Naudotojas su tokiu el. pašto adresu jau yra registruotas."
   }
 }

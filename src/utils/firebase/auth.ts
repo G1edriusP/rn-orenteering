@@ -25,7 +25,15 @@ export const onLoginPress = (data: EmailAuthData, t: TFunction): void => {
     auth()
       .signInWithEmailAndPassword(data.email, data.password)
       .catch((error: FirebaseAuthTypes.NativeFirebaseAuthError) => {
-        console.log(error.code);
+        if (error.code === "auth/user-not-found") {
+          EventRegister.emit("alert", {
+            params: {
+              title: t("errors:userNotFoundTitle"),
+              message: t("errors:userNotFoundDesc"),
+              cancel: t("errors:goBack"),
+            },
+          });
+        }
       });
   } else {
     EventRegister.emit("alert", {
@@ -51,6 +59,15 @@ export const onRegisterPress = (
       .then(onSuccess) // User has been successfully created
       .catch((error: FirebaseAuthTypes.NativeFirebaseAuthError) => {
         console.log(error.code);
+        if (error.code === "auth/email-already-in-use") {
+          EventRegister.emit("alert", {
+            params: {
+              title: t("errors:userFoundTitle"),
+              message: t("errors:userFoundDesc"),
+              cancel: t("errors:goBack"),
+            },
+          });
+        }
       });
   } else {
     EventRegister.emit("alert", {

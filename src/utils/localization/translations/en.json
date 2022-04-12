@@ -83,6 +83,10 @@
       "emptyTitle": "Empty username field!",
       "emptyDesc": "Username field can't be empty."
     },
-    "goBack": "Back"
+    "goBack": "Back",
+    "userNotFoundTitle": "User not found!",
+    "userNotFoundDesc": "This user is not registered in the system.",
+    "userFoundTitle": "User already exists!",
+    "userFoundDesc": "User with this E-Mail address already exists in the system."
   }
 }
