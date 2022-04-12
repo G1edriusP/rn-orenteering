@@ -29,7 +29,7 @@ export const saveTrack = (track: TrackData, callback: () => void): void => {
   }
 };
 
-export const fetchTracks = (setData: React.Dispatch<React.SetStateAction<TrackData[]>>): void => {
+export const fetchTracks = (callback: (data: TrackData[]) => void): void => {
   const data: TrackData[] = [];
   firestore()
     .collection("tracks")
@@ -40,13 +40,10 @@ export const fetchTracks = (setData: React.Dispatch<React.SetStateAction<TrackDa
       });
     })
     .catch(e => console.log(e))
-    .finally(() => setData(data));
+    .finally(() => callback(data));
 };
 
-export const fetchMyTracks = (
-  uid: string | undefined,
-  setData: React.Dispatch<React.SetStateAction<TrackData[]>>,
-): void => {
+export const fetchMyTracks = (uid: string | undefined, callback: (data: TrackData[]) => void): void => {
   const data: TrackData[] = [];
   firestore()
     .collection("tracks")
@@ -58,5 +55,5 @@ export const fetchMyTracks = (
       });
     })
     .catch(e => console.log(e))
-    .finally(() => setData(data));
+    .finally(() => callback(data));
 };
