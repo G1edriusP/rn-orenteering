@@ -5,17 +5,20 @@ import styles from "styles/components/Button";
 
 // Components
 import { Text, TouchableOpacity, ViewStyle } from "react-native";
+import Loader from "./Loader";
 
 export type Props = {
   title: string;
   onPress: () => void;
   style?: ViewStyle;
+  isLoading?: boolean;
 };
 
-const Button: React.FC<Props> = ({ title, onPress, style }) => {
+const Button: React.FC<Props> = ({ title, onPress, style, isLoading }) => {
   return (
     <TouchableOpacity onPress={onPress} style={[styles.wrap, style]}>
-      <Text style={styles.title}>{title}</Text>
+      {!isLoading && <Text style={styles.title}>{title}</Text>}
+      {isLoading && <Loader />}
     </TouchableOpacity>
   );
 };

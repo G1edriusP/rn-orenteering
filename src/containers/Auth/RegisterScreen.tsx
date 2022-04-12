@@ -26,15 +26,23 @@ import firestore from "@react-native-firebase/firestore";
 const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const { t } = useTranslation();
 
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, dispatch] = useReducer(emailAuthReducer, defaultEmailRegisterData);
 
-  const onRegisterCallback = async ({ user }: FirebaseAuthTypes.UserCredential): Promise<void> => {
+  const onRegisterButtonPress = () => {
     setIsLoading(true);
+    onRegisterPress(
+      data,
+      t,
+      user => onRegisterCallback(user),
+      () => setIsLoading(false)
+    );
+  };
+
+  const onRegisterCallback = async ({ user }: FirebaseAuthTypes.UserCredential): Promise<void> => {
     // Save user data in firebase
     const userData = { uid: user.uid, username: data.username, email: data.email };
     firestore().collection("users").doc(user.uid).set(userData);
-    setIsLoading(false);
   };
 
   const onInputChange = (id: string, text: string): void => {
@@ -87,11 +95,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             secureTextEntry
             style={styles.mediumBottomSpacer}
           />
-          <Button
-            title={t("authStack:register")}
-            onPress={() => onRegisterPress(data, t, user => onRegisterCallback(user))}
-            style={styles.mediumBottomSpacer}
-          />
+          <Button title={t("authStack:register")} onPress={onRegisterButtonPress} style={styles.mediumBottomSpacer} isLoading={isLoading} />
         </View>
       </ScrollView>
     </SafeAreaView>

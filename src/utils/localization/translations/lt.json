@@ -87,6 +87,8 @@
     "userNotFoundTitle": "Naudotojas nerastas!",
     "userNotFoundDesc": "Toks naudotojas sistemoje nėra registruotas.",
     "userFoundTitle": "Toks naudotojas jau egzistuoja!",
-    "userFoundDesc": "Naudotojas su tokiu el. pašto adresu jau yra registruotas."
+    "userFoundDesc": "Naudotojas su tokiu el. pašto adresu jau yra registruotas.",
+    "tooManyRequestsTitle": "Klaida!",
+    "tooManyRequestsDesc": "Buvo padaryta per daug užklausų. Pabandykite vėliau."
   }
 }

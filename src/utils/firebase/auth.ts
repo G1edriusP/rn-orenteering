@@ -9,7 +9,7 @@ import { FirebaseToken } from "constants/types/auth";
 
 // Utils
 import { validateInputFields } from "utils/validation/auth";
-import EventRegister from "utils/eventRegister";
+import { showAlert } from "utils/other";
 
 export const emailAuthReducer = (
   state: EmailAuthData,
@@ -18,31 +18,33 @@ export const emailAuthReducer = (
   return { ...state, [action.type]: action.value };
 };
 
-export const onLoginPress = (data: EmailAuthData, t: TFunction): void => {
+export const onLoginPress = (data: EmailAuthData, t: TFunction, callback: () => void): void => {
   const { isValid, error } = validateInputFields(data, t);
 
   if (isValid) {
     auth()
       .signInWithEmailAndPassword(data.email, data.password)
+      .finally(callback)
       .catch((error: FirebaseAuthTypes.NativeFirebaseAuthError) => {
         if (error.code === "auth/user-not-found") {
-          EventRegister.emit("alert", {
-            params: {
-              title: t("errors:userNotFoundTitle"),
-              message: t("errors:userNotFoundDesc"),
-              cancel: t("errors:goBack"),
-            },
+          showAlert({
+            title: t("errors:userNotFoundTitle"),
+            message: t("errors:userNotFoundDesc"),
+            cancel: t("errors:goBack"),
+          });
+        } else if (error.code === "auth/wrong-password") {
+          showAlert({ title: t("errors:password:faulty"), cancel: t("errors:goBack") });
+        } else if (error.code === "auth/too-many-requests") {
+          showAlert({
+            title: t("errors:tooManyRequestsTitle"),
+            message: t("errors:tooManyRequestsDesc"),
+            cancel: t("errors:goBack"),
           });
         }
       });
   } else {
-    EventRegister.emit("alert", {
-      params: {
-        title: error.title,
-        message: error.description,
-        cancel: t("errors:goBack"),
-      },
-    });
+    showAlert({ title: error.title, message: error.description, cancel: t("errors:goBack") });
+    callback();
   }
 };
 
@@ -50,6 +52,7 @@ export const onRegisterPress = (
   data: EmailAuthData,
   t: TFunction,
   onSuccess: (user: FirebaseAuthTypes.UserCredential) => void,
+  callback: () => void,
 ): void => {
   const { isValid, error } = validateInputFields(data, t);
 
@@ -57,26 +60,20 @@ export const onRegisterPress = (
     auth()
       .createUserWithEmailAndPassword(data.email, data.password)
       .then(onSuccess) // User has been successfully created
+      .finally(callback)
       .catch((error: FirebaseAuthTypes.NativeFirebaseAuthError) => {
         console.log(error.code);
         if (error.code === "auth/email-already-in-use") {
-          EventRegister.emit("alert", {
-            params: {
-              title: t("errors:userFoundTitle"),
-              message: t("errors:userFoundDesc"),
-              cancel: t("errors:goBack"),
-            },
+          showAlert({
+            title: t("errors:userFoundTitle"),
+            message: t("errors:userFoundDesc"),
+            cancel: t("errors:goBack"),
           });
         }
       });
   } else {
-    EventRegister.emit("alert", {
-      params: {
-        title: error.title,
-        message: error.description,
-        cancel: t("errors:goBack"),
-      },
-    });
+    showAlert({ title: error.title, message: error.description, cancel: t("errors:goBack") });
+    callback();
   }
 };
 

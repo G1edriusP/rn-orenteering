@@ -24,7 +24,7 @@ import { LANGUAGES } from "constants/languages";
 import { padding } from "constants/spacing";
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {
-  const [isLoading, setIsLoading] = useState<Boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [data, dispatch] = useReducer(emailAuthReducer, defaultEmailLoginData);
 
   const { t, i18n } = useTranslation();
@@ -38,7 +38,12 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
     dispatch({ type: id, value: text });
   };
 
-  const onRegisterButtonPress = (): void => navigation.navigate(Routes.REGISTER_SCREEN);
+  const onLoginButtonPress = () => {
+    setIsLoading(true);
+    onLoginPress(data, t, () => setIsLoading(false));
+  };
+
+  const onRegisterScreenButtonPress = (): void => navigation.navigate(Routes.REGISTER_SCREEN);
 
   return (
     <SafeAreaView style={styles.wrap} edges={["top"]}>
@@ -81,12 +86,13 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
           />
           <Button
             title={t("authStack:login")}
-            onPress={() => onLoginPress(data, t)}
+            onPress={onLoginButtonPress}
             style={styles.smallBottomSpacer}
+            isLoading={isLoading}
           />
           <TextButton
             text={t("authStack:noAccountRegister")}
-            onPress={onRegisterButtonPress}
+            onPress={onRegisterScreenButtonPress}
             color={colors.DARK_GREEN}
           />
         </View>

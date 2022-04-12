@@ -1,7 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import { MarkerType } from "constants/types/firestore";
+import { AlertParams } from "constants/types/types";
 import React from "react";
 import { LatLng } from "react-native-maps";
+import EventRegister from "./eventRegister";
 
 export const combineProviders =
   (...providers: any) =>
@@ -11,6 +13,10 @@ export const combineProviders =
       children,
     );
   };
+
+export const showAlert = (params: AlertParams) => {
+  EventRegister.emit("alert", { params });
+};
 
 export const createUID = (size?: number): string => {
   const head: string = Date.now().toString(36);

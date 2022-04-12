@@ -87,6 +87,8 @@
     "userNotFoundTitle": "User not found!",
     "userNotFoundDesc": "This user is not registered in the system.",
     "userFoundTitle": "User already exists!",
-    "userFoundDesc": "User with this E-Mail address already exists in the system."
+    "userFoundDesc": "User with this E-Mail address already exists in the system.",
+    "tooManyRequestsTitle": "Error!",
+    "tooManyRequestsDesc": "Too many requests. Try again later."
   }
 }
