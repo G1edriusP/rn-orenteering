@@ -13,10 +13,7 @@ export const defaultEmailRegisterData: EmailAuthData = {
   repeatedPassword: "",
 };
 
-export const defaultTrackTypes: Array<ItemProps> = [
-  { value: "COGNITIVE", label: "Pažintinis" },
-  { value: "INDICATIVE", label: "Orientacinis" },
-];
+export const defaultTrackTypes: Array<ItemProps> = [{ value: "COGNITIVE" }, { value: "INDICATIVE" }];
 
 export const defaultTrackData: TrackData = {
   type: "",

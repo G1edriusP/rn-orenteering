@@ -41,7 +41,9 @@
   },
   "tracks": {
     "cognitive": "Cognitive",
-    "indicative": "Indicative"
+    "indicative": "Indicative",
+    "COGNITIVE": "Cognitive",
+    "INDICATIVE": "Indicative"
   },
   "waitingRoom": {
     "roomCode": "Room code",

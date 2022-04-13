@@ -1,5 +1,6 @@
 import React, { memo } from "react";
 import { useCallbackOne } from "use-memo-one";
+import { useTranslation } from "react-i18next";
 
 // Styling
 import styles, { chevronColor, chevronSize } from "styles/components/Dropdown";
@@ -40,18 +41,12 @@ const Item: React.FC<ItemProps> = memo(({ value, label, onSelect, isLast }) => (
   </TouchableOpacity>
 ));
 
-const Dropdown: React.FC<DropdownProps> = ({
-  items = [],
-  title,
-  selected,
-  onChange = () => null,
-  style,
-}) => {
+const Dropdown: React.FC<DropdownProps> = ({ items = [], title, selected, onChange = () => null, style }) => {
+  const { t } = useTranslation();
+
   const open = useSharedValue<boolean>(false);
-  const selectedLabel = items.find(item => item.value === selected)?.label || title || "";
-  const progress = useDerivedValue(() =>
-    open.value ? withSpring(1, springConfig) : withTiming(0),
-  );
+  const selectedLabel = t(`tracks:${selected}`) || title || "";
+  const progress = useDerivedValue(() => (open.value ? withSpring(1, springConfig) : withTiming(0)));
   const itemsHeight = useSharedValue<number>(0);
   const placeholderOpacity = useSharedValue<number>(1);
 
@@ -96,9 +91,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     <View style={[styles.wrap, style]}>
       <TapGestureHandler onGestureEvent={eventHandler}>
         <Animated.View style={[styles.placeholder, animatedPlaceholderStyle]}>
-          <Text style={[styles.placeholderLabel, selectedLabel === title && { opacity: 0.3 }]}>
-            {selectedLabel}
-          </Text>
+          <Text style={[styles.placeholderLabel, selectedLabel === title && { opacity: 0.3 }]}>{selectedLabel}</Text>
           <Animated.View style={[styles.chevronWrap, animatedChevronStyle]}>
             <DropdownIcon size={chevronSize} color={chevronColor} />
           </Animated.View>
@@ -111,7 +104,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             {items.map((item, index) => (
               <Item
                 value={item.value}
-                label={item.label}
+                label={t(`tracks:${item.value}`)}
                 onSelect={onSelect}
                 isLast={index === items.length - 1}
                 key={`d_item_${index}`}

@@ -41,7 +41,9 @@
   },
   "tracks": {
     "cognitive": "Pažintiniai",
-    "indicative": "Orientaciniai"
+    "indicative": "Orientaciniai",
+    "COGNITIVE": "Pažintinis",
+    "INDICATIVE": "Orientacinis"
   },
   "waitingRoom": {
     "roomCode": "Kambario kodas",

@@ -31,7 +31,7 @@ export type TrackData = {
 };
 export type ItemProps = {
   value: any;
-  label: string;
+  label?: string;
   onSelect?: (value: string) => void;
   isLast?: boolean;
 };
