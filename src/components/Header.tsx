@@ -15,13 +15,13 @@ import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { onSignOutPress } from "utils/firebase/auth";
 import EventRegister from "utils/eventRegister";
+import { removeWaitingRoom } from "utils/firebase/track";
 
 const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
   const { t } = useTranslation();
   const isProfileScreen = route.name === Routes.PROFILE_SCREEN;
 
   const customBack = () => {
-    // @ts-ignore
     if (route.name === Routes.WAITING_ROOM && options.showAlertOnBack) {
       EventRegister.emit("alert", {
         params: {
@@ -29,7 +29,10 @@ const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
           message: t("waitingRoom:leaveDescription"),
           ok: t("waitingRoom:leaveCancel"),
           cancel: t("waitingRoom:leaveConfirm"),
-          onCancel: () => navigation.goBack(),
+          onCancel: () => {
+            options.roomID && removeWaitingRoom(options.roomID);
+            navigation.goBack();
+          },
         },
       });
     } else {

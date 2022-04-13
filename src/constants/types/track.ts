@@ -5,6 +5,7 @@ export type TrackPlayer = {
 };
 
 export type IndicativeTrackRoom = {
+  creatorID: string;
   roomID: string;
   trackID: string;
   isStarted: boolean;
@@ -13,7 +14,7 @@ export type IndicativeTrackRoom = {
 };
 
 export const emptyTrackRoom: IndicativeTrackRoom = {
-  roomID: "84I41H",
+  roomID: "",
   trackID: "",
   isStarted: false,
   players: [],

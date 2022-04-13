@@ -19,10 +19,12 @@ import { emptyTrackRoom, IndicativeTrackRoom, TrackPlayer } from "constants/type
 import { IDigits, IValue } from "react-native-number-please/dist/src/NumberPlease.interface";
 
 // Utils
-import { createUID } from "utils/other";
+import { createUID, showAlert } from "utils/other";
 import { formatPickerToS, formatSToMsString } from "utils/time";
 import { useMemoOne } from "use-memo-one";
 import { padding, SCREEN_WIDTH } from "constants/spacing";
+import { resetNavigation } from "utils/navigation/navigation";
+import { Stacks } from "constants/navigation/routes";
 
 const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenProps) => {
   const { t } = useTranslation();
@@ -45,8 +47,7 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
     { id: "minutes", min: 0, max: 59 },
   ];
 
-  const onRoomIdInput = (id: string, text: string) =>
-    setRoomData(old => ({ ...old, [id]: text.toUpperCase() }));
+  const onRoomIdInput = (id: string, text: string) => setRoomData(old => ({ ...old, [id]: text.toUpperCase() }));
 
   const onRoomDataSingleFetch = async (roomID: string) => {
     const old = await firestore().collection("rooms").doc(roomID).get();
@@ -74,13 +75,17 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
     if (isCreator) {
       const roomID = createUID(6).toUpperCase();
       const player: TrackPlayer = { uid: currUser!.uid, name: currUser?.email!, points: 0 };
-      const data: IndicativeTrackRoom = { ...roomData, roomID, trackID, players: [player] };
+      const data: IndicativeTrackRoom = { ...roomData, roomID, trackID, creatorID: currUser!.uid, players: [player] };
       setRoomData(old => ({ ...old, ...data }));
       firestore()
         .collection("rooms")
         .doc(roomID)
         .set(data)
-        .finally(() => setInitial(false));
+        .finally(() => {
+          // @ts-ignore
+          navigation.setOptions({ showAlertOnBack: true, roomID: roomID });
+          setInitial(false);
+        });
     }
   }, []);
 
@@ -90,6 +95,14 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
       .doc(roomData.roomID)
       .onSnapshot(
         docSnap => {
+          if (!initial && !isCreator && !docSnap.data() && roomData.roomID) {
+            navigation.dispatch(resetNavigation([{ name: Stacks.HOME }]));
+            showAlert({
+              title: t("errors:roomClosedTitle"),
+              message: t("errors:roomClosedDesc"),
+              ok: t("errors:close"),
+            });
+          }
           if (!initial) setRoomData(old => ({ ...old, ...docSnap.data() }));
         },
         error => console.log(error),

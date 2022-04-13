@@ -74,6 +74,7 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
   useEffect(() => {
     if (!!tracks.length) {
       setMarkers(getTracksStartingMarkers(tracks));
+      setIsLoading(false);
     }
   }, [tracks]);
 

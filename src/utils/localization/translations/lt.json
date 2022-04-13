@@ -89,7 +89,10 @@
     "userFoundTitle": "Toks naudotojas jau egzistuoja!",
     "userFoundDesc": "Naudotojas su tokiu el. pašto adresu jau yra registruotas.",
     "tooManyRequestsTitle": "Klaida!",
-    "tooManyRequestsDesc": "Buvo padaryta per daug užklausų. Pabandykite vėliau."
+    "tooManyRequestsDesc": "Buvo padaryta per daug užklausų. Pabandykite vėliau.",
+    "roomClosedTitle": "Kambarys užsidarė!",
+    "roomClosedDesc": "Kambarys buvo uždarytas, kadangi jo kūrėjas jį paliko.",
+    "close": "Uždaryti"
   },
   "trackErrors": {
     "titleMarker": {

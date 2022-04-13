@@ -56,3 +56,7 @@ export const fetchMyTracks = (uid: string | undefined, callback: (data: TrackDat
     .catch(e => console.log(e))
     .finally(() => callback(data));
 };
+
+export const removeWaitingRoom = (roomID: string) => {
+  firestore().collection("rooms").doc(roomID).delete();
+};

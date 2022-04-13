@@ -42,8 +42,10 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(({ topSnap, headerPos 
     headerPos.value = -SCREEN_WIDTH;
   };
 
-  const onTrackNav = (route: string, props: {}) =>
+  const onTrackNav = (route: string, props: {}) => {
     navigation.navigate(route as never, props as never);
+    onSheetClose();
+  };
 
   const onTrackStartPress = () => {
     Alert.alert("Pasirinkite maršruto tipą:", undefined, [

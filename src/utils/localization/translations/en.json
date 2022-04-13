@@ -89,7 +89,10 @@
     "userFoundTitle": "User already exists!",
     "userFoundDesc": "User with this E-Mail address already exists in the system.",
     "tooManyRequestsTitle": "Error!",
-    "tooManyRequestsDesc": "Too many requests. Try again later."
+    "tooManyRequestsDesc": "Too many requests. Try again later.",
+    "roomClosedTitle": "Room was closed!",
+    "roomClosedDesc": "Room closed because the creator of it have left.",
+    "close": "Close"
   },
   "trackErrors": {
     "titleMarker": {
