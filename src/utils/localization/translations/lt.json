@@ -90,5 +90,33 @@
     "userFoundDesc": "Naudotojas su tokiu el. pašto adresu jau yra registruotas.",
     "tooManyRequestsTitle": "Klaida!",
     "tooManyRequestsDesc": "Buvo padaryta per daug užklausų. Pabandykite vėliau."
+  },
+  "trackErrors": {
+    "titleMarker": {
+      "emptyTitle": "Tuščias pavadinimo laukelis!",
+      "emptyDesc": "Maršruto taško pavadinimo laukelis negali būti tuščias."
+    },
+    "descriptionMarker": {
+      "emptyTitle": "Aprašymo nėra."
+    },
+    "locationMarker": {
+      "emptyTitle": "Nepasirinkta taško vieta!",
+      "emptyDesc": "Maršruto taško vieta turi būti pasirinkta."
+    },
+    "titleTrack": {
+      "emptyTitle": "Tuščias pavadinimo laukelis!",
+      "emptyDesc": "Maršruto pavadinimo laukelis negali būti tuščias."
+    },
+    "descriptionTrack": {
+      "emptyTitle": "Aprašymo nėra."
+    },
+    "typeTrack": {
+      "emptyTitle": "Tuščias tipo laukelis!",
+      "emptyDesc": "Maršruto tipas turi būti pasirinktas."
+    },
+    "markersTrack": {
+      "emptyTitle": "Nepridėjote maršruto taškų!",
+      "emptyDesc": "Maršrutas negali būti be maršruto taškų."
+    }
   }
 }

@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import styles from "styles/containers/Home/TracksScreen";
 
 // Components
-import { FlatList, ListRenderItemInfo, Text } from "react-native";
-import { TrackCard } from "components";
+import { FlatList, ListRenderItemInfo, Text, View } from "react-native";
+import { Loader, TrackCard } from "components";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { SceneMap, SceneRendererProps, TabBar, TabView } from "react-native-tab-view";
 
@@ -72,9 +72,7 @@ const renderTabBar = (props: any) => (
     inactiveColor={colors.BLACK}
     activeColor={colors.ORANGE}
     renderLabel={({ route, focused, color }) => (
-      <Text style={[{ color }, styles.tabBarLabel, focused && { fontFamily: fontSemiBold }]}>
-        {route.title}
-      </Text>
+      <Text style={[{ color }, styles.tabBarLabel, focused && { fontFamily: fontSemiBold }]}>{route.title}</Text>
     )}
   />
 );
@@ -83,9 +81,11 @@ const TracksScreen = ({ route: { params } }: TracksScreenProps) => {
   const { tracks } = params;
   const { t } = useTranslation();
 
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   // Tabs info
   const [index, setIndex] = useState(0);
-  const [routes] = useState<Route[]>([
+  const [routes, setRoutes] = useState<Route[]>([
     {
       key: "COGNITIVE",
       title: t("tracks:cognitive"),
@@ -98,10 +98,28 @@ const TracksScreen = ({ route: { params } }: TracksScreenProps) => {
     },
   ]);
 
+  const onFetchTracksEnd = (data: TrackData[]) => {
+    setRoutes(old => [
+      { ...old[0], tracks: data.filter(track => track.type === "COGNITIVE") },
+      { ...old[1], tracks: data.filter(track => track.type === "INDICATIVE") },
+    ]);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    if (!!!tracks.length) {
+      setIsLoading(true);
+      fetchTracks(onFetchTracksEnd);
+    }
+  }, []);
+
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: colors.WHITE }}
-      edges={["bottom", "left", "right"]}>
+    <SafeAreaView style={{ flex: 1, backgroundColor: colors.WHITE }} edges={["bottom", "left", "right"]}>
+      {isLoading && (
+        <View style={styles.loadingWrap}>
+          <Loader size='large' color={colors.BLACK} />
+        </View>
+      )}
       <TabView
         navigationState={{ index, routes }}
         renderScene={renderScene}

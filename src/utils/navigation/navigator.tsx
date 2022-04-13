@@ -61,43 +61,21 @@ const HomeStack = () => {
       <Home.Screen name={Routes.TRACK_INFO} component={TrackInfoScreen} options={customHeader} />
       <Home.Screen name={Routes.TRACKS_SCREEN} component={TracksScreen} options={customHeader} />
       <Home.Screen name={Routes.TRACKS_MAP_SCREEN} component={TracksmapScreen} options={noHeader} />
-      <Home.Screen
-        name={Routes.TRACK_SCREEN_COGNITIVE}
-        component={TrackCognitiveScreen}
-        options={noHeader}
-      />
-      <Home.Screen
-        name={Routes.TRACK_SCREEN_INDICATIVE}
-        component={TrackIndicativeScreen}
-        options={noHeader}
-      />
-      <Home.Screen
-        name={Routes.WAITING_ROOM}
-        component={WaitingRoomScreen}
-        options={customHeader}
-      />
+      <Home.Screen name={Routes.TRACK_SCREEN_COGNITIVE} component={TrackCognitiveScreen} options={noHeader} />
+      <Home.Screen name={Routes.TRACK_SCREEN_INDICATIVE} component={TrackIndicativeScreen} options={noHeader} />
+      <Home.Screen name={Routes.WAITING_ROOM} component={WaitingRoomScreen} options={customHeader} />
       <Home.Screen name={Routes.PROFILE_SCREEN} component={ProfileScreen} options={customHeader} />
-      <Home.Screen
-        name={Routes.SETTINGS_SCREEN}
-        component={SettingsScreen}
-        options={customHeader}
-      />
+      <Home.Screen name={Routes.SETTINGS_SCREEN} component={SettingsScreen} options={customHeader} />
     </Home.Navigator>
   );
 };
 
 const RootStack = () => {
   return (
-    <Root.Navigator
-      initialRouteName={Routes.SPLASH_SCREEN}
-      screenOptions={{ cardStyleInterpolator }}>
+    <Root.Navigator initialRouteName={Routes.SPLASH_SCREEN} screenOptions={{ cardStyleInterpolator }}>
       <Root.Screen name={Routes.SPLASH_SCREEN} component={SplashScreen} options={noHeader} />
       <Root.Screen name={Routes.LOGIN_SCREEN} component={LoginScreen} options={noHeader} />
-      <Root.Screen
-        name={Routes.REGISTER_SCREEN}
-        component={RegisterScreen}
-        options={customHeader}
-      />
+      <Root.Screen name={Routes.REGISTER_SCREEN} component={RegisterScreen} options={customHeader} />
       <Root.Screen name={Stacks.HOME} component={HomeStack} options={noHeader} />
     </Root.Navigator>
   );

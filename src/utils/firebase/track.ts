@@ -22,8 +22,7 @@ export const getTracksStartingMarkers = (tracks: TrackData[]): MarkerType[] => {
 
 export const saveTrack = (track: TrackData, callback: () => void): void => {
   try {
-    firestore().collection("tracks").add(track);
-    callback();
+    firestore().collection("tracks").add(track).finally(callback);
   } catch (e) {
     console.log(e);
   }

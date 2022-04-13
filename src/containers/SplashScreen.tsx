@@ -19,7 +19,7 @@ const SplashScreen = ({ navigation: { navigate, dispatch } }: SplashScreenProps)
   useLayoutEffect(() => {
     firebase.auth().onIdTokenChanged(user => {
       if (user) navigate(Stacks.HOME);
-      else dispatch(resetNavigation(Routes.LOGIN_SCREEN));
+      else dispatch(resetNavigation([{ name: Routes.LOGIN_SCREEN }]));
       Splash.hide();
     });
   }, []);

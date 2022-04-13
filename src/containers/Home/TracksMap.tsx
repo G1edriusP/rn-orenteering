@@ -56,10 +56,8 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
   };
 
   const onFetchEnd = (data: TrackData[]) => {
-    setTimeout(() => {
-      setTracks(data);
-      setIsLoading(false);
-    }, 1000);
+    setTracks(data);
+    setIsLoading(false);
   };
 
   useEffect(() => {

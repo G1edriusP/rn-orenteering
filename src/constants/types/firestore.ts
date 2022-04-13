@@ -2,7 +2,7 @@ import { LatLng } from "react-native-maps";
 
 export type MarkerType = {
   title: string;
-  description: string;
+  description?: string;
   location: LatLng;
 };
 

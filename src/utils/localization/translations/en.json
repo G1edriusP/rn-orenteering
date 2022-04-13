@@ -90,5 +90,29 @@
     "userFoundDesc": "User with this E-Mail address already exists in the system.",
     "tooManyRequestsTitle": "Error!",
     "tooManyRequestsDesc": "Too many requests. Try again later."
+  },
+  "trackErrors": {
+    "titleMarker": {
+      "emptyTitle": "Empty title field!",
+      "emptyDesc": "Route point title field can't be empty."
+    },
+    "descriptionMarker": {
+      "emptyTitle": "No description."
+    },
+    "locationMarker": {
+      "emptyTitle": "Location isn't set!",
+      "emptyDesc": "Route point location isn't selected."
+    },
+    "titleTrack": {
+      "emptyTitle": "Empty title field!",
+      "emptyDesc": "Route title field can't be empty."
+    },
+    "descriptionTrack": {
+      "emptyTitle": "No description."
+    },
+    "markersTrack": {
+      "emptyTitle": "No route points!",
+      "emptyDesc": "Route should contain at least 1 route point."
+    }
   }
 }

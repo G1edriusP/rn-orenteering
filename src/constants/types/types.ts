@@ -26,7 +26,7 @@ export type TrackData = {
   uid?: string;
   type: "COGNITIVE" | "INDICATIVE" | "";
   title: string;
-  description: string;
+  description?: string;
   markers: MarkerType[];
 };
 export type ItemProps = {

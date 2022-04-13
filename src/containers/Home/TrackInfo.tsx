@@ -6,6 +6,7 @@ import styles from "styles/containers/Home/TrackInfo";
 
 // Components
 import { View, Text, TextStyle, ListRenderItemInfo, FlatList } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { MarkerCard, TextInput, Button, Dropdown } from "components";
 import { PlusIcon, MarkerIcon } from "assets/svg";
@@ -15,13 +16,7 @@ import MapView, { LatLng, Region } from "react-native-maps";
 
 // Types and constants
 import { TrackInfoScreenProps } from "constants/navigation/types";
-import {
-  defaultMarkerData,
-  defaultTrackData,
-  defaultTrackTypes,
-  IDS,
-  initialMarkerMapRegion,
-} from "constants/values";
+import { defaultMarkerData, defaultTrackData, defaultTrackTypes, IDS, initialMarkerMapRegion } from "constants/values";
 import { MarkerType } from "constants/types/firestore";
 import colors from "constants/colors";
 // @ts-ignore
@@ -31,10 +26,13 @@ import mapStyle from "constants/mapStyle";
 import { markerReducer, saveTrack, tracksReducer } from "utils/firebase/track";
 import { padding } from "constants/spacing";
 import { firebase } from "@react-native-firebase/auth";
-import { createUID } from "utils/other";
+import { createUID, showAlert } from "utils/other";
 import { useTranslation } from "react-i18next";
+import { validateField } from "utils/validation/track";
+import { Routes } from "constants/navigation/routes";
+import { resetNavigation } from "utils/navigation/navigation";
 
-const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
+const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
   const { type } = params;
 
   const { t } = useTranslation();
@@ -89,19 +87,26 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
 
   // Open bottom sheet
   const bottomSheetOpen = (): void => {
+    dispatchMarkerInfo({ type: IDS.RESET });
     bottomSheetRef.current?.snapToIndex(0);
   };
 
   // Close bottom sheet
   const bottomSheetClose = (): void => {
+    dispatchMarkerInfo({ type: IDS.RESET });
     bottomSheetRef.current?.close();
   };
 
   // Save new marker by updating track data state
   const onNewMarkerSavePress = (): void => {
-    dispatchTrackInfo({ type: IDS.TRACK_MARKERS, value: [...trackData.markers, markerData] });
-    bottomSheetClose();
-    dispatchMarkerInfo({ type: IDS.RESET });
+    const { isValid, error } = validateField(markerData, t, true);
+    if (isValid) {
+      dispatchTrackInfo({ type: IDS.TRACK_MARKERS, value: [...trackData.markers, markerData] });
+      bottomSheetClose();
+      dispatchMarkerInfo({ type: IDS.RESET });
+    } else {
+      showAlert({ title: error.title, message: error.description, cancel: t("errors:goBack") });
+    }
   };
 
   // Remove selected marker from track data state
@@ -112,14 +117,35 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
 
   // Clear data states after saving new track to firestore database
   const onTrackSave = () => {
+    navigation.dispatch(
+      resetNavigation(
+        [
+          { name: Routes.HOME_SCREEN },
+          { name: Routes.TRACKS_MAP_SCREEN, params: { infoType: "OTHER_TRACKS" } },
+          { name: Routes.TRACKS_SCREEN, params: { tracks: [] } },
+        ],
+        2,
+      ),
+    );
     dispatchTrackInfo({ type: IDS.RESET });
+    setIsLoading(false);
+  };
+
+  // Save track to firestore database
+  const onTrackSavePress = () => {
+    setIsLoading(true);
+    const { isValid, error } = validateField(trackData, t, false);
+    if (isValid) {
+      saveTrack({ ...trackData, uid: firebase.auth().currentUser?.uid, id: createUID() }, onTrackSave);
+    } else {
+      showAlert({ title: error.title, message: error.description, cancel: t("errors:goBack") });
+      setIsLoading(false);
+    }
   };
 
   return (
     <SafeAreaView style={styles.wrap} edges={["bottom", "left", "right"]}>
-      <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
-        {t("createTrack:commonInfo")}
-      </Text>
+      <Text style={[styles.title, { marginBottom: padding.MIDI }]}>{t("createTrack:commonInfo")}</Text>
       <TextInput
         id={IDS.TRACK_TITLE}
         editable={!isLoading}
@@ -170,16 +196,7 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
         )}
       />
 
-      <Button
-        title={t("createTrack:create")}
-        onPress={() =>
-          saveTrack(
-            { ...trackData, uid: firebase.auth().currentUser?.uid, id: createUID() },
-            onTrackSave,
-          )
-        }
-        style={{ marginTop: 12 }}
-      />
+      <Button title={t("createTrack:create")} onPress={onTrackSavePress} style={{ marginTop: 12 }} />
 
       <BottomSheet
         ref={bottomSheetRef}
@@ -187,11 +204,12 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
         index={-1}
         enablePanDownToClose
         backgroundStyle={styles.sheetBackground}>
-        <BottomSheetScrollView style={styles.wrap} contentContainerStyle={styles.sheetScrollWrap}>
+        <BottomSheetScrollView
+          style={styles.wrap}
+          contentContainerStyle={styles.sheetScrollWrap}
+          showsVerticalScrollIndicator={false}>
           <BottomSheetView>
-            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
-              {t("createTrack:routePointInfo")}
-            </Text>
+            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>{t("createTrack:routePointInfo")}</Text>
 
             <TextInput
               id={IDS.MARKER_TITLE}
@@ -213,35 +231,33 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
               style={[styles.mediumBottomSpacer, styles.multilineInput] as TextStyle}
             />
 
-            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
-              {t("createTrack:routePointLocation")}
-            </Text>
+            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>{t("createTrack:routePointLocation")}</Text>
 
             <BottomSheetView style={styles.locationWrap}>
-              <View style={styles.locationInput}>
+              <BottomSheetView style={styles.locationInput}>
                 <TextInput
                   id={IDS.MARKER_LATITUDE}
                   editable={!isLoading}
-                  value={!!markerData.location.latitude ? String(markerData.location.latitude) : ""}
+                  value={!!markerData.location.latitude ? String(markerData.location.latitude.toFixed(6)) : ""}
                   placeholder={t("createTrack:latitude")}
                   onChangeText={onMarkerLocationManualChange}
                   onSubmitEditing={onMarkerLocationManualChangeSubmit}
                   keyboardType='decimal-pad'
+                  style={{ textAlign: "center" }}
                 />
-              </View>
-              <View style={styles.locationInput}>
+              </BottomSheetView>
+              <BottomSheetView style={styles.locationInput}>
                 <TextInput
                   id={IDS.MARKER_LONGITUDE}
                   editable={!isLoading}
-                  value={
-                    !!markerData.location.longitude ? String(markerData.location.longitude) : ""
-                  }
+                  value={!!markerData.location.longitude ? String(markerData.location.longitude.toFixed(6)) : ""}
                   placeholder={t("createTrack:longitude")}
                   onChangeText={onMarkerLocationManualChange}
                   onSubmitEditing={onMarkerLocationManualChangeSubmit}
                   keyboardType='decimal-pad'
+                  style={{ textAlign: "center" }}
                 />
-              </View>
+              </BottomSheetView>
             </BottomSheetView>
 
             <BottomSheetView>
@@ -251,18 +267,18 @@ const TrackInfo = ({ route: { params } }: TrackInfoScreenProps) => {
                 provider={"google"}
                 style={styles.markerMap}
                 initialRegion={initialMarkerMapRegion}
-                onRegionChange={onMarkerMapRegionChange}
+                onRegionChangeComplete={onMarkerMapRegionChange}
               />
-              <View style={styles.markerFixed} pointerEvents='none'>
+              <BottomSheetView style={styles.markerFixed} pointerEvents='none'>
                 <MarkerIcon size={36} />
-              </View>
+              </BottomSheetView>
               <Text style={styles.subtitle}>{t("createTrack:moveCursor")}</Text>
             </BottomSheetView>
           </BottomSheetView>
           <Button
             title={t("createTrack:save")}
             onPress={onNewMarkerSavePress}
-            style={{ marginTop: 12 }}
+            style={{ marginBottom: padding.MEDIUM }}
           />
         </BottomSheetScrollView>
       </BottomSheet>

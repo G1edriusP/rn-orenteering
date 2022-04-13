@@ -31,7 +31,6 @@ export default StyleSheet.create<Props>({
     backgroundColor: colors.WHITE,
   },
   sheetScrollWrap: {
-    flex: 1,
     justifyContent: "space-between",
     paddingBottom: padding.MEDIUM,
   },
@@ -96,5 +95,6 @@ export default StyleSheet.create<Props>({
     fontFamily: fontRegular,
     fontSize: fontSizes.SMALL,
     color: colors.BLACK,
+    marginBottom: padding.LARGE,
   },
 });
