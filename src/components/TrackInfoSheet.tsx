@@ -1,4 +1,4 @@
-import React, { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import React, { forwardRef, memo, useImperativeHandle, useRef, useState } from "react";
 import { useMemoOne } from "use-memo-one";
 import { useNavigation } from "@react-navigation/native";
 
@@ -20,9 +20,10 @@ import { MarkerType } from "constants/types/firestore";
 type Props = {
   topSnap: number;
   headerPos: SharedValue<number>;
+  fromMap?: boolean;
 };
 
-const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(({ topSnap, headerPos }, ref) => {
+const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(({ topSnap, headerPos, fromMap = true }, ref) => {
   const navigation = useNavigation();
 
   const sheetRef = useRef<BottomSheet>(null);
@@ -36,7 +37,7 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(({ topSnap, headerPos 
     headerPos.value = 0;
   };
 
-  const onSheetOpen = (data: TrackData | MarkerType) => {
+  const onSheetOpen = (data: TrackData | MarkerType, fromMap?: boolean) => {
     setInfo(data);
     sheetRef.current?.snapToIndex(0);
     headerPos.value = -SCREEN_WIDTH;
@@ -66,12 +67,11 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(({ topSnap, headerPos 
   return (
     <BottomSheet ref={sheetRef} snapPoints={sheetSnapPoints} index={-1} style={styles.wrap}>
       <BottomSheetScrollView>
-        <View style={styles.image}></View>
         {info.title ? <Text style={styles.title}>{info.title}</Text> : null}
         {info.description ? <Text style={styles.description}>{info.description}</Text> : null}
-        <Button title={"Pradėti"} onPress={onTrackStartPress} />
+        {fromMap && <Button title={"Pradėti"} onPress={onTrackStartPress} />}
       </BottomSheetScrollView>
     </BottomSheet>
   );
 });
-export default TrackInfoSheet;
+export default memo(TrackInfoSheet);

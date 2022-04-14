@@ -17,6 +17,7 @@
 		7EF68E3733C33B6898317E18 /* libPods-orienteering-orienteeringTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ABFE59519B596E51CEFDCCC0 /* libPods-orienteering-orienteeringTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		877405CA7365475582FEB3B8 /* Fredoka-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E6FFB3532F8E4AFAB67FCE47 /* Fredoka-Medium.ttf */; };
+		9636114C2807DED9006F003C /* LocationEmpty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9636114B2807DED9006F003C /* LocationEmpty.swift */; };
 		96CA59DE27B7C7B500DAEA60 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 96CA59DD27B7C7B500DAEA60 /* GoogleService-Info.plist */; };
 		C65DF43068314FDB9D52E940 /* Fredoka-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE941FBAC08249289CE83624 /* Fredoka-Regular.ttf */; };
 		E82774E2C0C04AA5B0884C6A /* Fredoka-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 809527015F604232A5E6E811 /* Fredoka-Light.ttf */; };
@@ -43,18 +44,21 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = orienteering/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = orienteering/main.m; sourceTree = "<group>"; };
 		1D0AE47A65C8663E3B452821 /* Pods-orienteering-orienteeringTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-orienteering-orienteeringTests.release.xcconfig"; path = "Target Support Files/Pods-orienteering-orienteeringTests/Pods-orienteering-orienteeringTests.release.xcconfig"; sourceTree = "<group>"; };
-		39A1DA7964564E2F821ED4A8 /* Fredoka-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Fredoka-Bold.ttf"; path = "../src/assets/fonts/Fredoka-Bold.ttf"; sourceTree = "<group>"; };
+		39A1DA7964564E2F821ED4A8 /* Fredoka-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Fredoka-Bold.ttf"; path = "../src/assets/fonts/Fredoka-Bold.ttf"; sourceTree = "<group>"; };
 		6423831EA8574132BED9D8CC /* libPods-orienteering.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-orienteering.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6C97AB639B58BBB4B15BBE30 /* Pods-orienteering-orienteeringTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-orienteering-orienteeringTests.debug.xcconfig"; path = "Target Support Files/Pods-orienteering-orienteeringTests/Pods-orienteering-orienteeringTests.debug.xcconfig"; sourceTree = "<group>"; };
-		7105D73EFFD44604BFFF52DF /* Fredoka-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Fredoka-SemiBold.ttf"; path = "../src/assets/fonts/Fredoka-SemiBold.ttf"; sourceTree = "<group>"; };
-		809527015F604232A5E6E811 /* Fredoka-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Fredoka-Light.ttf"; path = "../src/assets/fonts/Fredoka-Light.ttf"; sourceTree = "<group>"; };
+		7105D73EFFD44604BFFF52DF /* Fredoka-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Fredoka-SemiBold.ttf"; path = "../src/assets/fonts/Fredoka-SemiBold.ttf"; sourceTree = "<group>"; };
+		809527015F604232A5E6E811 /* Fredoka-Light.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Fredoka-Light.ttf"; path = "../src/assets/fonts/Fredoka-Light.ttf"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = orienteering/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		9636114A2807DED9006F003C /* orienteering-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "orienteering-Bridging-Header.h"; sourceTree = "<group>"; };
+		9636114B2807DED9006F003C /* LocationEmpty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationEmpty.swift; sourceTree = "<group>"; };
+		9636114D2807DF9B006F003C /* orienteering.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = orienteering.entitlements; path = orienteering/orienteering.entitlements; sourceTree = "<group>"; };
 		96CA59DD27B7C7B500DAEA60 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ABFE59519B596E51CEFDCCC0 /* libPods-orienteering-orienteeringTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-orienteering-orienteeringTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		C0A881CF5CF3F2B244570E2A /* Pods-orienteering.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-orienteering.debug.xcconfig"; path = "Target Support Files/Pods-orienteering/Pods-orienteering.debug.xcconfig"; sourceTree = "<group>"; };
 		D00AAFFCFCFDA5787532823F /* Pods-orienteering.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-orienteering.release.xcconfig"; path = "Target Support Files/Pods-orienteering/Pods-orienteering.release.xcconfig"; sourceTree = "<group>"; };
-		DE941FBAC08249289CE83624 /* Fredoka-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Fredoka-Regular.ttf"; path = "../src/assets/fonts/Fredoka-Regular.ttf"; sourceTree = "<group>"; };
-		E6FFB3532F8E4AFAB67FCE47 /* Fredoka-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = "Fredoka-Medium.ttf"; path = "../src/assets/fonts/Fredoka-Medium.ttf"; sourceTree = "<group>"; };
+		DE941FBAC08249289CE83624 /* Fredoka-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Fredoka-Regular.ttf"; path = "../src/assets/fonts/Fredoka-Regular.ttf"; sourceTree = "<group>"; };
+		E6FFB3532F8E4AFAB67FCE47 /* Fredoka-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "Fredoka-Medium.ttf"; path = "../src/assets/fonts/Fredoka-Medium.ttf"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -98,6 +102,7 @@
 		13B07FAE1A68108700A75B9A /* orienteering */ = {
 			isa = PBXGroup;
 			children = (
+				9636114D2807DF9B006F003C /* orienteering.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
@@ -128,7 +133,6 @@
 				7105D73EFFD44604BFFF52DF /* Fredoka-SemiBold.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -141,6 +145,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				9636114B2807DED9006F003C /* LocationEmpty.swift */,
 				96CA59DD27B7C7B500DAEA60 /* GoogleService-Info.plist */,
 				13B07FAE1A68108700A75B9A /* orienteering */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
@@ -149,6 +154,7 @@
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				E233CBF5F47BEE60B243DCF8 /* Pods */,
 				5E70172017EF4A3FB07BAD88 /* Resources */,
+				9636114A2807DED9006F003C /* orienteering-Bridging-Header.h */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -235,7 +241,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1330;
 					};
 				};
 			};
@@ -458,6 +464,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				9636114C2807DED9006F003C /* LocationEmpty.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -477,6 +484,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6C97AB639B58BBB4B15BBE30 /* Pods-orienteering-orienteeringTests.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -504,6 +512,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 1D0AE47A65C8663E3B452821 /* Pods-orienteering-orienteeringTests.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				INFOPLIST_FILE = orienteeringTests/Info.plist;
@@ -530,6 +539,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = orienteering/orienteering.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = orienteering/Info.plist;
@@ -544,6 +554,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gpakalniskis.orientuokis;
 				PRODUCT_NAME = orienteering;
+				SWIFT_OBJC_BRIDGING_HEADER = "orienteering-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -556,6 +567,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = orienteering/orienteering.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
 				INFOPLIST_FILE = orienteering/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -569,6 +581,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.gpakalniskis.orientuokis;
 				PRODUCT_NAME = orienteering;
+				SWIFT_OBJC_BRIDGING_HEADER = "orienteering-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

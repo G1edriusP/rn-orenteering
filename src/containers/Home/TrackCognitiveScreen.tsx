@@ -10,12 +10,7 @@ import { BackIcon, CloseIcon, SearchIcon } from "assets/svg";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import MapView, { Callout, CalloutSubview, LatLng, Marker, Polyline } from "react-native-maps";
 import { firebase } from "@react-native-firebase/auth";
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  useDerivedValue,
-} from "react-native-reanimated";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming, useDerivedValue } from "react-native-reanimated";
 
 // Constants
 import { TrackMapCognitiveScreenProps } from "constants/navigation/types";
@@ -26,7 +21,7 @@ import { MarkerType } from "constants/types/firestore";
 import { padding, SCREEN_HEIGHT } from "constants/spacing";
 import { fetchCoordinatesBetweenPoints } from "utils/other";
 import colors from "constants/colors";
-import { formatTimeString } from "utils/time";
+import { formatSToMsString, formatTimeString } from "utils/time";
 
 // Utils
 
@@ -64,8 +59,10 @@ const TrackCognitiveScreen = ({ navigation, route: { params } }: TrackMapCogniti
       fetchCoordinatesBetweenPoints(track.markers, setCoordinates);
       // Starts the timer
       interval = setInterval(() => {
-        setTime(old => old + 16.5);
-      }, 10);
+        setTime(lastTimerCount => {
+          return lastTimerCount + 1;
+        });
+      }, 1000);
     }
     return () => clearInterval(interval);
   }, []);
@@ -93,22 +90,17 @@ const TrackCognitiveScreen = ({ navigation, route: { params } }: TrackMapCogniti
               key={index}
               coordinate={marker.location}
               title={marker.title}
-              description={marker.description}></Marker>
+              description={marker.description}
+            />
           ))}
-          <Polyline
-            coordinates={coordinates}
-            fillColor={"black"}
-            strokeColor={colors.ORANGE}
-            strokeWidth={2}
-          />
+          <Polyline coordinates={coordinates} fillColor={"black"} strokeColor={colors.ORANGE} strokeWidth={2} />
         </MapView>
       ) : null}
-      <Animated.View
-        style={[styles.headerWrap, headerRStyle, { paddingTop: top + padding.MEDIUM }]}>
+      <Animated.View style={[styles.headerWrap, headerRStyle, { paddingTop: top + padding.MEDIUM }]}>
         <SmallButton Icon={CloseIcon} size={28} onPress={onBackPress} />
-        <SmallButton isTimer time={formatTimeString(time)} />
+        <SmallButton isTimer time={formatSToMsString(time)} />
       </Animated.View>
-      <TrackInfoSheet ref={sheetRef} topSnap={SCREEN_HEIGHT - top} headerPos={headerPos} />
+      <TrackInfoSheet ref={sheetRef} topSnap={SCREEN_HEIGHT - top} headerPos={headerPos} fromMap={false} />
     </SafeAreaView>
   );
 };

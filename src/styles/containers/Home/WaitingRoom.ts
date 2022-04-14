@@ -26,6 +26,7 @@ type Props = {
 export default StyleSheet.create<Props>({
   wrap: {
     flex: 1,
+    backgroundColor: colors.WHITE,
   },
   guestWrap: {
     flex: 1,

@@ -15,7 +15,7 @@ import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { onSignOutPress } from "utils/firebase/auth";
 import EventRegister from "utils/eventRegister";
-import { removeWaitingRoom } from "utils/firebase/track";
+import { removePlayerFromWaitingRoom, removeWaitingRoom } from "utils/firebase/track";
 
 const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
   const { t } = useTranslation();
@@ -30,7 +30,8 @@ const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
           ok: t("waitingRoom:leaveCancel"),
           cancel: t("waitingRoom:leaveConfirm"),
           onCancel: () => {
-            options.roomID && removeWaitingRoom(options.roomID);
+            options.isCreator && removeWaitingRoom(options.roomID);
+            !options.isCreator && removePlayerFromWaitingRoom(options.roomID, options.userID);
             navigation.goBack();
           },
         },

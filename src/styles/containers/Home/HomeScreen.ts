@@ -17,7 +17,6 @@ export default StyleSheet.create<Props>({
   },
   listColumn: {
     justifyContent: "space-evenly",
-
     paddingBottom: padding.SMALL * 1.5,
   },
 });

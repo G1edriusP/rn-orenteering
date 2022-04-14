@@ -51,7 +51,7 @@ export type Route = {
 };
 
 export type TrackInfoHandle = {
-  open: (track: TrackData | MarkerType) => void;
+  open: (track: TrackData | MarkerType, fromMap?: boolean) => void;
   close: () => void;
 };
 
@@ -65,5 +65,5 @@ export type AlertParams = {
   ok?: string;
   cancel?: string;
   onCancel?: void;
-  onOk?: void;
+  onOk?: () => void;
 };

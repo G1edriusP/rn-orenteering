@@ -1,10 +1,11 @@
 import React from "react";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 // Styles
 import styles from "styles/containers/Home/HomeScreen";
 
 // Components
-import { FlatList, ListRenderItemInfo } from "react-native";
+import { FlatList, ListRenderItemInfo, Platform } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { HomeCard, Fab, Button } from "components";
 import { GameTrackIcon, ProfileIcon, SettingsIcon, TracksIcon } from "assets/svg";
@@ -20,9 +21,11 @@ import { CardsDataType } from "constants/types/components";
 import { HomeScreenProps } from "constants/navigation/types";
 import colors from "constants/colors";
 import { useTranslation } from "react-i18next";
+import { padding } from "constants/spacing";
 
 const HomeScreen = ({ navigation }: HomeScreenProps) => {
   const { t } = useTranslation();
+  const { bottom } = useSafeAreaInsets();
 
   const cardsData: CardsDataType[] = [
     {
@@ -69,7 +72,7 @@ const HomeScreen = ({ navigation }: HomeScreenProps) => {
         numColumns={2}
         columnWrapperStyle={styles.listColumn}
       />
-      <Fab onPress={onFabPress} />
+      <Fab onPress={onFabPress} style={Platform.select({ ios: { marginBottom: bottom - padding.MEDIUM } })} />
     </SafeAreaView>
   );
 };

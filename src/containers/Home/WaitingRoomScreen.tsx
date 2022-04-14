@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useCallbackOne, useMemoOne } from "use-memo-one";
 
 // Styles
 import styles from "styles/containers/Home/WaitingRoom";
@@ -21,10 +22,11 @@ import { IDigits, IValue } from "react-native-number-please/dist/src/NumberPleas
 // Utils
 import { createUID, showAlert } from "utils/other";
 import { formatPickerToS, formatSToMsString } from "utils/time";
-import { useMemoOne } from "use-memo-one";
+
 import { padding, SCREEN_WIDTH } from "constants/spacing";
 import { resetNavigation } from "utils/navigation/navigation";
-import { Stacks } from "constants/navigation/routes";
+import { Routes, Stacks } from "constants/navigation/routes";
+import { updateWaitingRoomDuration } from "utils/firebase/track";
 
 const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenProps) => {
   const { t } = useTranslation();
@@ -38,6 +40,7 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
   const [initial, setInitial] = useState<boolean>(true);
   const [roomData, setRoomData] = useState<IndicativeTrackRoom>(emptyTrackRoom);
   const [trackData, setTrackData] = useState<TrackData>({} as TrackData);
+  const [players, setPlayers] = useState<TrackPlayer[]>([] as TrackPlayer[]);
   const [time, setTime] = useState<IValue[]>([
     { id: "hours", value: 1 },
     { id: "minutes", value: 0 },
@@ -47,43 +50,70 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
     { id: "minutes", min: 0, max: 59 },
   ];
 
-  const onRoomIdInput = (id: string, text: string) => setRoomData(old => ({ ...old, [id]: text.toUpperCase() }));
+  const onRoomIdInput = useCallbackOne(
+    (id: string, text: string) => setRoomData(old => ({ ...old, [id]: text.toUpperCase() })),
+    [],
+  );
 
-  const onRoomDataSingleFetch = async (roomID: string) => {
-    const old = await firestore().collection("rooms").doc(roomID).get();
-    const player: TrackPlayer = { uid: currUser!.uid, name: currUser?.email!, points: 0 };
+  const bottomSheetOpen = useCallbackOne((): void => {
+    bottomSheetRef.current?.snapToIndex(0);
+  }, []);
+
+  const onRoomDataSingleFetch = useCallbackOne(async (roomID: string) => {
+    const player: TrackPlayer = { uid: currUser!.uid, name: currUser?.email!, points: 0, markers: [] };
+    // Add new player to room players collection when someone joins
     firestore()
       .collection("rooms")
       .doc(roomID)
-      .update({ players: [...old.data()?.players, player] })
+      .collection("players")
+      .doc(player.uid)
+      .set(player)
       .finally(() => {
         // @ts-ignore
-        navigation.setOptions({ showAlertOnBack: true });
+        navigation.setOptions({ showAlertOnBack: true, roomID: roomID, userID: currUser?.uid });
         setInitial(false);
+      })
+      .catch(err => {
+        console.log(err);
       });
-  };
+  }, []);
 
-  const bottomSheetOpen = (): void => {
-    bottomSheetRef.current?.snapToIndex(0);
-  };
-
-  const bottomSheetClose = (): void => {
-    bottomSheetRef.current?.close();
-  };
+  const onStartPress = useCallbackOne(() => {
+    firestore()
+      .collection("rooms")
+      .doc(roomData.roomID)
+      .update({ isStarted: true, hasEnded: false, endsAt: +new Date() + roomData.duration * 1000 })
+      .finally(() => {
+        navigation.dispatch(
+          resetNavigation([
+            { name: Routes.HOME_SCREEN },
+            {
+              name: Routes.TRACK_SCREEN_INDICATIVE,
+              params: { trackInfo: trackData, roomInfo: roomData, players: players },
+            },
+          ]),
+        );
+      });
+  }, [trackData, roomData, players]);
 
   useEffect(() => {
     if (isCreator) {
       const roomID = createUID(6).toUpperCase();
-      const player: TrackPlayer = { uid: currUser!.uid, name: currUser?.email!, points: 0 };
-      const data: IndicativeTrackRoom = { ...roomData, roomID, trackID, creatorID: currUser!.uid, players: [player] };
+      const player: TrackPlayer = { uid: currUser!.uid, name: currUser?.email!, points: 0, markers: [] };
+      const data: IndicativeTrackRoom = { ...roomData, roomID, trackID, creatorID: currUser!.uid };
       setRoomData(old => ({ ...old, ...data }));
+      // Create room in firestore
+      firestore().collection("rooms").doc(roomID).set(data);
+      // Add player (creator) in room players collection
       firestore()
         .collection("rooms")
         .doc(roomID)
-        .set(data)
+        .collection("players")
+        .doc(player.uid)
+        .set(player)
         .finally(() => {
           // @ts-ignore
-          navigation.setOptions({ showAlertOnBack: true, roomID: roomID });
+          navigation.setOptions({ showAlertOnBack: true, roomID: roomID, isCreator: true });
           setInitial(false);
         });
     }
@@ -95,7 +125,9 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
       .doc(roomData.roomID)
       .onSnapshot(
         docSnap => {
+          // Check if room still exists
           if (!initial && !isCreator && !docSnap.data() && roomData.roomID) {
+            // If not, navigate user to home screen and show alert
             navigation.dispatch(resetNavigation([{ name: Stacks.HOME }]));
             showAlert({
               title: t("errors:roomClosedTitle"),
@@ -103,14 +135,45 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
               ok: t("errors:close"),
             });
           }
+          // If room still exists, update data
           if (!initial) setRoomData(old => ({ ...old, ...docSnap.data() }));
         },
-        error => console.log(error),
+        error => {
+          console.log(error);
+        },
       );
     return () => sub();
   }, [roomData.roomID, initial]);
 
   useEffect(() => {
+    const sub = firestore()
+      .collection("rooms")
+      .doc(roomData.roomID)
+      .collection("players")
+      .onSnapshot(collSnapshot => {
+        if (!initial) {
+          setPlayers(collSnapshot.docs.map(docSnap => docSnap.data()) as TrackPlayer[]);
+        }
+      });
+    return () => sub();
+  }, [roomData.roomID, initial]);
+
+  useEffect(() => {
+    if (roomData.isStarted) {
+      navigation.dispatch(
+        resetNavigation([
+          { name: Routes.HOME_SCREEN },
+          {
+            name: Routes.TRACK_SCREEN_INDICATIVE,
+            params: { trackInfo: trackData, roomInfo: roomData, players: players },
+          },
+        ]),
+      );
+    }
+  }, [roomData, trackData, players]);
+
+  useEffect(() => {
+    // Get tracks data from firestore
     if (!!roomData.trackID.length) {
       firestore()
         .collection("tracks")
@@ -118,13 +181,18 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
         .get()
         .then(response => {
           setTrackData(response.docs[0].data() as TrackData);
-        });
+        })
+        .catch(err => console.log(err));
     }
   }, [roomData.trackID]);
 
   useEffect(() => {
-    setRoomData(old => ({ ...old, duration: formatPickerToS(time) }));
-  }, [time]);
+    // Update duration value in firestore
+    if (!initial && time && roomData.roomID) {
+      setRoomData(old => ({ ...old, duration: formatPickerToS(time) }));
+      updateWaitingRoomDuration(roomData.roomID, formatPickerToS(time));
+    }
+  }, [time, roomData.roomID]);
 
   if (!isCreator && initial) {
     // @ts-ignore
@@ -161,15 +229,17 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
         <Text style={styles.subtitle}>
           {t("waitingRoom:duration")}: {formatSToMsString(roomData.duration)}
         </Text>
-        <View style={styles.buttons}>
-          <Button title={t("waitingRoom:edit")} onPress={bottomSheetOpen} style={styles.button} />
-          <Button title={t("waitingRoom:start")} onPress={() => {}} style={styles.button} />
-        </View>
+        {isCreator && (
+          <View style={styles.buttons}>
+            <Button title={t("waitingRoom:edit")} onPress={bottomSheetOpen} style={styles.button} />
+            <Button title={t("waitingRoom:start")} onPress={onStartPress} style={styles.button} />
+          </View>
+        )}
       </View>
       <View style={styles.bottomView}>
         <Text style={styles.title}>{t("waitingRoom:joined")}:</Text>
         <FlatList
-          data={roomData.players}
+          data={players}
           numColumns={2}
           showsVerticalScrollIndicator={false}
           columnWrapperStyle={styles.columnWrap}

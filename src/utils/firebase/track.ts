@@ -60,3 +60,15 @@ export const fetchMyTracks = (uid: string | undefined, callback: (data: TrackDat
 export const removeWaitingRoom = (roomID: string) => {
   firestore().collection("rooms").doc(roomID).delete();
 };
+
+export const removePlayerFromWaitingRoom = (roomID: string, playerID: string) => {
+  firestore().collection("rooms").doc(roomID).collection("players").doc(playerID).delete();
+};
+
+export const updateWaitingRoomDuration = (roomID: string, duration: number) => {
+  firestore()
+    .collection("rooms")
+    .doc(roomID)
+    .update({ duration })
+    .catch(err => console.log(err, "Single single"));
+};

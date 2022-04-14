@@ -35,8 +35,24 @@
 			</dict>
 		</dict>
 	</dict>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Your location is required for better navigation between map markers and calculation of the score, presented in one of the tracks type.</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Your location is required for better navigation between map markers and calculation of the score, presented in one of the tracks type.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>Your location is required for better navigation between map markers and calculation of the score, presented in one of the tracks type.</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fredoka-Bold.ttf</string>
+		<string>Fredoka-Light.ttf</string>
+		<string>Fredoka-Medium.ttf</string>
+		<string>Fredoka-Regular.ttf</string>
+		<string>Fredoka-SemiBold.ttf</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIRequiredDeviceCapabilities</key>
@@ -51,13 +67,5 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Fredoka-Bold.ttf</string>
-		<string>Fredoka-Light.ttf</string>
-		<string>Fredoka-Medium.ttf</string>
-		<string>Fredoka-Regular.ttf</string>
-		<string>Fredoka-SemiBold.ttf</string>
-	</array>
 </dict>
 </plist>

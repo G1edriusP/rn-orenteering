@@ -119,5 +119,14 @@
       "emptyTitle": "No route points!",
       "emptyDesc": "Route should contain at least 1 route point."
     }
+  },
+  "game": {
+    "found": "was found!",
+    "timeEnded": "Route time has ended!",
+    "gotPoints": "You have got 10 points!",
+    "gotPointsEnded": "You have got 10 points and ended the route!",
+    "gotPointsTime": "You could not find all the route points. Good luck next time!",
+    "continue": "Continue",
+    "watchStats": "View statistics"
   }
 }
