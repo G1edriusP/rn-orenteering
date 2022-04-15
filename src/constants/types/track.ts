@@ -5,6 +5,7 @@ export type TrackPlayer = {
   name: string;
   points: number;
   markers: MarkerType[];
+  currentIndex: number;
 };
 
 export type IndicativeTrackRoom = {

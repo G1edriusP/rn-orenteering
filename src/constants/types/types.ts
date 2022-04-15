@@ -67,3 +67,14 @@ export type AlertParams = {
   onCancel?: void;
   onOk?: () => void;
 };
+
+export type Position = {
+  latitude: number;
+  longitude: number;
+  altitude: number;
+  timestamp: number;
+  accuracy: number;
+  speed: number;
+  heading: number;
+  isFromMockProvider: boolean;
+};

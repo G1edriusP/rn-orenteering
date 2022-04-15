@@ -60,7 +60,7 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
   }, []);
 
   const onRoomDataSingleFetch = useCallbackOne(async (roomID: string) => {
-    const player: TrackPlayer = { uid: currUser!.uid, name: currUser?.email!, points: 0, markers: [] };
+    const player: TrackPlayer = { uid: currUser!.uid, name: currUser?.email!, points: 0, markers: [], currentIndex: 0 };
     // Add new player to room players collection when someone joins
     firestore()
       .collection("rooms")
@@ -99,7 +99,13 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
   useEffect(() => {
     if (isCreator) {
       const roomID = createUID(6).toUpperCase();
-      const player: TrackPlayer = { uid: currUser!.uid, name: currUser?.email!, points: 0, markers: [] };
+      const player: TrackPlayer = {
+        uid: currUser!.uid,
+        name: currUser?.email!,
+        points: 0,
+        markers: [],
+        currentIndex: 0,
+      };
       const data: IndicativeTrackRoom = { ...roomData, roomID, trackID, creatorID: currUser!.uid };
       setRoomData(old => ({ ...old, ...data }));
       // Create room in firestore

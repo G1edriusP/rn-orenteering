@@ -15,7 +15,7 @@ import { GeoError, GeoPosition } from "react-native-geolocation-service";
 
 // Constants
 import { TrackMapIndicativeScreenProps } from "constants/navigation/types";
-import { TrackInfoHandle } from "constants/types/types";
+import { Position, TrackInfoHandle } from "constants/types/types";
 import { MarkerType } from "constants/types/firestore";
 import { padding, SCREEN_HEIGHT } from "constants/spacing";
 import colors from "constants/colors";
@@ -23,7 +23,7 @@ import mapStyle from "constants/mapStyle";
 
 // Utils
 import { formatSToMsString } from "utils/time";
-import { getLocationUpdates, measureDistance } from "utils/location/location";
+import { getLocationUpdates, measureDistance, measureDistance2 } from "utils/location/location";
 import { showAlert } from "utils/other";
 import { useTranslation } from "react-i18next";
 import firestore from "@react-native-firebase/firestore";
@@ -36,12 +36,13 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
   const { top } = useSafeAreaInsets();
   const { trackInfo, roomInfo, players: oldPlayers } = params;
 
-  const userID = auth().currentUser?.uid;
-
-  const [location, setLocation] = useState<GeoPosition>();
+  const [location, setLocation] = useState<Position>();
   const [time, setTime] = useState(roomInfo.duration);
   const [players, setPlayers] = useState<TrackPlayer[]>(oldPlayers);
-  const [currentMarker, setCurrentMarker] = useState<MarkerType>(trackInfo.markers[0]);
+
+  const userID = auth().currentUser?.uid;
+  // const me = players.find(player => player.uid === userID);
+  const [currentMarker, setCurrentMarker] = useState<MarkerType>();
 
   const watchId = useRef(null);
   const sheetRef = useRef<TrackInfoHandle>(null);
@@ -55,8 +56,8 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
 
   const initialMapRegion = useMemoOne(
     () => ({
-      latitude: location?.coords.latitude || trackInfo.markers[0].location.latitude,
-      longitude: location?.coords.longitude || trackInfo.markers[0].location.longitude,
+      latitude: location?.latitude || trackInfo.markers[0].location.latitude,
+      longitude: location?.longitude || trackInfo.markers[0].location.longitude,
       latitudeDelta: 0.0922,
       longitudeDelta: 0.0421,
     }),
@@ -74,60 +75,60 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
     sheetRef.current?.close();
   };
 
-  const onMarkerFound = async () => {
-    // Fetch existing players data
-    const res = await firestore().collection("rooms").doc(roomInfo.roomID).collection("players").get();
-    const players = res.docs.map(player => player.data()) as TrackPlayer[];
+  const onMarkerFound = useCallbackOne(async () => {
     const me = players.find(player => player.uid === userID);
     if (me) {
       // Update this user with new data in firestore
-      // firestore()
-      //   .collection("rooms")
-      //   .doc(roomInfo.roomID)
-      //   .collection("players")
-      //   .doc(userID)
-      //   .update({
-      //     points: me.points + 10,
-      //     markers: [...me.markers, currentMarker],
-      //   })
-      //   .finally(() => {
-      //     setCurrentMarker(trackInfo.markers[me.markers.length + 1]);
-      //   });
-      setCurrentMarker(trackInfo.markers[me.markers.length + 1]);
+      firestore()
+        .collection("rooms")
+        .doc(roomInfo.roomID)
+        .collection("players")
+        .doc(userID)
+        .update({
+          currentIndex: me.currentIndex + 1,
+          points: me.points + 10,
+          markers: [...me.markers, currentMarker],
+        });
     } else {
       console.log("Error while trying to find player to add points and update markers");
     }
-  };
+  }, [players, roomInfo.roomID, userID, currentMarker, trackInfo.markers]);
 
   const onLocationUpdateSuccess = useCallbackOne(
-    (position: GeoPosition) => {
+    (position: Position) => {
       setLocation(position);
-      const distance = measureDistance(position.coords, currentMarker.location);
-      if (Math.round(distance) <= 30) {
-        console.log(distance);
-        showAlert({
-          title: `${trackInfo.title}$ ${t("game:found")}`,
-          message: t("game:gotPoints"),
-          ok: t("game:continue"),
-          onOk: onMarkerFound,
-        });
+      if (currentMarker) {
+        const distance = measureDistance(position, currentMarker.location);
+        if (Math.round(distance) <= 30) {
+          showAlert({
+            title: `"${currentMarker.title}" ${t("game:found")}`,
+            message: t("game:gotPoints"),
+            ok: t("game:continue"),
+            onOk: onMarkerFound,
+          });
+        }
       }
-    },
-    [trackInfo.title, currentMarker],
-  );
-
-  const onLocationUpdateError = useCallbackOne(
-    (error: GeoError) => {
-      console.log(error);
     },
     [currentMarker],
   );
 
   const onUserLocationChange = (e: EventUserLocation) => {
+    const position = e.nativeEvent.coordinate;
     mapRef.current?.animateCamera({
-      center: { longitude: e.nativeEvent.coordinate.longitude, latitude: e.nativeEvent.coordinate.latitude },
+      center: { longitude: position.longitude, latitude: position.latitude },
     });
+    onLocationUpdateSuccess(position);
   };
+
+  // Set new marker every time players state gets updated
+  useEffect(() => {
+    if (players) {
+      const me = players.find(player => player.uid === userID);
+      if (me) {
+        setCurrentMarker(trackInfo.markers[me.currentIndex]);
+      }
+    }
+  }, [players, trackInfo]);
 
   // Fetch updated players listener
   useEffect(() => {
@@ -142,19 +143,25 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
     return () => sub();
   }, []);
 
-  // Starts location tracking
+  // Starts countdown timer
   useEffect(() => {
-    getLocationUpdates(watchId, onLocationUpdateSuccess, onLocationUpdateError);
+    let interval = setInterval(() => {
+      setTime(lastTimerCount => {
+        lastTimerCount <= 1 && clearInterval(interval);
+        return lastTimerCount - 1;
+      });
+    }, 1000);
+    return () => clearInterval(interval);
   }, []);
 
   return (
     <SafeAreaView style={styles.wrap}>
-      {trackInfo ? (
+      {trackInfo && currentMarker ? (
         <MapView
           ref={mapRef}
           customMapStyle={mapStyle}
           loadingEnabled
-          provider={"google"}
+          // provider={"google"}
           loadingBackgroundColor={colors.WHITE}
           style={styles.map}
           toolbarEnabled={false}

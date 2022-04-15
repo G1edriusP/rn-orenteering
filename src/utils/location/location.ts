@@ -95,3 +95,13 @@ export const measureDistance = (currentLocation: GeoCoordinates, markerLocation:
   const d = earthRadius * c;
   return d * 1000;
 };
+
+export const measureDistance2 = (currentLocation: GeoCoordinates, markerLocation: LatLng) => {
+  console.log(currentLocation, markerLocation);
+  const fi1 = (currentLocation.latitude * Math.PI) / 180,
+    fi2 = (markerLocation.latitude * Math.PI) / 180,
+    deltaLambda = ((markerLocation.longitude - currentLocation.longitude) * Math.PI) / 180,
+    R = 6371e3;
+  const d = Math.acos(Math.sin(fi1) * Math.sin(fi2) + Math.cos(fi1) * Math.cos(fi2) * Math.cos(deltaLambda)) * R;
+  return d;
+};

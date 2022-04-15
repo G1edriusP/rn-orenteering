@@ -73,11 +73,13 @@ const TrackCognitiveScreen = ({ navigation, route: { params } }: TrackMapCogniti
         <MapView
           ref={mapRef}
           customMapStyle={mapStyle}
-          provider={"google"}
+          // provider={"google"}
           style={styles.map}
           toolbarEnabled={false}
           showsCompass={false}
           onTouchStart={onMapPress}
+          showsUserLocation
+          followsUserLocation
           initialRegion={{
             latitude: track.markers[0].location.latitude,
             longitude: track.markers[0].location.longitude,
