@@ -29,6 +29,8 @@ import { useTranslation } from "react-i18next";
 import firestore from "@react-native-firebase/firestore";
 import auth from "@react-native-firebase/auth";
 import { TrackPlayer } from "constants/types/track";
+import { resetNavigation } from "utils/navigation/navigation";
+import { Routes, Stacks } from "constants/navigation/routes";
 
 const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndicativeScreenProps) => {
   const { t } = useTranslation();
@@ -39,12 +41,11 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
   const [location, setLocation] = useState<Position>();
   const [time, setTime] = useState(roomInfo.duration);
   const [players, setPlayers] = useState<TrackPlayer[]>(oldPlayers);
+  const [currentMarker, setCurrentMarker] = useState<MarkerType>();
+  const [isLastMarker, setIsLastMarker] = useState<boolean>(false);
 
   const userID = auth().currentUser?.uid;
-  // const me = players.find(player => player.uid === userID);
-  const [currentMarker, setCurrentMarker] = useState<MarkerType>();
 
-  const watchId = useRef(null);
   const sheetRef = useRef<TrackInfoHandle>(null);
   const mapRef = useRef<MapView>(null);
 
@@ -75,9 +76,8 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
     sheetRef.current?.close();
   };
 
-  const onMarkerFound = useCallbackOne(async () => {
-    const me = players.find(player => player.uid === userID);
-    if (me) {
+  const onMarkerFound = useCallbackOne(
+    async (me: TrackPlayer, isLast: boolean) => {
       // Update this user with new data in firestore
       firestore()
         .collection("rooms")
@@ -85,14 +85,18 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
         .collection("players")
         .doc(userID)
         .update({
-          currentIndex: me.currentIndex + 1,
+          currentIndex: isLast ? me.currentIndex : me.currentIndex + 1,
           points: me.points + 10,
           markers: [...me.markers, currentMarker],
-        });
-    } else {
-      console.log("Error while trying to find player to add points and update markers");
-    }
-  }, [players, roomInfo.roomID, userID, currentMarker, trackInfo.markers]);
+        })
+        .finally(
+          () =>
+            isLast &&
+            navigation.dispatch(resetNavigation([{ name: Stacks.TRACK, params: { trackInfo, roomInfo, players } }])),
+        );
+    },
+    [roomInfo.roomID, userID, currentMarker],
+  );
 
   const onLocationUpdateSuccess = useCallbackOne(
     (position: Position) => {
@@ -100,16 +104,21 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
       if (currentMarker) {
         const distance = measureDistance(position, currentMarker.location);
         if (Math.round(distance) <= 30) {
-          showAlert({
-            title: `"${currentMarker.title}" ${t("game:found")}`,
-            message: t("game:gotPoints"),
-            ok: t("game:continue"),
-            onOk: onMarkerFound,
-          });
+          const me = players.find(player => player.uid === userID);
+          if (me) {
+            const isLast = me.currentIndex === trackInfo.markers.length - 1;
+            setIsLastMarker(isLast);
+            showAlert({
+              title: `"${currentMarker.title}" ${t("game:found")}`,
+              message: isLast ? t("game:gotPointsEnded") : t("game:gotPoints"),
+              ok: isLast ? t("game:watchStats") : t("game:continue"),
+              onOk: () => onMarkerFound(me, isLast),
+            });
+          }
         }
       }
     },
-    [currentMarker],
+    [currentMarker, players, userID, trackInfo.markers],
   );
 
   const onUserLocationChange = (e: EventUserLocation) => {
@@ -120,15 +129,15 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
     onLocationUpdateSuccess(position);
   };
 
-  // Set new marker every time players state gets updated
+  // Set new marker locally every time players state gets updated
   useEffect(() => {
     if (players) {
       const me = players.find(player => player.uid === userID);
-      if (me) {
+      if (me && !isLastMarker) {
         setCurrentMarker(trackInfo.markers[me.currentIndex]);
       }
     }
-  }, [players, trackInfo]);
+  }, [players, trackInfo, isLastMarker]);
 
   // Fetch updated players listener
   useEffect(() => {

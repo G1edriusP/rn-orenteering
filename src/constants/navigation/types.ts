@@ -10,6 +10,7 @@ export type RootStackParams = {
   [Routes.LOGIN_SCREEN]: undefined;
   [Routes.REGISTER_SCREEN]: undefined;
   [Stacks.HOME]: undefined;
+  [Stacks.TRACK]: undefined;
 };
 
 export type HomeStackParams = {
@@ -22,6 +23,10 @@ export type HomeStackParams = {
   [Routes.WAITING_ROOM]: { trackID: string | undefined };
   [Routes.PROFILE_SCREEN]: undefined;
   [Routes.SETTINGS_SCREEN]: undefined;
+};
+
+export type TrackStackParams = {
+  [Routes.TRACK_SCREEN_STATISTICS]: { trackInfo: TrackData; roomInfo: IndicativeTrackRoom; players: TrackPlayer[] };
 };
 
 // Screen props
@@ -37,3 +42,4 @@ export type TrackMapIndicativeScreenProps = StackScreenProps<HomeStackParams, Ro
 export type WaitingRoomScreenProps = StackScreenProps<HomeStackParams, Routes.WAITING_ROOM>;
 export type ProfileScreenProps = StackScreenProps<HomeStackParams, Routes.PROFILE_SCREEN>;
 export type SettingsScreenProps = StackScreenProps<HomeStackParams, Routes.SETTINGS_SCREEN>;
+export type StatisticsScreenProps = StackScreenProps<TrackStackParams, Routes.TRACK_SCREEN_STATISTICS>;
