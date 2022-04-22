@@ -12,3 +12,4 @@ export { default as SmallButton } from "./SmallButton";
 export { default as TrackInfoSheet } from "./TrackInfoSheet";
 export { default as Alert } from "./Alert";
 export { default as Loader } from "./Loader";
+export { default as Slider } from "./Slider";

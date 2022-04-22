@@ -3,8 +3,8 @@ import firestore from "@react-native-firebase/firestore";
 
 // Constants
 import { MarkerType } from "constants/types/firestore";
-import { MarkerDataAction, TrackData, TrackDataAction } from "constants/types/types";
-import { defaultMarkerData, defaultTrackData } from "constants/values";
+import { FilterDataAction, Filters, MarkerDataAction, TrackData, TrackDataAction } from "constants/types/types";
+import { defaultFilterData, defaultMarkerData, defaultTrackData } from "constants/values";
 
 export const tracksReducer = (
   state: TrackData & { days: number; hours: number; minutes: number },
@@ -16,6 +16,11 @@ export const tracksReducer = (
 
 export const markerReducer = (state: MarkerType, action: MarkerDataAction) => {
   if (action.type === "RESET") return defaultMarkerData;
+  return { ...state, [action.type]: action.value };
+};
+
+export const filtersReducer = (state: Filters, action: FilterDataAction) => {
+  if (action.type === "RESET") return defaultFilterData;
   return { ...state, [action.type]: action.value };
 };
 
@@ -35,6 +40,7 @@ export const fetchTracks = (callback: (data: TrackData[]) => void): void => {
   const data: TrackData[] = [];
   firestore()
     .collection("tracks")
+    .where("type", "==", "PUBLIC")
     .get()
     .then(docs => {
       docs.forEach(doc => {

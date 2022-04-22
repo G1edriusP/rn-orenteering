@@ -8,7 +8,16 @@ export { default as ProfileIcon } from "./Profile";
 export { default as TracksIcon } from "./Tracks";
 export { default as GameTrackIcon } from "./GameTrack";
 export { default as SearchIcon } from "./Search";
+export { default as FilterIcon } from "./Filter";
 
 // Flags
 export { default as LithuaniaFlag } from "./flags/Lithuania";
 export { default as EnglishFlag } from "./flags/English";
+
+// Track
+export { default as CityIcon } from "./track/City";
+export { default as CountrysideIcon } from "./track/Countryside";
+export { default as OffroadIcon } from "./track/Offroad";
+export { default as HeartIcon } from "./track/Heart";
+export { default as StarIcon } from "./track/Star";
+export { default as ClockIcon } from "./track/Clock";

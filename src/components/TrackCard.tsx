@@ -1,39 +1,57 @@
 import React, { memo } from "react";
 
 // Styles
-// import styles from "styles/components/MarkerCard";
+import styles from "styles/components/TrackCard";
 
 // Components
 import { View, Text, TouchableOpacity } from "react-native";
-import { TrackCardType } from "constants/types/types";
-import { SCREEN_WIDTH } from "constants/spacing";
-import colors from "constants/colors";
+import { ClockIcon, HeartIcon, StarIcon } from "assets/svg";
 
-const TrackCard: React.FC<TrackCardType> = ({ onPress, onFavouritePress, title, description }) => {
-  // console.log(Object.values(colors).map((val, index) => index));
-  // console.log(Object.values(colors).at(0));
+// Constants
+import { TrackCardType } from "constants/types/types";
+import { TrackCardIcons } from "constants/values";
+
+// Utils
+import { formatSToMsString } from "utils/time";
+
+const TrackCard: React.FC<TrackCardType> = ({
+  onPress,
+  onFavouritePress,
+  title,
+  description,
+  type,
+  relief,
+  markers,
+  duration,
+}) => {
+  const Icon = TrackCardIcons[relief];
+
   return (
-    <TouchableOpacity
-      style={{
-        width: SCREEN_WIDTH,
-        marginBottom: 32,
-      }}
-      onPress={onPress}>
-      <View
-        style={{
-          backgroundColor: "orange",
-          justifyContent: "flex-start",
-          alignItems: "flex-end",
-          height: SCREEN_WIDTH / 2,
-          width: SCREEN_WIDTH - 32,
-          marginBottom: 16,
-        }}>
-        <TouchableOpacity onPress={() => console.log("Add to favourites")}>
-          <View style={{ height: 25, width: 25, margin: 16, backgroundColor: "blue" }} />
+    <TouchableOpacity style={styles.wrap} onPress={onPress}>
+      <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+        <Text style={styles.title} numberOfLines={1}>
+          {title}
+        </Text>
+        <TouchableOpacity onPress={() => onFavouritePress && onFavouritePress(0)} style={styles.rightSide}>
+          <HeartIcon size={28} isSelected={false} />
         </TouchableOpacity>
       </View>
-      <Text>{title}</Text>
-      <Text numberOfLines={1}>{description}</Text>
+      <Text style={styles.subtitle} numberOfLines={2}>
+        {description}
+      </Text>
+      <View style={styles.iconRowWrap}>
+        <Icon size={28} />
+        {!!duration ? (
+          <View style={styles.iconWrap}>
+            <ClockIcon size={28} />
+            <Text style={[styles.subtitle, { marginLeft: 4 }]}>{formatSToMsString(duration)}</Text>
+          </View>
+        ) : null}
+        <View style={styles.iconWrap}>
+          <StarIcon size={28} />
+          <Text style={[styles.subtitle, { marginLeft: 4 }]}>4.7</Text>
+        </View>
+      </View>
     </TouchableOpacity>
   );
 };

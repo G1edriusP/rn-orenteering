@@ -5,7 +5,7 @@ import styles from "styles/components/Header";
 
 // Components
 import { View, TouchableOpacity, Text } from "react-native";
-import { BackIcon } from "assets/svg";
+import { BackIcon, FilterIcon } from "assets/svg";
 
 // Types
 import { StackHeaderProps } from "@react-navigation/stack";
@@ -20,6 +20,7 @@ import { removePlayerFromWaitingRoom, removeWaitingRoom } from "utils/firebase/t
 const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
   const { t } = useTranslation();
   const isProfileScreen = route.name === Routes.PROFILE_SCREEN;
+  const isTrackSearchScreen = route.name === Routes.TRACKS_SCREEN;
 
   const customBack = () => {
     if (route.name === Routes.WAITING_ROOM && options.showAlertOnBack) {
@@ -42,7 +43,7 @@ const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
   };
 
   return (
-    <SafeAreaView style={styles.wrap} edges={["top"]}>
+    <SafeAreaView style={[styles.wrap, { transform: [{ translateY: 0 }] }]} edges={["top"]}>
       <View style={styles.row}>
         <TouchableOpacity style={styles.button} onPress={customBack}>
           <BackIcon size={24} />
@@ -56,6 +57,11 @@ const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
         {isProfileScreen ? (
           <TouchableOpacity onPress={onSignOutPress}>
             <Text style={styles.text}>{t("profileScreen:logout")}</Text>
+          </TouchableOpacity>
+        ) : null}
+        {isTrackSearchScreen ? (
+          <TouchableOpacity onPress={() => options.onFilterPress(options.isFiltersOpened)}>
+            <FilterIcon size={24} />
           </TouchableOpacity>
         ) : null}
       </View>

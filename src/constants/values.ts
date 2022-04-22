@@ -1,5 +1,6 @@
+import { CityIcon, CountrysideIcon, OffroadIcon } from "assets/svg";
 import { MarkerType } from "./types/firestore";
-import { EmailAuthData, ItemProps, LocalStorageKeys, TrackData } from "./types/types";
+import { CardIcons, EmailAuthData, Filters, ItemProps, LocalStorageKeys, TrackData } from "./types/types";
 
 export const defaultEmailLoginData: EmailAuthData = {
   email: "",
@@ -36,6 +37,11 @@ export const defaultMarkerData: MarkerType = {
   location: { latitude: 0, longitude: 0 },
 };
 
+export const defaultFilterData: Filters = {
+  relief: "",
+  duration: [0, 60],
+};
+
 export const IDS = {
   RESET: "RESET",
   EMAIL: "email",
@@ -56,6 +62,9 @@ export const IDS = {
   MARKER_LONGITUDE: "longitude",
   MARKER_LATITUDE: "latitude",
   MARKER_LOCATION: "location",
+  RELIEF: "relief",
+  DURATION: "duration",
+  RATING: "rating",
 };
 
 export const LOCAL_STORAGE_KEYS: LocalStorageKeys = {
@@ -67,4 +76,10 @@ export const initialMarkerMapRegion = {
   longitude: 23.9036,
   latitudeDelta: 0.025,
   longitudeDelta: 0.025,
+};
+
+export const TrackCardIcons: CardIcons = {
+  CITY: CityIcon,
+  COUNTRYSIDE: CountrysideIcon,
+  "OFF-ROAD": OffroadIcon,
 };
