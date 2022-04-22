@@ -20,7 +20,7 @@ const MarkerCard: React.FC<MarkerCardType> = ({ onPress, onRemove, type, title, 
       <View style={styles.trackData}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.description} numberOfLines={2}>
-          {description ? description : t("trackErrors:description:emptyTitle")}
+          {description ? description : t("trackErrors:descriptionTrack:emptyTitle")}
         </Text>
         <Text style={styles.location}>{type}</Text>
         <Text style={styles.location} numberOfLines={1}>{`${location?.latitude.toFixed(

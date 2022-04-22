@@ -33,10 +33,10 @@ type DropdownProps = {
   style?: ViewStyle;
 };
 
-const Item: React.FC<ItemProps> = memo(({ value, label, onSelect, isLast }) => (
+const Item: React.FC<ItemProps> = memo(({ value, label, onSelect, isLast, isSelected }) => (
   <TouchableOpacity
     onPress={() => onSelect && onSelect(value)}
-    style={[styles.itemWrap, !isLast && styles.borderBottom]}>
+    style={[styles.itemWrap, isSelected && { backgroundColor: "#d5e3af" }, !isLast && styles.borderBottom]}>
     <Text style={styles.itemLabel}>{label}</Text>
   </TouchableOpacity>
 ));
@@ -107,6 +107,7 @@ const Dropdown: React.FC<DropdownProps> = ({ items = [], title, selected, onChan
                 label={t(`tracks:${item.value}`)}
                 onSelect={onSelect}
                 isLast={index === items.length - 1}
+                isSelected={selected === item.value}
                 key={`d_item_${index}`}
               />
             ))}

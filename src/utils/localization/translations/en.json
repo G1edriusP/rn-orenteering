@@ -5,7 +5,8 @@
     "PROFILE_SCREEN": "Profile",
     "SETTINGS_SCREEN": "Settings",
     "TRACKS_SCREEN": "Routes",
-    "TRACK_INFO": "New route"
+    "TRACK_INFO": "New route",
+    "TRACK_SCREEN_STATISTICS": "Statistics"
   },
   "authStack": {
     "email": "Email",
@@ -27,8 +28,13 @@
     "commonInfo": "Common information",
     "name": "Name",
     "type": "Type",
-    "cognitive": "Cognitive",
-    "indicative": "Indicative",
+    "relief": "Relief",
+    "duration": "Duration",
+    "days": "Days",
+    "hours": "Hours",
+    "minutes": "Mins",
+    "public": "Public",
+    "private": "Private",
     "description": "Description",
     "routePoints": "Route points",
     "routePointInfo": "Route point information",
@@ -43,7 +49,12 @@
     "cognitive": "Cognitive",
     "indicative": "Indicative",
     "COGNITIVE": "Cognitive",
-    "INDICATIVE": "Indicative"
+    "INDICATIVE": "Indicative",
+    "PUBLIC": "Public",
+    "PRIVATE": "Private",
+    "CITY": "City",
+    "COUNTRYSIDE": "Countryside",
+    "OFF-ROAD": "Off-road"
   },
   "waitingRoom": {
     "roomCode": "Room code",

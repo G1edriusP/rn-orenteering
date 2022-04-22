@@ -7,32 +7,17 @@ import styles from "styles/containers/Home/TracksScreen";
 import { FlatList, ListRenderItemInfo, Text, View } from "react-native";
 import { Loader, TrackCard } from "components";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { SceneMap, SceneRendererProps, TabBar, TabView } from "react-native-tab-view";
 
 // Constants
-import { Route, TrackData } from "constants/types/types";
+import { TrackData } from "constants/types/types";
 
 // Utils
 import { fetchTracks } from "utils/firebase/track";
 import colors from "constants/colors";
 import { TracksScreenProps } from "constants/navigation/types";
-import { fontLight, fontMedium, fontRegular, fontSemiBold } from "constants/fonts";
-import { fontSizes, padding } from "constants/spacing";
 import { useTranslation } from "react-i18next";
 
-const TracksList = ({
-  route,
-}: SceneRendererProps & {
-  route: Route;
-}) => {
-  // const [tracks, setTracks] = useState<TrackData[]>([]); // Cognitive or Indicative tracks
-
-  // useEffect(() => {
-  //   if (!!!tracks.length) {
-  //     fetchTracks(route.key, setTracks);
-  //   }
-  // }, []);
-
+const TracksList = ({ tracks }: { tracks: TrackData[] }) => {
   const onPress = () => {
     console.log("Pressed");
   };
@@ -44,7 +29,7 @@ const TracksList = ({
   return (
     <FlatList
       keyExtractor={(item: TrackData) => String(item.id)}
-      data={route.tracks}
+      data={tracks}
       contentContainerStyle={{ padding: 16 }}
       renderItem={({ item }: ListRenderItemInfo<TrackData>) => (
         <TrackCard
@@ -58,51 +43,15 @@ const TracksList = ({
   );
 };
 
-const renderScene = SceneMap({
-  COGNITIVE: TracksList,
-  INDICATIVE: TracksList,
-});
-
-const renderTabBar = (props: any) => (
-  <TabBar
-    {...props}
-    indicatorStyle={{ backgroundColor: colors.ORANGE }}
-    style={{ backgroundColor: colors.KHAKI }}
-    labelStyle={{ fontFamily: fontMedium, fontSize: fontSizes.SMALL }}
-    inactiveColor={colors.BLACK}
-    activeColor={colors.ORANGE}
-    renderLabel={({ route, focused, color }) => (
-      <Text style={[{ color }, styles.tabBarLabel, focused && { fontFamily: fontSemiBold }]}>{route.title}</Text>
-    )}
-  />
-);
-
 const TracksScreen = ({ route: { params } }: TracksScreenProps) => {
   const { tracks } = params;
   const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-
-  // Tabs info
-  const [index, setIndex] = useState(0);
-  const [routes, setRoutes] = useState<Route[]>([
-    {
-      key: "COGNITIVE",
-      title: t("tracks:cognitive"),
-      tracks: tracks.filter(track => track.type === "COGNITIVE"),
-    },
-    {
-      key: "INDICATIVE",
-      title: t("tracks:indicative"),
-      tracks: tracks.filter(track => track.type === "INDICATIVE"),
-    },
-  ]);
+  const [routes, setRoutes] = useState<TrackData[]>(tracks);
 
   const onFetchTracksEnd = (data: TrackData[]) => {
-    setRoutes(old => [
-      { ...old[0], tracks: data.filter(track => track.type === "COGNITIVE") },
-      { ...old[1], tracks: data.filter(track => track.type === "INDICATIVE") },
-    ]);
+    setRoutes(old => [...old, ...data]);
     setIsLoading(false);
   };
 
@@ -120,12 +69,7 @@ const TracksScreen = ({ route: { params } }: TracksScreenProps) => {
           <Loader size='large' color={colors.BLACK} />
         </View>
       )}
-      <TabView
-        navigationState={{ index, routes }}
-        renderScene={renderScene}
-        onIndexChange={setIndex}
-        renderTabBar={renderTabBar}
-      />
+      <TracksList tracks={routes} />
     </SafeAreaView>
   );
 };

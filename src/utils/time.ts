@@ -10,9 +10,7 @@ export const formatTimeString = (time: number): string => {
 
   let formatted: string;
 
-  formatted = `${hours < 10 ? 0 : ""}${hours}:${minutes < 10 ? 0 : ""}${minutes}:${
-    seconds < 10 ? 0 : ""
-  }${seconds}`;
+  formatted = `${hours < 10 ? 0 : ""}${hours}:${minutes < 10 ? 0 : ""}${minutes}:${seconds < 10 ? 0 : ""}${seconds}`;
 
   return formatted;
 };
@@ -23,4 +21,19 @@ export const formatPickerToS = (time: IValue[]): number => {
   const hours: number = time.find(item => item.id === "hours")!.value;
   const minutes = time.find(item => item.id === "minutes")!.value;
   return hours * 3600 + minutes * 60;
+};
+
+export const formatNewTrackTimeToS = ({
+  days,
+  hours,
+  minutes,
+}: {
+  days: number;
+  hours: number;
+  minutes: number;
+}): number => {
+  const daysToS = days ? days * 24 * 3600 : 0;
+  const hoursToS = hours ? hours * 3600 : 0;
+  const minsToS = minutes ? minutes * 60 : 0;
+  return daysToS + hoursToS + minsToS;
 };

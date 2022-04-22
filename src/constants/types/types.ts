@@ -24,8 +24,10 @@ export type MarkerCardType = {
 export type TrackData = {
   id?: string;
   uid?: string;
-  type: "COGNITIVE" | "INDICATIVE" | "";
+  type: "PUBLIC" | "PRIVATE";
   title: string;
+  duration: number;
+  relief: "CITY" | "COUNTRYSIDE" | "OFFROAD";
   description?: string;
   markers: MarkerType[];
 };
@@ -34,6 +36,7 @@ export type ItemProps = {
   label?: string;
   onSelect?: (value: string) => void;
   isLast?: boolean;
+  isSelected?: boolean;
 };
 
 export type EmailAuthDataAction = { type: string; value: string };

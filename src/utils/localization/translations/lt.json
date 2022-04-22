@@ -5,7 +5,8 @@
     "PROFILE_SCREEN": "Paskyra",
     "SETTINGS_SCREEN": "Nustatymai",
     "TRACKS_SCREEN": "Maršrutai",
-    "TRACK_INFO": "Naujas maršrutas"
+    "TRACK_INFO": "Naujas maršrutas",
+    "TRACK_SCREEN_STATISTICS": "Statistika"
   },
   "authStack": {
     "email": "El. paštas",
@@ -27,8 +28,13 @@
     "commonInfo": "Bendra informacija",
     "name": "Pavadinimas",
     "type": "Tipas",
-    "cognitive": "Pažintinis",
-    "indicative": "Orientacinis",
+    "relief": "Reljefas",
+    "duration": "Trukmė",
+    "days": "Dienos",
+    "hours": "Valandos",
+    "minutes": "Minutės",
+    "public": "Viešas",
+    "private": "Privatus",
     "description": "Aprašymas",
     "routePoints": "Maršruto taškai",
     "routePointInfo": "Maršruto taško informacija",
@@ -43,7 +49,12 @@
     "cognitive": "Pažintiniai",
     "indicative": "Orientaciniai",
     "COGNITIVE": "Pažintinis",
-    "INDICATIVE": "Orientacinis"
+    "INDICATIVE": "Orientacinis",
+    "PUBLIC": "Viešas",
+    "PRIVATE": "Privatus",
+    "CITY": "Miestas",
+    "COUNTRYSIDE": "Užmiestis",
+    "OFF-ROAD": "Bekelė"
   },
   "waitingRoom": {
     "roomCode": "Kambario kodas",

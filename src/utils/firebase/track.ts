@@ -6,7 +6,10 @@ import { MarkerType } from "constants/types/firestore";
 import { MarkerDataAction, TrackData, TrackDataAction } from "constants/types/types";
 import { defaultMarkerData, defaultTrackData } from "constants/values";
 
-export const tracksReducer = (state: TrackData, action: TrackDataAction): TrackData => {
+export const tracksReducer = (
+  state: TrackData & { days: number; hours: number; minutes: number },
+  action: TrackDataAction,
+): TrackData & { days: number; hours: number; minutes: number } => {
   if (action.type === "RESET") return defaultTrackData;
   return { ...state, [action.type]: action.value };
 };
