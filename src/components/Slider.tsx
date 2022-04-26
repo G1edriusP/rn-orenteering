@@ -55,18 +55,22 @@ type Props = {
   type: string;
   values: number[];
   onChange: (type: string, value: []) => {};
-  // range: [];
+  subtitle: string;
 };
 
-const Slider: React.FC<Props> = ({ type, values = [], onChange }) => {
+const Slider: React.FC<Props> = ({ type, values = [], onChange, subtitle }) => {
   const customMarker = useCallbackOne(e => <View style={[styles.rangeSliderMarker]} />, []);
 
   return (
     <View style={styles.rangeSliderRoot}>
       <Text style={styles.rangeSliderValue}>
-        <Text>{values[0]}</Text>
-        <Text>-</Text>
-        <Text>{values[1]}</Text>
+        <Text>
+          {Math.round(values[0])} {subtitle}
+        </Text>
+        <Text> - </Text>
+        <Text>
+          {Math.round(values[1])} {subtitle}
+        </Text>
       </Text>
       <View style={styles.rangeSliderWrap}>
         <View style={styles.rangeSliderBehindTrack} />
@@ -74,9 +78,9 @@ const Slider: React.FC<Props> = ({ type, values = [], onChange }) => {
           values={values}
           onValuesChange={val => onChange && onChange(type, val)}
           sliderLength={rangeSliderWidth}
-          min={0}
-          max={60}
-          step={10}
+          min={Math.round(values[0])}
+          max={Math.round(values[1])}
+          step={1}
           isMarkersSeparated
           selectedStyle={styles.rangeSliderSelected}
           trackStyle={styles.rangeSliderTrack}

@@ -30,6 +30,7 @@
     "type": "Tipas",
     "relief": "Reljefas",
     "duration": "Trukmė",
+    "rating": "Įvertinimas",
     "days": "Dienos",
     "hours": "Valandos",
     "minutes": "Minutės",
@@ -54,7 +55,12 @@
     "PRIVATE": "Privatus",
     "CITY": "Miestas",
     "COUNTRYSIDE": "Užmiestis",
-    "OFF-ROAD": "Bekelė"
+    "OFF-ROAD": "Bekelė",
+    "emptyTracks": "Maršrutų nerasta",
+    "filter": "Filtruoti",
+    "hour": "val.",
+    "clear": "Išvalyti",
+    "found": "Rasta"
   },
   "waitingRoom": {
     "roomCode": "Kambario kodas",

@@ -20,7 +20,7 @@ export const markerReducer = (state: MarkerType, action: MarkerDataAction) => {
 };
 
 export const filtersReducer = (state: Filters, action: FilterDataAction) => {
-  if (action.type === "RESET") return defaultFilterData;
+  if (action.type === "RESET") return { ...defaultFilterData, duration: action.value };
   return { ...state, [action.type]: action.value };
 };
 

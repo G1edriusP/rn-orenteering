@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import { MarkerType } from "constants/types/firestore";
-import { AlertParams } from "constants/types/types";
+import { AlertParams, TrackData } from "constants/types/types";
 import React from "react";
 import { LatLng } from "react-native-maps";
 import EventRegister from "./eventRegister";
@@ -8,10 +8,7 @@ import EventRegister from "./eventRegister";
 export const combineProviders =
   (...providers: any) =>
   ({ children }: any) => {
-    return providers.reduceRight(
-      (child: any, Provider: any) => <Provider>{child}</Provider>,
-      children,
-    );
+    return providers.reduceRight((child: any, Provider: any) => <Provider>{child}</Provider>, children);
   };
 
 export const showAlert = (params: AlertParams) => {
@@ -54,4 +51,10 @@ export const fetchCoordinatesBetweenPoints = (
       setCoordinates(formatted);
     });
   }
+};
+
+export const findTracksMinMaxDuration = (tracks: TrackData[]) => {
+  const mini = tracks.reduce((prev, curr) => (curr.duration < prev.duration ? curr.duration : prev.duration));
+  const maxi = tracks.reduce((prev, curr) => (curr.duration > prev.duration ? curr.duration : prev.duration));
+  return [mini / 3600, maxi / 3600];
 };

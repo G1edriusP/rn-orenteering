@@ -39,8 +39,9 @@ export const defaultMarkerData: MarkerType = {
 
 export const defaultFilterData: Filters = {
   relief: "",
-  duration: [0, 60],
+  duration: [0, 1],
   rating: [],
+  isDefault: true,
 };
 
 export const IDS = {

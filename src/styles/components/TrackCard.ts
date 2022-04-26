@@ -54,6 +54,6 @@ export default StyleSheet.create<Props>({
   iconWrap: {
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: padding.MIDI,
+    marginLeft: padding.MEDIUM,
   },
 });

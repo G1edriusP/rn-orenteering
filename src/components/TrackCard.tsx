@@ -20,6 +20,7 @@ const TrackCard: React.FC<TrackCardType> = ({
   onFavouritePress,
   title,
   description,
+  rating,
   type,
   relief,
   markers,
@@ -48,10 +49,12 @@ const TrackCard: React.FC<TrackCardType> = ({
             <Text style={[styles.subtitle, { marginLeft: 4 }]}>{formatSToMsString(duration)}</Text>
           </View>
         ) : null}
-        <View style={styles.iconWrap}>
-          <FlameIcon size={28} strokeColor={colors.DARK_GREEN} />
-          <Text style={[styles.subtitle, { marginLeft: 4 }]}>4.7</Text>
-        </View>
+        {!!rating ? (
+          <View style={styles.iconWrap}>
+            <FlameIcon size={24} strokeColor={colors.DARK_GREEN} />
+            <Text style={[styles.subtitle, { marginLeft: 4 }]}>{rating}</Text>
+          </View>
+        ) : null}
       </View>
     </TouchableOpacity>
   );

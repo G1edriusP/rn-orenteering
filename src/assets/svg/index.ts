@@ -22,3 +22,4 @@ export { default as HeartIcon } from "./track/Heart";
 export { default as StarIcon } from "./track/Star";
 export { default as ClockIcon } from "./track/Clock";
 export { default as FlameIcon } from "./track/Flame";
+export { default as BinIcon } from "./track/Bin";

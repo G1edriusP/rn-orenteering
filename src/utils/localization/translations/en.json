@@ -30,6 +30,7 @@
     "type": "Type",
     "relief": "Relief",
     "duration": "Duration",
+    "rating": "Rating",
     "days": "Days",
     "hours": "Hours",
     "minutes": "Mins",
@@ -54,7 +55,12 @@
     "PRIVATE": "Private",
     "CITY": "City",
     "COUNTRYSIDE": "Countryside",
-    "OFF-ROAD": "Off-road"
+    "OFF-ROAD": "Off-road",
+    "emptyTracks": "No routes found",
+    "filter": "Filter",
+    "hour": "h.",
+    "clear": "Clear",
+    "found": "Found"
   },
   "waitingRoom": {
     "roomCode": "Room code",

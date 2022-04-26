@@ -12,17 +12,18 @@ import BottomSheet, { BottomSheetScrollView, TouchableOpacity } from "@gorhom/bo
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 // Constants
-import { TrackData } from "constants/types/types";
+import { Filters, TrackData } from "constants/types/types";
 import colors from "constants/colors";
 import { TracksScreenProps } from "constants/navigation/types";
 
 // Utils
 import { fetchTracks, filtersReducer } from "utils/firebase/track";
 import { useCallbackOne, useMemoOne } from "use-memo-one";
-import { fontSizes, padding } from "constants/spacing";
-import { CityIcon, CloseIcon, CountrysideIcon, FlameIcon, OffroadIcon } from "assets/svg";
+import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
+import { BinIcon, CityIcon, CloseIcon, CountrysideIcon, FlameIcon, OffroadIcon } from "assets/svg";
 import { defaultFilterData, IDS, TrackCardIcons } from "constants/values";
-import { fontMedium } from "constants/fonts";
+import { fontMedium, fontRegular } from "constants/fonts";
+import { findTracksMinMaxDuration } from "utils/other";
 
 type FilterButtonProps = {
   id: string;
@@ -47,7 +48,7 @@ const filtersData = {
   ],
 };
 
-const TracksList = ({ tracks }: { tracks: TrackData[] }) => {
+const TracksList = ({ tracks, title }: { tracks: TrackData[]; title: string }) => {
   const onPress = () => {
     console.log("Pressed");
   };
@@ -55,6 +56,15 @@ const TracksList = ({ tracks }: { tracks: TrackData[] }) => {
   const onFavouritePress = () => {
     console.log("Favourite");
   };
+
+  if (!!!tracks.length) {
+    return (
+      <View style={styles.emptyWrap}>
+        <BinIcon size={96} />
+        <Text style={styles.emptyTitle}>{title}</Text>
+      </View>
+    );
+  }
 
   return (
     <FlatList
@@ -85,7 +95,9 @@ const FilterButton: React.FC<FilterButtonProps> = ({ id, value, Icon, title, onP
 
 const RatingButton: React.FC<RatingButtonProps> = ({ isSelected, onPress, index }) => {
   return (
-    <TouchableOpacity onPress={() => onPress && onPress("rating", [...Array(index + 1).keys()] as [])}>
+    <TouchableOpacity
+      onPress={() => onPress && onPress("rating", [...Array(index + 1).keys()] as [])}
+      style={{ marginRight: padding.SMALL }}>
       <FlameIcon size={54} isSelected={isSelected} />
     </TouchableOpacity>
   );
@@ -104,6 +116,7 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
   const [selectedFilters, dispatch] = useReducer(filtersReducer, defaultFilterData);
 
   const onFetchTracksEnd = (data: TrackData[]) => {
+    dispatch({ type: "duration", value: findTracksMinMaxDuration(data) });
     setRoutes(old => [...old, ...data]);
     setIsLoading(false);
   };
@@ -124,9 +137,15 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
 
   const onFilterValueChange = useCallbackOne(
     (type: string, value: string | []) => {
-      dispatch({ type, value });
+      if (selectedFilters.isDefault) dispatch({ type: "isDefault", value: false });
+      // If to clear rating field without clearing any other
+      if (type === "rating" && selectedFilters.rating.length === 1 && value.length === 1) {
+        dispatch({ type, value: [] });
+      } else {
+        dispatch({ type, value });
+      }
     },
-    [dispatch],
+    [dispatch, selectedFilters, routes],
   );
 
   useEffect(() => {
@@ -136,6 +155,35 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
       fetchTracks(onFetchTracksEnd);
     }
   }, []);
+
+  useEffect(() => {
+    if (tracks) {
+      dispatch({ type: "duration", value: findTracksMinMaxDuration(tracks) });
+    }
+  }, []);
+
+  useEffect(() => {
+    if (tracks) {
+      if (selectedFilters.isDefault) {
+        setRoutes(tracks);
+      } else {
+        const filters: Partial<Filters> = Object.fromEntries(
+          Object.entries(selectedFilters).filter(([key, val]) => !!val.length),
+        );
+        const filteredTracks = tracks.filter(track => {
+          console.log(filters.duration);
+          return (
+            (filters.relief ? track.relief === filters.relief : true) &&
+            (filters.duration
+              ? track.duration / 3600 >= filters.duration[0] && track.duration / 3600 <= filters.duration[1]
+              : true) &&
+            (filters.rating ? track.rating >= filters.rating[selectedFilters.rating.length - 1] + 1 : true)
+          );
+        });
+        setRoutes(filteredTracks);
+      }
+    }
+  }, [selectedFilters]);
 
   return (
     <SafeAreaView
@@ -147,7 +195,7 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
         </View>
       )}
 
-      <TracksList tracks={routes} />
+      <TracksList tracks={routes} title={t("tracks:emptyTracks")} />
 
       <BottomSheet
         ref={filterRef}
@@ -157,13 +205,13 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
         backgroundStyle={styles.sheetBackground}>
         <BottomSheetScrollView style={{ padding: padding.MEDIUM }}>
           <View style={styles.filterHeader}>
-            <Text style={styles.title}>Filtruoti</Text>
+            <Text style={styles.title}>{t("tracks:filter")}</Text>
             <TouchableOpacity onPress={onFilterClosePress}>
               <CloseIcon size={32} />
             </TouchableOpacity>
           </View>
 
-          <Text style={styles.smallTitle}>Reljefas</Text>
+          <Text style={styles.smallTitle}>{t("createTrack:relief")}</Text>
           <View style={styles.btnWrap}>
             {filtersData.relief.map((f, index) => (
               <FilterButton
@@ -178,12 +226,17 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
             ))}
           </View>
 
-          <Text style={styles.smallTitle}>Trukmė</Text>
+          <Text style={styles.smallTitle}>{t("createTrack:duration")}</Text>
           <View style={{ marginBottom: padding.LARGE }}>
-            <Slider type={"duration"} values={selectedFilters.duration} onChange={onFilterValueChange} />
+            <Slider
+              type={"duration"}
+              values={selectedFilters.duration}
+              onChange={onFilterValueChange}
+              subtitle={t("tracks:hour")}
+            />
           </View>
 
-          <Text style={styles.smallTitle}>Įvertinimas</Text>
+          <Text style={styles.smallTitle}>{t("createTrack:rating")}</Text>
           <View style={{ flexDirection: "row" }}>
             {[...Array(5).keys()].map((index: number) => (
               <RatingButton
@@ -199,12 +252,14 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
         <SafeAreaView edges={["bottom"]} style={styles.wrapShadow}>
           <View style={styles.footerWrap}>
             <Button
-              title={"Išvalyti"}
-              onPress={() => onFilterValueChange("RESET", "")}
+              title={t("tracks:clear")}
+              onPress={() => onFilterValueChange("RESET", findTracksMinMaxDuration(tracks))}
               style={styles.footerFlex}
               textStyle={{ color: colors.BLACK }}
             />
-            <Button title={"Rodyti"} onPress={() => {}} style={{ flex: 0.45 }} />
+            <Text style={{ fontFamily: fontRegular, fontSize: fontSizes.SMALL }}>
+              {t("tracks:found")} - {`${routes.length}`}
+            </Text>
           </View>
         </SafeAreaView>
       </BottomSheet>

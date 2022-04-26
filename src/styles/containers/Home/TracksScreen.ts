@@ -20,6 +20,8 @@ type Props = {
   smallTitle: ViewStyle;
   btnWrap: ViewStyle;
   filterHeader: ViewStyle;
+  emptyWrap: ViewStyle;
+  emptyTitle: TextStyle;
 };
 
 const center: ViewStyle = {
@@ -34,6 +36,15 @@ const halfFlex: ViewStyle = {
 };
 
 export default StyleSheet.create<Props>({
+  emptyTitle: {
+    fontFamily: fontMedium,
+    fontSize: fontSizes.LARGE,
+  },
+  emptyWrap: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
   tabBarLabel: {
     width: "100%",
     margin: padding.SMALL,
@@ -105,8 +116,10 @@ export default StyleSheet.create<Props>({
     elevation: 20,
   },
   footerWrap: {
+    paddingRight: padding.MEDIUM,
     flexDirection: "row",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   footerFlex: {
     ...halfFlex,
