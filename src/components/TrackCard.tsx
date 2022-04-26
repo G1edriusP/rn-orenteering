@@ -5,7 +5,7 @@ import styles from "styles/components/TrackCard";
 
 // Components
 import { View, Text, TouchableOpacity } from "react-native";
-import { ClockIcon, HeartIcon, StarIcon } from "assets/svg";
+import { ClockIcon, FlameIcon, HeartIcon, StarIcon } from "assets/svg";
 
 // Constants
 import { TrackCardType } from "constants/types/types";
@@ -13,6 +13,7 @@ import { TrackCardIcons } from "constants/values";
 
 // Utils
 import { formatSToMsString } from "utils/time";
+import colors from "constants/colors";
 
 const TrackCard: React.FC<TrackCardType> = ({
   onPress,
@@ -48,7 +49,7 @@ const TrackCard: React.FC<TrackCardType> = ({
           </View>
         ) : null}
         <View style={styles.iconWrap}>
-          <StarIcon size={28} />
+          <FlameIcon size={28} strokeColor={colors.DARK_GREEN} />
           <Text style={[styles.subtitle, { marginLeft: 4 }]}>4.7</Text>
         </View>
       </View>

@@ -20,7 +20,7 @@ import { TracksScreenProps } from "constants/navigation/types";
 import { fetchTracks, filtersReducer } from "utils/firebase/track";
 import { useCallbackOne, useMemoOne } from "use-memo-one";
 import { fontSizes, padding } from "constants/spacing";
-import { CityIcon, CloseIcon, CountrysideIcon, OffroadIcon } from "assets/svg";
+import { CityIcon, CloseIcon, CountrysideIcon, FlameIcon, OffroadIcon } from "assets/svg";
 import { defaultFilterData, IDS, TrackCardIcons } from "constants/values";
 import { fontMedium } from "constants/fonts";
 
@@ -31,6 +31,12 @@ type FilterButtonProps = {
   title: string;
   onPress: (id: string, value: string) => void;
   isActive: boolean;
+};
+
+type RatingButtonProps = {
+  isSelected: boolean;
+  onPress: (type: string, value: []) => void;
+  index: number;
 };
 
 const filtersData = {
@@ -77,6 +83,14 @@ const FilterButton: React.FC<FilterButtonProps> = ({ id, value, Icon, title, onP
   );
 };
 
+const RatingButton: React.FC<RatingButtonProps> = ({ isSelected, onPress, index }) => {
+  return (
+    <TouchableOpacity onPress={() => onPress && onPress("rating", [...Array(index + 1).keys()] as [])}>
+      <FlameIcon size={54} isSelected={isSelected} />
+    </TouchableOpacity>
+  );
+};
+
 const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
   const { tracks } = params;
   const { t } = useTranslation();
@@ -103,16 +117,13 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
     [filterRef],
   );
 
-  const onFilterClosePress = useCallbackOne(
-    is => {
-      filterRef.current?.close();
-      navigation.setOptions({ isFiltersOpened: false });
-    },
-    [filterRef],
-  );
+  const onFilterClosePress = useCallbackOne(() => {
+    filterRef.current?.close();
+    navigation.setOptions({ isFiltersOpened: false });
+  }, [filterRef]);
 
   const onFilterValueChange = useCallbackOne(
-    (type: string, value: string) => {
+    (type: string, value: string | []) => {
       dispatch({ type, value });
     },
     [dispatch],
@@ -135,7 +146,9 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
           <Loader size='large' color={colors.BLACK} />
         </View>
       )}
+
       <TracksList tracks={routes} />
+
       <BottomSheet
         ref={filterRef}
         snapPoints={bottomSheetSnapPoints}
@@ -149,6 +162,7 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
               <CloseIcon size={32} />
             </TouchableOpacity>
           </View>
+
           <Text style={styles.smallTitle}>Reljefas</Text>
           <View style={styles.btnWrap}>
             {filtersData.relief.map((f, index) => (
@@ -163,13 +177,25 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
               />
             ))}
           </View>
+
           <Text style={styles.smallTitle}>Trukmė</Text>
-          <View>
+          <View style={{ marginBottom: padding.LARGE }}>
             <Slider type={"duration"} values={selectedFilters.duration} onChange={onFilterValueChange} />
           </View>
+
           <Text style={styles.smallTitle}>Įvertinimas</Text>
-          <View></View>
+          <View style={{ flexDirection: "row" }}>
+            {[...Array(5).keys()].map((index: number) => (
+              <RatingButton
+                key={index}
+                index={index}
+                onPress={onFilterValueChange}
+                isSelected={selectedFilters.rating.includes(index)}
+              />
+            ))}
+          </View>
         </BottomSheetScrollView>
+
         <SafeAreaView edges={["bottom"]} style={styles.wrapShadow}>
           <View style={styles.footerWrap}>
             <Button

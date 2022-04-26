@@ -41,7 +41,7 @@ export type ItemProps = {
 export type EmailAuthDataAction = { type: string; value: string };
 export type TrackDataAction = { type: string; value?: string | MarkerType[] };
 export type MarkerDataAction = { type: string; value?: string | LatLng };
-export type FilterDataAction = { type: string; value?: string };
+export type FilterDataAction = { type: string; value?: string | [] };
 
 export type LocalStorageKeys = {
   ACCESS_TOKEN: string;
@@ -90,6 +90,6 @@ export type CardIcons = {
 
 export type Filters = {
   relief: "CITY" | "COUNTRYSIDE" | "OFF-ROAD" | "";
-  duration: [0, 60];
-  // rating: 4.7
+  duration: [from: number, to: number];
+  rating: [];
 };
