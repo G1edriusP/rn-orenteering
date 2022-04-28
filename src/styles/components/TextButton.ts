@@ -12,7 +12,7 @@ type Props = {
 export default StyleSheet.create<Props>({
   text: {
     fontFamily: fontRegular,
-    fontSize: fontSizes.EXTRA_SMALL + 2,
+    fontSize: fontSizes.SMALL,
     textDecorationLine: "underline",
   },
 });

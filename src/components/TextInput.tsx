@@ -5,6 +5,9 @@ import styles from "styles/components/TextInput";
 
 // Components
 import { KeyboardTypeOptions, Text, TextInput as Input, TextStyle, View } from "react-native";
+import { Shadow } from "react-native-shadow-2";
+import colors from "constants/colors";
+import { SCREEN_WIDTH } from "constants/spacing";
 
 type Props = {
   title?: string;
@@ -53,6 +56,7 @@ const TextInput: React.FC<Props> = ({
         secureTextEntry={secureTextEntry}
         multiline={multiline}
         maxLength={maxLength}
+        textContentType={"oneTimeCode"}
         style={[styles.input, style]}
       />
     </View>

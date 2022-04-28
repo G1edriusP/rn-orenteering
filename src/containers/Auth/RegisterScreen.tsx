@@ -8,6 +8,7 @@ import styles from "styles/containers/Auth/RegisterScreen";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, Button } from "components";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 // Utils
 import { emailAuthReducer, onRegisterPress } from "utils/firebase/auth";
@@ -19,7 +20,7 @@ import { RegisterScreenProps } from "constants/navigation/types";
 import { Stacks } from "constants/navigation/routes";
 import { defaultEmailRegisterData, IDS } from "constants/values";
 import { ScrollView, View } from "react-native";
-import { PlusIcon } from "assets/svg";
+import { LogoIcon, PlusIcon } from "assets/svg";
 import colors from "constants/colors";
 import firestore from "@react-native-firebase/firestore";
 
@@ -35,7 +36,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       data,
       t,
       user => onRegisterCallback(user),
-      () => setIsLoading(false)
+      () => setIsLoading(false),
     );
   };
 
@@ -51,10 +52,10 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
 
   return (
     <SafeAreaView style={styles.wrap}>
-      <ScrollView contentContainerStyle={styles.scroll} showsVerticalScrollIndicator={false}>
-        <View style={styles.icon}>
-          <PlusIcon size={184} color={colors.ORANGE} />
-        </View>
+      <View style={styles.icon}>
+        <LogoIcon size={48} />
+      </View>
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
         <View style={styles.content}>
           <TextInput
             id={IDS.EMAIL}
@@ -95,9 +96,9 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             secureTextEntry
             style={styles.mediumBottomSpacer}
           />
-          <Button title={t("authStack:register")} onPress={onRegisterButtonPress} style={styles.mediumBottomSpacer} isLoading={isLoading} />
         </View>
-      </ScrollView>
+      </KeyboardAwareScrollView>
+      <Button title={t("authStack:register")} onPress={onRegisterButtonPress} isLoading={isLoading} />
     </SafeAreaView>
   );
 };

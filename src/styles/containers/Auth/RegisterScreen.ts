@@ -16,7 +16,7 @@ type Props = {
 export default StyleSheet.create<Props>({
   wrap: {
     flex: 1,
-    padding: padding.MEDIUM,
+    padding: padding.LARGE,
     backgroundColor: colors.WHITE,
   },
   smallBottomSpacer: {

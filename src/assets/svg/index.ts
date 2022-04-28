@@ -9,6 +9,7 @@ export { default as TracksIcon } from "./Tracks";
 export { default as GameTrackIcon } from "./GameTrack";
 export { default as SearchIcon } from "./Search";
 export { default as FilterIcon } from "./Filter";
+export { default as LogoIcon } from "./Logo";
 
 // Flags
 export { default as LithuaniaFlag } from "./flags/Lithuania";

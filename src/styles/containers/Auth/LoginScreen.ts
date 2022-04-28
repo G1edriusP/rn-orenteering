@@ -1,9 +1,10 @@
 import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
 
 // Constants
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
+import { fontSizes, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
 import colors from "constants/colors";
 import { padding } from "constants/spacing";
+import { fontMedium } from "constants/fonts";
 
 type Props = {
   wrap: ViewStyle;
@@ -13,17 +14,18 @@ type Props = {
   scroll: ViewStyle;
   content: ViewStyle;
   languages: ViewStyle;
+  inputTitle: TextStyle;
 };
 
 export default StyleSheet.create<Props>({
   wrap: {
     flex: 1,
     backgroundColor: colors.WHITE,
-    padding: padding.MEDIUM,
+    padding: padding.LARGE,
   },
   scroll: {
     flex: 1,
-    // justifyContent: "space-around",
+    marginTop: padding.LARGE * 2,
   },
   smallBottomSpacer: {
     marginBottom: padding.SMALL,
@@ -33,14 +35,18 @@ export default StyleSheet.create<Props>({
   },
   icon: {
     flex: 0.3,
+    justifyContent: "center",
     alignItems: "center",
   },
-  content: {
-    flex: 0.7,
+  content: {},
+  inputTitle: {
+    fontFamily: fontMedium,
+    fontSize: fontSizes.SMALL,
   },
   languages: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "flex-end",
+    marginBottom: padding.MEDIUM * 2,
   },
 });
