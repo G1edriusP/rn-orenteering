@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
     <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
-        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -20,16 +19,17 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="launch_screen" translatesAutoresizingMaskIntoConstraints="NO" id="BQp-Nm-oRX">
-                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashIcon" translatesAutoresizingMaskIntoConstraints="NO" id="Pzo-Mz-FbH">
+                                <rect key="frame" x="67" y="269" width="240" height="128"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="backgroundColor" red="0.53725490200000003" green="0.77647058820000003" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                        <color key="tintColor" red="0.53725490200000003" green="0.77647058820000003" blue="0.94117647059999998" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="BQp-Nm-oRX" secondAttribute="trailing" id="2Lb-xR-NCM"/>
-                            <constraint firstItem="BQp-Nm-oRX" firstAttribute="top" secondItem="38d-R4-NRJ" secondAttribute="bottom" id="SIs-xd-Zmk"/>
-                            <constraint firstItem="Smh-ql-vdx" firstAttribute="top" secondItem="BQp-Nm-oRX" secondAttribute="bottom" id="ggD-Ot-EVi"/>
-                            <constraint firstItem="BQp-Nm-oRX" firstAttribute="leading" secondItem="9FL-AP-aFi" secondAttribute="leading" id="ygQ-Kd-Nls"/>
+                            <constraint firstItem="Pzo-Mz-FbH" firstAttribute="top" secondItem="38d-R4-NRJ" secondAttribute="bottom" constant="269" id="Glf-Zz-5U0"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Pzo-Mz-FbH" secondAttribute="trailing" constant="52" id="SPm-1P-cbZ"/>
+                            <constraint firstItem="Smh-ql-vdx" firstAttribute="top" secondItem="Pzo-Mz-FbH" secondAttribute="bottom" constant="270" id="pGt-AG-OkR"/>
+                            <constraint firstItem="Pzo-Mz-FbH" firstAttribute="leading" secondItem="9FL-AP-aFi" secondAttribute="leadingMargin" constant="51" id="un8-TV-Qyn"/>
                         </constraints>
                     </view>
                     <extendedEdge key="edgesForExtendedLayout"/>
@@ -40,9 +40,6 @@
         </scene>
     </scenes>
     <resources>
-        <image name="launch_screen" width="1080" height="1920"/>
-        <systemColor name="systemBackgroundColor">
-            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-        </systemColor>
+        <image name="SplashIcon" width="100" height="100"/>
     </resources>
 </document>

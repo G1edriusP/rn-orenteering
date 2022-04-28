@@ -73,7 +73,7 @@ const TrackCognitiveScreen = ({ navigation, route: { params } }: TrackMapCogniti
         <MapView
           ref={mapRef}
           customMapStyle={mapStyle}
-          // provider={"google"}
+          provider={"google"}
           style={styles.map}
           toolbarEnabled={false}
           showsCompass={false}

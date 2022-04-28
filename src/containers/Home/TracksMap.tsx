@@ -4,9 +4,9 @@ import React, { useEffect, useRef, useState } from "react";
 import styles from "styles/containers/Home/TracksMap";
 
 // Components
-import { Platform, StyleSheet, TouchableWithoutFeedback, View } from "react-native";
+import { Platform, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { Loader, SmallButton, TrackInfoSheet } from "components";
-import { BackIcon, SearchIcon } from "assets/svg";
+import { BackIcon, MarkerIcon, SearchIcon } from "assets/svg";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import MapView, { Callout, CalloutSubview, LatLng, Marker, Polyline } from "react-native-maps";
 import { firebase } from "@react-native-firebase/auth";
@@ -20,11 +20,11 @@ import { TrackData, TrackInfoHandle } from "constants/types/types";
 import { Routes } from "constants/navigation/routes";
 import { MarkerType } from "constants/types/firestore";
 import { padding, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
+import colors from "constants/colors";
 
 // Utils
 import { fetchMyTracks, fetchTracks, getTracksStartingMarkers } from "utils/firebase/track";
-import { timingConfig } from "constants/animations";
-import colors from "constants/colors";
+import { TrackCardIcons } from "constants/values";
 
 const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
   const { top } = useSafeAreaInsets();
@@ -34,6 +34,7 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
   const mapRef = useRef<MapView>(null);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [shouldTrack, setShouldTrack] = useState<boolean>(true);
   const [tracks, setTracks] = useState<TrackData[]>([]); // Cognitive or Indicative tracks
   const [markers, setMarkers] = useState<MarkerType[]>([]);
 
@@ -93,7 +94,10 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
         toolbarEnabled={false}
         showsCompass={false}
         onTouchStart={onMapPress}
-        onMapReady={() => setIsLoading(false)}
+        onMapReady={() => {
+          setIsLoading(false);
+          setShouldTrack(false);
+        }}
         initialRegion={{
           latitude: 54.901102,
           longitude: 23.89155,
@@ -103,11 +107,14 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
         {!!markers.length
           ? markers.map((marker: MarkerType, index: number) => (
               <Marker
+                tracksViewChanges={shouldTrack}
                 onPress={() => onMarkerPress(tracks[index], marker.location)}
                 key={index}
                 coordinate={marker.location}
                 title={marker.title}
-                description={marker.description}></Marker>
+                description={marker.description}>
+                <MarkerIcon size={48} Icon={TrackCardIcons[tracks[index].relief]} />
+              </Marker>
             ))
           : null}
       </MapView>
