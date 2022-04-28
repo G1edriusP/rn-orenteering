@@ -6,4 +6,5 @@ export default {
   KHAKI: "#E3DCC5",
   ORANGE: "#DD7E46",
   RED: "#C97777",
+  SECONDARY_COLOR: "#89C6F0",
 };

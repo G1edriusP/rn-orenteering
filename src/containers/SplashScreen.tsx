@@ -4,8 +4,10 @@ import React, { useLayoutEffect } from "react";
 import styles from "styles/containers/SplashScreen";
 
 // Components
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import Splash from "react-native-splash-screen";
+import Logo from "../assets/images/Logo.svg";
+import LaunchLogo from "../assets/images/splash_icon.png";
 
 // Types
 import { SplashScreenProps } from "constants/navigation/types";
@@ -26,7 +28,7 @@ const SplashScreen = ({ navigation: { navigate, dispatch } }: SplashScreenProps)
 
   return (
     <View style={styles.wrap}>
-      <Text>Splash screen hidden</Text>
+      <Image height={200} width={200} source={LaunchLogo} />
     </View>
   );
 };
