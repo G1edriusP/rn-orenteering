@@ -14,7 +14,7 @@ type Props = {
 export default StyleSheet.create<Props>({
   wrap: {
     flex: 1,
-    padding: padding.MEDIUM,
+    padding: padding.LARGE,
   },
   loadingWrap: {
     ...StyleSheet.absoluteFillObject,
@@ -27,7 +27,7 @@ export default StyleSheet.create<Props>({
   },
   headerWrap: {
     position: "absolute",
-    paddingHorizontal: padding.MEDIUM,
+    paddingHorizontal: padding.LARGE,
     width: SCREEN_WIDTH,
     flexDirection: "row",
     alignItems: "center",

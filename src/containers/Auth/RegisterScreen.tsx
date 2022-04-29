@@ -9,6 +9,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, Button } from "components";
 import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import firestore from "@react-native-firebase/firestore";
 
 // Utils
 import { emailAuthReducer, onRegisterPress } from "utils/firebase/auth";
@@ -17,12 +18,9 @@ import { emailAuthReducer, onRegisterPress } from "utils/firebase/auth";
 import { RegisterScreenProps } from "constants/navigation/types";
 
 // Constants
-import { Stacks } from "constants/navigation/routes";
 import { defaultEmailRegisterData, IDS } from "constants/values";
-import { ScrollView, View } from "react-native";
-import { LogoIcon, PlusIcon } from "assets/svg";
-import colors from "constants/colors";
-import firestore from "@react-native-firebase/firestore";
+import { View } from "react-native";
+import { LogoIcon } from "assets/svg";
 
 const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const { t } = useTranslation();

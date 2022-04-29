@@ -13,18 +13,15 @@ type Props = {
 
 const GameTrack: React.FC<Props> = ({ size }) => {
   return (
-    <Svg
-      height={size}
-      width={size}
-      viewBox='0 0 603.91 502.56'
-      style={{ aspectRatio: 603.91 / 502.56 }}>
+    <Svg height={size} width={size} viewBox='0 0 603.91 502.56' style={{ aspectRatio: 603.91 / 502.56 }}>
       <Path
-        fill='#383432'
+        fill={colors.DARK_BLUE}
         d='M316.75 502.56L0 436.38 402.27 95.02 603.91 178.82 316.75 502.56z'
-        opacity='0.65'
+        opacity='0.35'
       />
       <Path
-        fill='#8b9473'
+        fill={colors.DARK_BLUE}
+        opacity={0.65}
         d='M466.98 130.51L404.77 113.58 404.77 96.72 464.54 73.07 488.23 81.32 489.86 81.9 504.97 87.17 504.97 150.38 466.98 175.63 466.98 130.51z'
       />
       <Path
@@ -33,7 +30,8 @@ const GameTrack: React.FC<Props> = ({ size }) => {
         transform='translate(361.89 -12.49)'
       />
       <Path
-        fill='#383432'
+        fill={colors.DARK_BLUE}
+        opacity={0.65}
         d='M404.77 118.76L461.98 134.33 461.98 178.62 404.77 202.33 404.77 118.76z'
       />
       <Path
@@ -42,7 +40,8 @@ const GameTrack: React.FC<Props> = ({ size }) => {
         transform='translate(361.89 -12.49)'
       />
       <Path
-        fill='#383432'
+        fill={colors.DARK_BLUE}
+        opacity={0.65}
         d='M470.24 179.47L537.28 134.92 543.32 134.92 544.51 202.65 470.24 179.47z'
       />
       <Path
@@ -51,7 +50,8 @@ const GameTrack: React.FC<Props> = ({ size }) => {
         transform='translate(361.89 -12.49)'
       />
       <Path
-        fill='#383432'
+        fill={colors.DARK_BLUE}
+        opacity={0.65}
         d='M509.98 88.52L547.3 96.96 601.41 74.16 601.41 105.23 546.53 129.92 535.77 129.92 509.98 147.06 509.98 88.52z'
       />
       <Path
@@ -61,7 +61,8 @@ const GameTrack: React.FC<Props> = ({ size }) => {
       />
       <G>
         <Path
-          fill='#383432'
+          fill={colors.DARK_BLUE}
+          opacity={0.65}
           d='M548.32 134.6L601.41 110.72 601.41 177.25 549.5 202.13 548.32 134.6z'
         />
         <Path
@@ -76,12 +77,14 @@ const GameTrack: React.FC<Props> = ({ size }) => {
         transform='translate(361.89 -12.49)'
       />
       <Path
-        fill='#56564a'
+        fill={colors.DARK_BLUE}
+        opacity={0.65}
         d='M128.79 92l-26.2-9.13-10.68 4.25 24.39 43.78 1.58 2.83 2 3.62a.88.88 0 001.58 0l.57-1 .77-1.36.9-1.64 13.05-23.42 7-12.65zM92.22 24.71l4.65-4.13a39.57 39.57 0 00-4.65 4.13z'
         transform='translate(361.89 -12.49)'
       />
       <Path
-        fill='#56564a'
+        fill={colors.DARK_BLUE}
+        opacity={0.65}
         d='M120.69 12.49a39.15 39.15 0 00-23.78 8l-4.65 4.13a42.43 42.43 0 00-11.84 29.61v1.68a43.1 43.1 0 001.38 9.27l8.5 19.11 1.58 2.83 10.68-4.23L128.79 92l15 5.24 7.23-13 6-13.56 2.47-5.55a43.1 43.1 0 001.38-9.27v-1.68c.13-23.01-17.93-41.69-40.18-41.69zm14.94 43.8a17.16 17.16 0 01-14.94 8.89 16.8 16.8 0 01-4.1-.5 17.41 17.41 0 01-10.83-8.39 18.47 18.47 0 01-.51-17 17.21 17.21 0 0115.44-9.87c9.55 0 17.29 8 17.29 17.91a18.19 18.19 0 01-2.35 8.96z'
         transform='translate(361.89 -12.49)'
       />

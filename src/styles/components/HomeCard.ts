@@ -20,7 +20,7 @@ export default StyleSheet.create<Props>({
     width: cardWidth,
     padding: padding.MEDIUM,
     borderRadius: padding.SMALL,
-    backgroundColor: colors.DARK_GREEN,
+    backgroundColor: colors.SECONDARY_COLOR,
     justifyContent: "flex-end",
     alignItems: "flex-start",
     shadowColor: "#000",
@@ -40,7 +40,7 @@ export default StyleSheet.create<Props>({
   title: {
     fontFamily: fontMedium,
     fontSize: fontSizes.SMALL + 2,
-    color: colors.KHAKI,
+    color: colors.LIGHT_GREY,
   },
   icon: {
     ...StyleSheet.absoluteFillObject,

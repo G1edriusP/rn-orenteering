@@ -6,7 +6,7 @@ import styles from "styles/containers/Home/TracksMap";
 // Components
 import { Platform, StyleSheet, Text, TouchableWithoutFeedback, View } from "react-native";
 import { Loader, SmallButton, TrackInfoSheet } from "components";
-import { BackIcon, MarkerIcon, SearchIcon } from "assets/svg";
+import { BackIcon, ClockIcon, FlameIcon, MarkerIcon, SearchIcon } from "assets/svg";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import MapView, { Callout, CalloutSubview, LatLng, Marker, Polyline } from "react-native-maps";
 import { firebase } from "@react-native-firebase/auth";
@@ -19,12 +19,110 @@ import mapStyle from "constants/mapStyle";
 import { TrackData, TrackInfoHandle } from "constants/types/types";
 import { Routes } from "constants/navigation/routes";
 import { MarkerType } from "constants/types/firestore";
-import { padding, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
+import { fontSizes, padding, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
 import colors from "constants/colors";
 
 // Utils
 import { fetchMyTracks, fetchTracks, getTracksStartingMarkers } from "utils/firebase/track";
 import { TrackCardIcons } from "constants/values";
+import Carousel, { CarouselProps } from "react-native-snap-carousel";
+import { useTranslation } from "react-i18next";
+import { fontLight, fontMedium, fontRegular } from "constants/fonts";
+import { formatSToMsString } from "utils/time";
+import { showAlert } from "utils/other";
+import { TouchableOpacity } from "react-native-gesture-handler";
+
+const RenderItem: React.FC<{
+  item: TrackData;
+  index: number;
+  onStartPress: (route: string, props: { track?: TrackData; trackID?: string }) => void;
+}> = ({ item, index, onStartPress }) => {
+  const Icon = TrackCardIcons[item.relief];
+
+  return (
+    <TouchableOpacity
+      onPress={() =>
+        onStartPress &&
+        showAlert({
+          title: "Pasirinkite maršruto tipą:",
+          ok: "Pažintinis",
+          cancel: "Orientacinis",
+          onOk: () => onStartPress(Routes.TRACK_SCREEN_COGNITIVE, { track: item }),
+          onCancel: () => onStartPress(Routes.WAITING_ROOM, { trackID: item.id }),
+          cancelStyle: { backgroundColor: colors.SECONDARY_COLOR },
+        })
+      }
+      style={{
+        backgroundColor: colors.WHITE,
+        width: SCREEN_WIDTH - padding.LARGE * 2,
+        height: 124,
+        borderRadius: padding.SMALL,
+        padding: padding.MIDI,
+        justifyContent: "space-between",
+      }}>
+      <Text
+        style={{
+          fontFamily: fontMedium,
+          fontSize: fontSizes.MIDI,
+          color: colors.DARK_BLUE,
+          marginBottom: padding.SMALL,
+        }}>
+        {item.title}
+      </Text>
+      <Text
+        numberOfLines={2}
+        style={{
+          fontFamily: fontRegular,
+          fontSize: fontSizes.SMALL,
+          color: colors.DARK_GREY,
+          marginBottom: padding.SMALL,
+        }}>
+        {item.description}
+      </Text>
+      <View style={{ flexDirection: "row" }}>
+        <Icon size={22} />
+        {!!item.duration ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: padding.MEDIUM,
+            }}>
+            <ClockIcon size={22} />
+            <Text
+              style={[
+                { fontFamily: fontRegular, fontSize: fontSizes.SMALL - 2, color: colors.LIGHT_GREEN },
+                { marginLeft: 4 },
+              ]}>
+              {formatSToMsString(item.duration)}
+            </Text>
+          </View>
+        ) : null}
+        {!!item.rating ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              marginLeft: padding.MEDIUM,
+            }}>
+            <FlameIcon size={22} strokeColor={colors.DARK_GREEN} />
+            <Text
+              style={[
+                {
+                  fontFamily: fontLight,
+                  fontSize: fontSizes.SMALL - 2,
+                  color: colors.LIGHT_GREEN,
+                },
+                { marginLeft: 4 },
+              ]}>
+              {item.rating}
+            </Text>
+          </View>
+        ) : null}
+      </View>
+    </TouchableOpacity>
+  );
+};
 
 const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
   const { top } = useSafeAreaInsets();
@@ -32,10 +130,11 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
 
   const sheetRef = useRef<TrackInfoHandle>(null);
   const mapRef = useRef<MapView>(null);
+  const carouselRef = useRef<Carousel<TrackData>>(null);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [shouldTrack, setShouldTrack] = useState<boolean>(true);
-  const [tracks, setTracks] = useState<TrackData[]>([]); // Cognitive or Indicative tracks
+  const [tracks, setTracks] = useState<TrackData[]>([]);
   const [markers, setMarkers] = useState<MarkerType[]>([]);
 
   // For hiding header while marker is pressed
@@ -59,6 +158,10 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
   const onFetchEnd = (data: TrackData[]) => {
     setTracks(data);
     setIsLoading(false);
+  };
+
+  const onTrackNav = (route: string, props: { track?: TrackData; trackID?: string }) => {
+    navigation.navigate(route as never, props as never);
   };
 
   useEffect(() => {
@@ -118,11 +221,33 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
             ))
           : null}
       </MapView>
-      <Animated.View style={[styles.headerWrap, headerRStyle, { paddingTop: top + padding.MEDIUM }]}>
+
+      {tracks ? (
+        <View style={{ position: "absolute", bottom: padding.LARGE + padding.SMALL }}>
+          <Carousel
+            layout={"default"}
+            ref={carouselRef}
+            data={tracks}
+            renderItem={props => <RenderItem {...props} onStartPress={onTrackNav} />}
+            sliderWidth={SCREEN_WIDTH}
+            itemWidth={SCREEN_WIDTH - padding.LARGE * 2}
+            enableSnap
+            inactiveSlideScale={0.94}
+            inactiveSlideOpacity={0.7}
+            activeSlideAlignment='center'
+          />
+        </View>
+      ) : null}
+
+      <Animated.View
+        style={[
+          styles.headerWrap,
+          headerRStyle,
+          { paddingTop: Platform.select({ android: top + padding.LARGE, ios: top + padding.SMALL }) },
+        ]}>
         <SmallButton Icon={BackIcon} size={28} onPress={onBackPress} />
         <SmallButton Icon={SearchIcon} size={28} onPress={onSearchPress} />
       </Animated.View>
-      <TrackInfoSheet ref={sheetRef} topSnap={SCREEN_HEIGHT - top} headerPos={headerPos} />
     </SafeAreaView>
   );
 };

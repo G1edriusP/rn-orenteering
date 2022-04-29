@@ -20,7 +20,7 @@ export default StyleSheet.create<Props>({
     height: buttonSize,
     width: buttonSize,
     borderRadius: buttonSize / 2,
-    backgroundColor: colors.ORANGE,
+    backgroundColor: colors.PRIMARY_COLOR,
     justifyContent: "center",
     alignItems: "center",
     shadowColor: "#000",

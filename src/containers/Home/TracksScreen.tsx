@@ -171,7 +171,6 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
           Object.entries(selectedFilters).filter(([key, val]) => !!val.length),
         );
         const filteredTracks = tracks.filter(track => {
-          console.log(filters.duration);
           return (
             (filters.relief ? track.relief === filters.relief : true) &&
             (filters.duration

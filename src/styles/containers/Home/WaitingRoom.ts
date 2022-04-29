@@ -39,7 +39,7 @@ export default StyleSheet.create<Props>({
     height: 80,
     textAlign: "center",
     marginBottom: padding.MIDI,
-    fontSize: 20,
+    fontSize: fontSizes.MIDI + 2,
   },
   topView: {
     shadowColor: "#000",

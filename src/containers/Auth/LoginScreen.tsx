@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import styles from "styles/containers/Auth/LoginScreen";
 
 // Components
-import { Image, KeyboardAvoidingView, Platform, ScrollView, Text, View } from "react-native";
+import { View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { TextInput, Button, TextButton, IconButton } from "components";
 import { LogoIcon } from "assets/svg";
@@ -17,11 +17,11 @@ import { emailAuthReducer, onLoginPress } from "utils/firebase/auth";
 import { LoginScreenProps } from "constants/navigation/types";
 
 // Constants
-import { Routes, Stacks } from "constants/navigation/routes";
+import { Routes } from "constants/navigation/routes";
 import { defaultEmailLoginData, IDS } from "constants/values";
 import colors from "constants/colors";
 import { LANGUAGES } from "constants/languages";
-import { padding, SCREEN_WIDTH } from "constants/spacing";
+import { padding } from "constants/spacing";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 const LoginScreen = ({ navigation }: LoginScreenProps) => {

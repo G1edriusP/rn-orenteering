@@ -1,4 +1,5 @@
 import React from "react";
+import { ViewStyle } from "react-native";
 import { LatLng } from "react-native-maps";
 import { MarkerType } from "./firestore";
 
@@ -70,6 +71,8 @@ export type AlertParams = {
   cancel?: string;
   onCancel?: void;
   onOk?: () => void;
+  cancelStyle?: ViewStyle;
+  okStyle?: ViewStyle;
 };
 
 export type Position = {

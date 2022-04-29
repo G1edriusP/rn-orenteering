@@ -21,7 +21,7 @@ const Lithuania: React.FC<Props> = ({ size, selected }) => {
         {
           aspectRatio: 512 / 370,
         },
-        selected && { borderWidth: 2, borderColor: colors.BLACK, borderRadius: 4 },
+        selected && { borderWidth: 2, borderColor: colors.DARK_BLUE, borderRadius: 4 },
       ]}>
       <Path fill='#006A44' d='M0 128h512v113.778H0V128z'></Path>
       <Path

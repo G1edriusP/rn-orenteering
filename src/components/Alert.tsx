@@ -6,7 +6,7 @@ import styles, { Styles } from "styles/components/Alert";
 import { springConfig, timingConfig } from "constants/animations";
 
 // Components
-import { View, Text, Modal, TouchableOpacity } from "react-native";
+import { View, Text, Modal, TouchableOpacity, ViewStyle } from "react-native";
 import Animated, {
   useDerivedValue,
   withTiming,
@@ -23,11 +23,12 @@ interface ButtonProps {
   type: "filled" | "danger";
   title: string;
   onPress: () => void;
+  style?: ViewStyle;
 }
 
-const Button: React.FC<ButtonProps> = memo(({ type, title = "", onPress }) => {
+const Button: React.FC<ButtonProps> = memo(({ type, title = "", onPress, style }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.btnWrap, type && styles[`${type}Button`]]}>
+    <TouchableOpacity onPress={onPress} style={[styles.btnWrap, type && styles[`${type}Button`], style]}>
       <Text style={[type && styles[`${type}Title`]]}>{title}</Text>
     </TouchableOpacity>
   );
@@ -40,16 +41,12 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
     params: {} as AlertParams,
     onCancel: () => {},
     onOk: () => {},
+    cancelStyle: {},
+    okStyle: {},
   });
 
-  const backdropOpacity = useDerivedValue(
-    () => withTiming(alert.visible, alertAnimation),
-    [alert.visible],
-  );
-  const alertScale = useDerivedValue(
-    () => withSpring(alert.visible, springConfig),
-    [alert.visible],
-  );
+  const backdropOpacity = useDerivedValue(() => withTiming(alert.visible, alertAnimation), [alert.visible]);
+  const alertScale = useDerivedValue(() => withSpring(alert.visible, springConfig), [alert.visible]);
 
   const hideAlert = useCallbackOne(
     returnValue =>
@@ -87,11 +84,15 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
           const message = params.message;
           const ok = params.ok;
           const cancel = params.cancel;
+          const okStyle = params.okStyle;
+          const cancelStyle = params.cancelStyle;
 
           if (title && title.length) alertParams.title = title;
           if (message && message.length) alertParams.message = message;
           if (ok && ok.length) alertParams.ok = ok;
           if (cancel && cancel.length) alertParams.cancel = cancel;
+          if (cancelStyle) alertParams.cancelStyle = cancelStyle;
+          if (okStyle) alertParams.okStyle = okStyle;
 
           setAlert({
             visible: 1,
@@ -133,15 +134,10 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
     [backdropOpacity, alertScale],
   );
 
-  const { title, message, cancel, ok } = alert.params;
+  const { title, message, cancel, ok, cancelStyle = {}, okStyle = {} } = alert.params;
 
   return (
-    <Modal
-      statusBarTranslucent
-      animationType='none'
-      transparent
-      visible={alert.render}
-      onRequestClose={alert.onCancel}>
+    <Modal statusBarTranslucent animationType='none' transparent visible={alert.render} onRequestClose={alert.onCancel}>
       <View style={styles.wrap}>
         <Animated.View style={[styles.backdrop, backdropStyle]} />
         <Animated.View style={[styles.alertWrap, alertStyle]}>
@@ -150,11 +146,11 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
           <View style={styles.buttonsWrap}>
             {ok && (
               <>
-                <Button type={"filled"} title={ok} onPress={alert.onOk} />
+                <Button type={"filled"} title={ok} onPress={alert.onOk} style={okStyle} />
                 <View style={styles.buttonsSpacing} />
               </>
             )}
-            {cancel && <Button type={"danger"} title={cancel} onPress={alert.onCancel} />}
+            {cancel && <Button type={"danger"} title={cancel} onPress={alert.onCancel} style={cancelStyle} />}
           </View>
         </Animated.View>
       </View>

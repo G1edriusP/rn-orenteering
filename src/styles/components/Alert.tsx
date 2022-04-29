@@ -42,14 +42,14 @@ export default StyleSheet.create<Styles>({
   title: {
     fontFamily: fontMedium,
     fontSize: fontSizes.MEDIUM - 4,
-    color: colors.BLACK,
+    color: colors.DARK_BLUE,
     textAlign: "center",
     paddingBottom: cardPadding,
   },
   description: {
     fontFamily: fontRegular,
     fontSize: fontSizes.MIDI - 2,
-    color: colors.BLACK,
+    color: colors.DARK_GREY,
     textAlign: "center",
     paddingBottom: cardPadding,
   },
@@ -63,7 +63,7 @@ export default StyleSheet.create<Styles>({
     alignItems: "center",
   },
   filledButton: {
-    backgroundColor: colors.DARK_GREEN,
+    backgroundColor: colors.SECONDARY_COLOR,
     width: "100%",
     paddingVertical: padding.MIDI,
     borderRadius: padding.SMALL,
