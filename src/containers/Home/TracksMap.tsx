@@ -1,4 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useCallbackOne } from "use-memo-one";
+import { useTranslation } from "react-i18next";
 
 // Styles
 import styles from "styles/containers/Home/TracksMap";
@@ -11,6 +13,8 @@ import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context"
 import MapView, { Callout, CalloutSubview, LatLng, Marker, Polyline } from "react-native-maps";
 import { firebase } from "@react-native-firebase/auth";
 import Animated, { useSharedValue, useAnimatedStyle, withTiming, useDerivedValue } from "react-native-reanimated";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import MarkerIcon2 from "assets/images/akytes.svg";
 
 // Constants
 import { TracksMapScreenProps } from "constants/navigation/types";
@@ -21,16 +25,14 @@ import { Routes } from "constants/navigation/routes";
 import { MarkerType } from "constants/types/firestore";
 import { fontSizes, padding, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
 import colors from "constants/colors";
+import { fontLight, fontMedium, fontRegular } from "constants/fonts";
 
 // Utils
 import { fetchMyTracks, fetchTracks, getTracksStartingMarkers } from "utils/firebase/track";
 import { TrackCardIcons } from "constants/values";
-import Carousel, { CarouselProps } from "react-native-snap-carousel";
-import { useTranslation } from "react-i18next";
-import { fontLight, fontMedium, fontRegular } from "constants/fonts";
+import Carousel from "react-native-snap-carousel";
 import { formatSToMsString } from "utils/time";
 import { showAlert } from "utils/other";
-import { TouchableOpacity } from "react-native-gesture-handler";
 
 const RenderItem: React.FC<{
   item: TrackData;
@@ -128,7 +130,6 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
   const { top } = useSafeAreaInsets();
   const { infoType } = params;
 
-  const sheetRef = useRef<TrackInfoHandle>(null);
   const mapRef = useRef<MapView>(null);
   const carouselRef = useRef<Carousel<TrackData>>(null);
 
@@ -146,14 +147,13 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
   const onBackPress = () => navigation.goBack();
   const onSearchPress = () => navigation.navigate(Routes.TRACKS_SCREEN, { tracks });
 
-  const onMarkerPress = (track: TrackData, location: LatLng) => {
-    if (Platform.OS === "ios") mapRef.current?.animateCamera({ center: location, pitch: 2 });
-    sheetRef.current?.open(track);
-  };
-
-  const onMapPress = () => {
-    sheetRef.current?.close();
-  };
+  const onMarkerPress = useCallbackOne(
+    (index: number, location: LatLng) => {
+      carouselRef.current?.snapToItem(index, true);
+      if (Platform.OS === "ios") mapRef.current?.animateCamera({ center: location, pitch: 2 });
+    },
+    [tracks, mapRef, carouselRef],
+  );
 
   const onFetchEnd = (data: TrackData[]) => {
     setTracks(data);
@@ -163,6 +163,14 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
   const onTrackNav = (route: string, props: { track?: TrackData; trackID?: string }) => {
     navigation.navigate(route as never, props as never);
   };
+
+  const onCardScroll = useCallbackOne(
+    (index: number) => {
+      const { location } = markers[index];
+      mapRef.current?.animateCamera({ center: location, pitch: 2 });
+    },
+    [markers, mapRef],
+  );
 
   useEffect(() => {
     setIsLoading(true);
@@ -189,38 +197,30 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
           <Loader size='large' color={colors.BLACK} />
         </View>
       )}
-      <MapView
-        ref={mapRef}
-        customMapStyle={mapStyle}
-        provider={"google"}
-        style={styles.map}
-        toolbarEnabled={false}
-        showsCompass={false}
-        onTouchStart={onMapPress}
-        onMapReady={() => {
-          setIsLoading(false);
-          setShouldTrack(false);
-        }}
-        initialRegion={{
-          latitude: 54.901102,
-          longitude: 23.89155,
-          latitudeDelta: 0.0922,
-          longitudeDelta: 0.0421,
-        }}>
-        {!!markers.length
-          ? markers.map((marker: MarkerType, index: number) => (
-              <Marker
-                tracksViewChanges={shouldTrack}
-                onPress={() => onMarkerPress(tracks[index], marker.location)}
-                key={index}
-                coordinate={marker.location}
-                title={marker.title}
-                description={marker.description}>
-                <MarkerIcon size={48} Icon={TrackCardIcons[tracks[index].relief]} />
-              </Marker>
-            ))
-          : null}
-      </MapView>
+      {!isLoading && !!Object.keys(markers).length ? (
+        <MapView
+          ref={mapRef}
+          customMapStyle={mapStyle}
+          provider={"google"}
+          style={styles.map}
+          toolbarEnabled={false}
+          showsCompass={false}
+          onMapReady={() => setShouldTrack(false)}
+          region={{ ...markers[0].location, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}>
+          {markers.map((marker: MarkerType, index: number) => (
+            <Marker
+              tracksViewChanges={shouldTrack}
+              onPress={() => onMarkerPress(index, marker.location)}
+              key={index}
+              coordinate={marker.location}
+              title={marker.title}
+              description={marker.description}>
+              <MarkerIcon2 height={72} width={72} />
+              {/* <MarkerIcon size={48} Icon={TrackCardIcons[tracks[index].relief]} /> */}
+            </Marker>
+          ))}
+        </MapView>
+      ) : null}
 
       {tracks ? (
         <View style={{ position: "absolute", bottom: padding.LARGE + padding.SMALL }}>
@@ -235,6 +235,7 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
             inactiveSlideScale={0.94}
             inactiveSlideOpacity={0.7}
             activeSlideAlignment='center'
+            onBeforeSnapToItem={onCardScroll}
           />
         </View>
       ) : null}
