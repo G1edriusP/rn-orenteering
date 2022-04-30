@@ -128,8 +128,8 @@ const TrackCognitiveScreen = ({ navigation, route: { params } }: TrackMapCogniti
           initialRegion={{
             latitude: track.markers[0].location.latitude,
             longitude: track.markers[0].location.longitude,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+            latitudeDelta: 0.01,
+            longitudeDelta: 0.01,
           }}>
           {track.markers.map((marker: MarkerType, index: number) => (
             <Marker

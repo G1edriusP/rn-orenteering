@@ -150,6 +150,7 @@
     "start": "Start",
     "markers": "Route points",
     "emptyDesc": "No description",
-    "rate": "Rate"
+    "rate": "Rate",
+    "selectType": "Select route type:"
   }
 }

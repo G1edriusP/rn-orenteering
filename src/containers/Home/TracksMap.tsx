@@ -47,7 +47,7 @@ const RenderItem: React.FC<{
       style={{
         backgroundColor: colors.WHITE,
         width: SCREEN_WIDTH - padding.LARGE * 2,
-        height: 124,
+        // height: 124,
         borderRadius: padding.SMALL,
         padding: padding.MIDI,
         justifyContent: "space-between",

@@ -2,6 +2,7 @@ apply plugin: "com.android.application"
 apply plugin: 'com.google.gms.google-services'
 
 import com.android.build.OutputFile
+//import groovy.swing.SwingBuilder
 
 /**
  * The react.gradle file registers a task for each build variant (e.g. bundleDebugJsAndAssets
@@ -126,6 +127,27 @@ def enableHermes = project.ext.react.get("enableHermes", false);
  */
 def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
 
+def pass = ''
+//new SwingBuilder().edt {
+//    dialog(modal: true, // Otherwise the build will continue running before you closed the dialog
+//            title: 'Enter password', // Dialog title
+//            alwaysOnTop: true, // pretty much what the name says
+//            resizable: false, // Don't allow the user to resize the dialog
+//            locationRelativeTo: null, // Place dialog in center of the screen
+//            pack: true, // We need to pack the dialog (so it will take the size of it's children
+//            show: true // Let's show it
+//    ) {
+//        vbox { // Put everything below each other
+//            label(text: "Please enter key passphrase:")
+//            input = passwordField()
+//            button(defaultButton: true, text: 'OK', actionPerformed: {
+//                pass = input.password; // Set pass variable to value of input field
+//                dispose(); // Close dialog
+//            })
+//        }
+//    }
+//}
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -147,6 +169,14 @@ android {
         }
     }
     signingConfigs {
+        signingConfigs {
+            release {
+                storeFile file('orientuokis_app.keystore')
+                storePassword '?Leksis0090'
+                keyAlias 'orientuokis'
+                keyPassword '?Leksis0090'
+            }
+        }
         debug {
             storeFile file('debug.keystore')
             storePassword 'android'
@@ -166,7 +196,7 @@ android {
         release {
             // Caution! In production, you need to generate your own keystore file.
             // see https://reactnative.dev/docs/signed-apk-android.
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
         }
@@ -195,8 +225,6 @@ dependencies {
     implementation "com.facebook.react:react-native:+"  // From node_modules
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
-    // Splash screen
     
     implementation project(':react-native-splash-screen')
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {

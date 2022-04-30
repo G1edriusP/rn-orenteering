@@ -31,6 +31,7 @@ import auth from "@react-native-firebase/auth";
 import { TrackPlayer } from "constants/types/track";
 import { resetNavigation } from "utils/navigation/navigation";
 import { Routes, Stacks } from "constants/navigation/routes";
+import { hasLocationPermission } from "utils/location/permissions";
 
 const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndicativeScreenProps) => {
   const { t } = useTranslation();
@@ -123,6 +124,7 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
 
   const onUserLocationChange = (e: EventUserLocation) => {
     const position = e.nativeEvent.coordinate;
+    console.log(position);
     mapRef.current?.animateCamera({
       center: { longitude: position.longitude, latitude: position.latitude },
     });
@@ -163,6 +165,10 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    hasLocationPermission();
+  }, []);
+
   return (
     <SafeAreaView style={styles.wrap}>
       {trackInfo && currentMarker ? (
@@ -170,7 +176,7 @@ const TrackIndicativeScreen = ({ navigation, route: { params } }: TrackMapIndica
           ref={mapRef}
           customMapStyle={mapStyle}
           loadingEnabled
-          // provider={"google"}
+          provider={"google"}
           loadingBackgroundColor={colors.WHITE}
           style={styles.map}
           toolbarEnabled={false}

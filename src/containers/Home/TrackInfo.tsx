@@ -101,12 +101,14 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
 
   // Open bottom sheet
   const bottomSheetOpen = (): void => {
+    navigation.setOptions({ sheetOpen: true });
     dispatchMarkerInfo({ type: IDS.RESET });
     bottomSheetRef.current?.snapToIndex(0);
   };
 
   // Close bottom sheet
   const bottomSheetClose = (): void => {
+    navigation.setOptions({ sheetOpen: false });
     dispatchMarkerInfo({ type: IDS.RESET });
     bottomSheetRef.current?.close();
   };
@@ -274,7 +276,8 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
         snapPoints={bottomSheetSnapPoints}
         index={-1}
         enablePanDownToClose
-        backgroundStyle={styles.sheetBackground}>
+        backgroundStyle={styles.sheetBackground}
+        onClose={bottomSheetClose}>
         <BottomSheetScrollView
           style={styles.wrap}
           contentContainerStyle={styles.sheetScrollWrap}

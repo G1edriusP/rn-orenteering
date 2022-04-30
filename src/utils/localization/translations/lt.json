@@ -154,6 +154,7 @@
     "start": "Pradėti",
     "markers": "Maršruto taškai",
     "emptyDesc": "Nėra aprašymo",
-    "rate": "Įvertinti"
+    "rate": "Įvertinti",
+    "selectType": "Pasirinkite maršruto tipą:"
   }
 }

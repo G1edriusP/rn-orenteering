@@ -68,14 +68,14 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(
     const sheetSnapPoints = useMemoOne(() => (fullScreen ? ["99%"] : ["35%", topSnap]), []);
 
     const onSheetClose = () => {
-      navigation.setOptions({ tracksScreenOpen: false });
+      navigation.setOptions({ sheetOpen: false });
       setInfo({} as TrackData);
       sheetRef.current?.close();
       headerPos.value = 0;
     };
 
     const onSheetOpen = (data: TrackData | MarkerType, fromMap?: boolean) => {
-      navigation.setOptions({ tracksScreenOpen: true });
+      navigation.setOptions({ sheetOpen: true });
       setInfo(data);
       setRating({ rating: data.rating, selectedRating: 0, peopleRated: data.peopleRated } as RatingProps);
       setIcon(TrackCardIcons[data.relief]);
@@ -91,9 +91,9 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(
     const onTrackStartPress = () => {
       const { id } = info as TrackData;
       showAlert({
-        title: "Pasirinkite maršruto tipą:",
-        ok: "Pažintinis",
-        cancel: "Orientacinis",
+        title: t("track:selectType"),
+        ok: t("tracks:COGNITIVE"),
+        cancel: t("tracks:INDICATIVE"),
         onOk: () => onTrackNav(Routes.TRACK_SCREEN_COGNITIVE, { track: info }),
         onCancel: () => onTrackNav(Routes.WAITING_ROOM, { trackID: id }),
         cancelStyle: { backgroundColor: colors.SECONDARY_COLOR },

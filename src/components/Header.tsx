@@ -50,9 +50,7 @@ const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
   const disappearingHeader = useAnimatedStyle(() => ({
     transform: [
       {
-        translateY: options.tracksScreenOpen
-          ? withTiming(-top * 3, { duration: 100 })
-          : withTiming(top, { duration: 100 }),
+        translateY: options.sheetOpen ? withTiming(-top * 3, { duration: 100 }) : withTiming(top, { duration: 100 }),
       },
     ],
   }));
@@ -60,7 +58,7 @@ const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
   return (
     <>
       <View style={[styles.statusBar, { height: top, top: 5 }]} />
-      {Platform.select({ android: !options.tracksScreenOpen, ios: true }) ? (
+      {Platform.select({ android: !options.sheetOpen, ios: true }) ? (
         <Animated.View style={[styles.wrap, Platform.select({ ios: disappearingHeader })]}>
           <View style={[styles.statusBar, { height: top, top: -top }]} />
           <View style={styles.row}>
