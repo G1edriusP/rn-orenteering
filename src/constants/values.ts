@@ -76,8 +76,8 @@ export const LOCAL_STORAGE_KEYS: LocalStorageKeys = {
 export const initialMarkerMapRegion = {
   latitude: 54.8985,
   longitude: 23.9036,
-  latitudeDelta: 0.025,
-  longitudeDelta: 0.025,
+  latitudeDelta: 20,
+  longitudeDelta: 20,
 };
 
 export const TrackCardIcons: CardIcons = {

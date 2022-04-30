@@ -22,6 +22,7 @@ type Props = {
   sheetBackground: ViewStyle;
   subtitle: TextStyle;
   sheetScrollWrap: ViewStyle;
+  textInput: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
@@ -96,5 +97,13 @@ export default StyleSheet.create<Props>({
     fontSize: fontSizes.SMALL,
     color: colors.BLACK,
     marginBottom: padding.LARGE,
+  },
+  textInput: {
+    textAlign: "left",
+    borderColor: colors.DARK_GREEN,
+    borderWidth: 1,
+    fontSize: fontSizes.SMALL,
+    paddingVertical: padding.SMALL,
+    backgroundColor: colors.WHITE,
   },
 });

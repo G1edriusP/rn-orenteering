@@ -31,7 +31,7 @@ import mapStyle from "constants/mapStyle";
 
 // Utils
 import { markerReducer, saveTrack, tracksReducer } from "utils/firebase/track";
-import { padding, SCREEN_WIDTH } from "constants/spacing";
+import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
 import { firebase } from "@react-native-firebase/auth";
 import { createUID, showAlert } from "utils/other";
 import { useTranslation } from "react-i18next";
@@ -70,22 +70,28 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
     if (id === IDS.MARKER_LONGITUDE)
       dispatchMarkerInfo({
         type: IDS.MARKER_LOCATION,
-        value: { latitude: markerData.location.latitude, longitude: Number(val) } as LatLng,
+        value: { latitude: markerData.location.latitude, longitude: val } as unknown as LatLng,
       });
     else
       dispatchMarkerInfo({
         type: IDS.MARKER_LOCATION,
-        value: { longitude: markerData.location.longitude, latitude: Number(val) } as LatLng,
+        value: { longitude: markerData.location.longitude, latitude: val } as unknown as LatLng,
       });
   };
 
   // Update map position when user manually writes location coordinates
-  const onMarkerLocationManualChangeSubmit = (): void =>
+  const onMarkerLocationManualChangeSubmit = (): void => {
+    const location: LatLng = {
+      latitude: Number(markerData.location.latitude),
+      longitude: Number(markerData.location.longitude),
+    };
+    dispatchMarkerInfo({ type: IDS.MARKER_LOCATION, value: location as LatLng });
     markerMapRef.current?.animateToRegion({
-      ...markerData.location,
+      ...location,
       longitudeDelta: 0.025,
       latitudeDelta: 0.025,
     });
+  };
 
   // Update marker data location state when map is moved
   const onMarkerMapRegionChange = (region: Region): void => {
@@ -164,6 +170,8 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
     }
   };
 
+  console.log(markerData);
+
   return (
     <SafeAreaView style={styles.wrap} edges={["bottom", "left", "right"]}>
       <ScrollView showsVerticalScrollIndicator={false} scrollToOverflowEnabled={false}>
@@ -175,14 +183,14 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
           placeholder={t("createTrack:name")}
           onChangeText={onTrackInputChange}
           keyboardType='default'
-          style={styles.smallBottomSpacer}
+          style={{ ...styles.smallBottomSpacer, ...styles.textInput }}
         />
         <Dropdown
           items={defaultTrackTypes}
           title={t("createTrack:type")}
           selected={trackData.type}
           onChange={value => onTrackInputChange(IDS.TRACK_TYPE, value)}
-          style={styles.dropdown}
+          style={[styles.dropdown]}
         />
         <Dropdown
           items={defaultTrackReliefs}
@@ -199,7 +207,7 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
           onChangeText={onTrackInputChange}
           keyboardType='default'
           multiline
-          style={[styles.mediumBottomSpacer, styles.multilineInput] as TextStyle}
+          style={{ ...styles.mediumBottomSpacer, ...styles.multilineInput, ...styles.textInput }}
         />
 
         <Text style={[styles.title, { marginBottom: padding.MIDI }]}>{t("createTrack:duration")}</Text>
@@ -210,8 +218,8 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
             value={!trackData.days ? "" : String(trackData.days)}
             placeholder={t("createTrack:days")}
             onChangeText={onTrackInputChange}
-            keyboardType='number-pad'
-            style={{ ...styles.smallBottomSpacer, width: SCREEN_WIDTH / 3 - padding.MEDIUM, textAlign: "center" }}
+            keyboardType='numeric'
+            style={{ ...styles.smallBottomSpacer, ...styles.textInput, width: SCREEN_WIDTH / 3 - padding.MEDIUM }}
           />
           <TextInput
             id={IDS.TRACK_DURATION_HOURS}
@@ -219,8 +227,8 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
             value={!trackData.hours ? "" : String(trackData.hours)}
             placeholder={t("createTrack:hours")}
             onChangeText={onTrackInputChange}
-            keyboardType='number-pad'
-            style={{ ...styles.smallBottomSpacer, width: SCREEN_WIDTH / 3 - padding.MEDIUM, textAlign: "center" }}
+            keyboardType='numeric'
+            style={{ ...styles.smallBottomSpacer, ...styles.textInput, width: SCREEN_WIDTH / 3 - padding.MEDIUM }}
           />
           <TextInput
             id={IDS.TRACK_DURATION_MINS}
@@ -228,8 +236,8 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
             value={!trackData.minutes ? "" : String(trackData.minutes)}
             placeholder={t("createTrack:minutes")}
             onChangeText={onTrackInputChange}
-            keyboardType='number-pad'
-            style={{ ...styles.mediumBottomSpacer, width: SCREEN_WIDTH / 3 - padding.MEDIUM, textAlign: "center" }}
+            keyboardType='numeric'
+            style={{ ...styles.mediumBottomSpacer, ...styles.textInput, width: SCREEN_WIDTH / 3 - padding.MEDIUM }}
           />
         </View>
 
@@ -281,7 +289,7 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
               placeholder={t("createTrack:name")}
               onChangeText={onMarkerInputChange}
               keyboardType='default'
-              style={styles.smallBottomSpacer}
+              style={{ ...styles.smallBottomSpacer, ...styles.textInput }}
             />
             <TextInput
               id={IDS.MARKER_DESCRIPTION}
@@ -291,7 +299,7 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
               onChangeText={onMarkerInputChange}
               keyboardType='default'
               multiline
-              style={[styles.mediumBottomSpacer, styles.multilineInput] as TextStyle}
+              style={{ ...styles.mediumBottomSpacer, ...styles.multilineInput, ...styles.textInput }}
             />
 
             <Text style={[styles.title, { marginBottom: padding.MIDI }]}>{t("createTrack:routePointLocation")}</Text>
@@ -302,15 +310,13 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
                   id={IDS.MARKER_LATITUDE}
                   editable={!isLoading}
                   value={
-                    markerData.location && markerData.location.latitude
-                      ? String(markerData.location.latitude.toFixed(6))
-                      : ""
+                    markerData.location && markerData.location.latitude ? String(markerData.location.latitude) : ""
                   }
                   placeholder={t("createTrack:latitude")}
                   onChangeText={onMarkerLocationManualChange}
                   onSubmitEditing={onMarkerLocationManualChangeSubmit}
-                  keyboardType='decimal-pad'
-                  style={{ textAlign: "center" }}
+                  keyboardType='numeric'
+                  style={styles.textInput}
                 />
               </BottomSheetView>
               <BottomSheetView style={styles.locationInput}>
@@ -318,15 +324,13 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
                   id={IDS.MARKER_LONGITUDE}
                   editable={!isLoading}
                   value={
-                    markerData.location && markerData.location.longitude
-                      ? String(markerData.location.longitude.toFixed(6))
-                      : ""
+                    markerData.location && markerData.location.longitude ? String(markerData.location.longitude) : ""
                   }
                   placeholder={t("createTrack:longitude")}
                   onChangeText={onMarkerLocationManualChange}
                   onSubmitEditing={onMarkerLocationManualChangeSubmit}
-                  keyboardType='decimal-pad'
-                  style={{ textAlign: "center" }}
+                  keyboardType='numeric'
+                  style={styles.textInput}
                 />
               </BottomSheetView>
             </BottomSheetView>

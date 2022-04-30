@@ -26,9 +26,7 @@ export const chevronColor = colors.DARK_GREEN;
 const inputHeight = padding.MIDI;
 
 export default StyleSheet.create<Props>({
-  wrap: {
-    // marginTop: padding.MEDIUM,
-  },
+  wrap: {},
   title: {
     fontFamily: fontRegular,
     fontSize: fontSizes.MIDI,
