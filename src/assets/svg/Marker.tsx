@@ -11,7 +11,7 @@ import { View } from "react-native";
 type Props = {
   size: number;
   color?: string;
-  Icon: React.FC<{ size: number; color: string }>;
+  Icon?: React.FC<{ size: number; color: string }>;
 };
 
 const Marker: React.FC<Props> = ({ size, color = colors.ORANGE, Icon }) => {

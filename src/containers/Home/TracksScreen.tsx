@@ -158,7 +158,8 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
 
   useEffect(() => {
     if (tracks) {
-      dispatch({ type: "duration", value: findTracksMinMaxDuration(tracks) });
+      const minMaxDuration = findTracksMinMaxDuration(tracks);
+      dispatch({ type: "duration", value: minMaxDuration });
     }
   }, []);
 

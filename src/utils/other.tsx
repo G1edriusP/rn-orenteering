@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from "axios";
+import axios, { AxiosError, AxiosResponse } from "axios";
 import { MarkerType } from "constants/types/firestore";
 import { AlertParams, TrackData } from "constants/types/types";
 import React from "react";
@@ -44,17 +44,20 @@ export const fetchCoordinatesBetweenPoints = (
 ): void => {
   if (markers.length > 1) {
     const url = configureCoordsFetchRoute(markers.map(m => m.location));
-    axios.get(url, { params: coordsFetchParams }).then((res: AxiosResponse) => {
-      const formatted: LatLng[] = [];
-      const coords: [] = res.data.routes[0].geometry.coordinates;
-      coords.forEach(c => formatted.push({ longitude: c[0], latitude: c[1] } as LatLng));
-      setCoordinates(formatted);
-    });
+    axios
+      .get(url, { params: coordsFetchParams })
+      .then((res: AxiosResponse) => {
+        const formatted: LatLng[] = [];
+        const coords: [] = res.data.routes[0].geometry.coordinates;
+        coords.forEach(c => formatted.push({ longitude: c[0], latitude: c[1] } as LatLng));
+        setCoordinates(formatted);
+      })
+      .catch((err: AxiosError) => console.log(err.message));
   }
 };
 
 export const findTracksMinMaxDuration = (tracks: TrackData[]) => {
-  const mini = tracks.reduce((prev, curr) => (curr.duration < prev.duration ? curr.duration : prev.duration));
-  const maxi = tracks.reduce((prev, curr) => (curr.duration > prev.duration ? curr.duration : prev.duration));
+  const mini = tracks.map(track => track.duration).reduce((prev, curr) => (curr < prev ? curr : prev)) || 0;
+  const maxi = tracks.map(track => track.duration).reduce((prev, curr) => (curr > prev ? curr : prev)) || 5;
   return [mini / 3600, maxi / 3600];
 };

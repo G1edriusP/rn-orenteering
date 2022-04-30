@@ -35,23 +35,23 @@ const TrackCard: React.FC<TrackCardType> = ({
           {title}
         </Text>
         <TouchableOpacity onPress={() => onFavouritePress && onFavouritePress(0)} style={styles.rightSide}>
-          <HeartIcon size={28} isSelected={false} />
+          <HeartIcon size={28} isSelected={false} color={colors.DARK_BLUE} />
         </TouchableOpacity>
       </View>
       <Text style={styles.subtitle} numberOfLines={2}>
         {description}
       </Text>
       <View style={styles.iconRowWrap}>
-        <Icon size={28} />
+        <Icon size={28} color={colors.DARK_BLUE} />
         {!!duration ? (
           <View style={styles.iconWrap}>
-            <ClockIcon size={28} />
+            <ClockIcon size={28} color={colors.DARK_BLUE} />
             <Text style={[styles.subtitle, { marginLeft: 4 }]}>{formatSToMsString(duration)}</Text>
           </View>
         ) : null}
         {!!rating ? (
           <View style={styles.iconWrap}>
-            <FlameIcon size={24} strokeColor={colors.DARK_GREEN} />
+            <FlameIcon size={24} strokeColor={colors.DARK_BLUE} />
             <Text style={[styles.subtitle, { marginLeft: 4 }]}>{rating}</Text>
           </View>
         ) : null}

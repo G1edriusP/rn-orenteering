@@ -21,9 +21,18 @@ export default StyleSheet.create<Props>({
   wrap: {
     width,
     marginBottom: padding.MEDIUM,
-    backgroundColor: colors.KHAKI,
+    backgroundColor: colors.SECONDARY_COLOR,
     borderRadius: padding.SMALL,
     padding: padding.MIDI,
+    shadowColor: colors.DARK_BLUE,
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 2,
+
+    elevation: 8,
   },
   subWrap: {
     flexDirection: "row",
@@ -37,14 +46,14 @@ export default StyleSheet.create<Props>({
   title: {
     fontFamily: fontMedium,
     fontSize: fontSizes.MIDI,
-    color: colors.BLACK,
+    color: colors.DARK_BLUE,
     maxWidth: width - 60,
     marginBottom: padding.SMALL / 2,
   },
   subtitle: {
     fontFamily: fontRegular,
     fontSize: fontSizes.SMALL,
-    color: colors.BLACK,
+    color: colors.DARK_BLUE,
     maxWidth: width - 60,
   },
   iconRowWrap: {

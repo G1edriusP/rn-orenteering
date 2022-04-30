@@ -6,7 +6,7 @@ import styles, { Styles } from "styles/components/Alert";
 import { springConfig, timingConfig } from "constants/animations";
 
 // Components
-import { View, Text, Modal, TouchableOpacity, ViewStyle } from "react-native";
+import { View, Text, Modal, TouchableOpacity, ViewStyle, StyleSheet } from "react-native";
 import Animated, {
   useDerivedValue,
   withTiming,
@@ -16,6 +16,8 @@ import Animated, {
   runOnJS,
 } from "react-native-reanimated";
 import { AlertHandle, AlertParams } from "constants/types/types";
+import { TouchableWithoutFeedback } from "react-native-gesture-handler";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
 
 const alertAnimation = { ...timingConfig, duration: 444 };
 
@@ -139,7 +141,7 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
   return (
     <Modal statusBarTranslucent animationType='none' transparent visible={alert.render} onRequestClose={alert.onCancel}>
       <View style={styles.wrap}>
-        <Animated.View style={[styles.backdrop, backdropStyle]} />
+        <Animated.View style={[styles.backdrop, backdropStyle]} onTouchEnd={() => hideAlert(false)} />
         <Animated.View style={[styles.alertWrap, alertStyle]}>
           {title && <Text style={styles.title}>{title}</Text>}
           {message && <Text style={styles.description}>{message}</Text>}
