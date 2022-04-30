@@ -149,5 +149,11 @@
     "gotPointsTime": "Nespėjote rasti visų maršruto taškų. Sėkmės kitą kartą!",
     "continue": "Tęsti",
     "watchStats": "Peržiūrėti statistiką"
+  },
+  "track": {
+    "start": "Pradėti",
+    "markers": "Maršruto taškai",
+    "emptyDesc": "Nėra aprašymo",
+    "rate": "Įvertinti"
   }
 }

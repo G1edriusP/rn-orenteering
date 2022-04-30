@@ -37,23 +37,13 @@ import { showAlert } from "utils/other";
 const RenderItem: React.FC<{
   item: TrackData;
   index: number;
-  onStartPress: (route: string, props: { track?: TrackData; trackID?: string }) => void;
-}> = ({ item, index, onStartPress }) => {
+  openTrackInfo: (track: TrackData) => void;
+}> = ({ item, openTrackInfo }) => {
   const Icon = TrackCardIcons[item.relief];
 
   return (
     <TouchableOpacity
-      onPress={() =>
-        onStartPress &&
-        showAlert({
-          title: "Pasirinkite maršruto tipą:",
-          ok: "Pažintinis",
-          cancel: "Orientacinis",
-          onOk: () => onStartPress(Routes.TRACK_SCREEN_COGNITIVE, { track: item }),
-          onCancel: () => onStartPress(Routes.WAITING_ROOM, { trackID: item.id }),
-          cancelStyle: { backgroundColor: colors.SECONDARY_COLOR },
-        })
-      }
+      onPress={() => openTrackInfo(item)}
       style={{
         backgroundColor: colors.WHITE,
         width: SCREEN_WIDTH - padding.LARGE * 2,
@@ -130,6 +120,7 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
   const { top } = useSafeAreaInsets();
   const { infoType } = params;
 
+  const sheetRef = useRef<TrackInfoHandle>(null);
   const mapRef = useRef<MapView>(null);
   const carouselRef = useRef<Carousel<TrackData>>(null);
 
@@ -162,6 +153,14 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
 
   const onTrackNav = (route: string, props: { track?: TrackData; trackID?: string }) => {
     navigation.navigate(route as never, props as never);
+  };
+
+  const openTrackInfo = (track: TrackData) => {
+    sheetRef.current?.open(track);
+  };
+
+  const onMapPress = () => {
+    sheetRef.current?.close();
   };
 
   const onCardScroll = useCallbackOne(
@@ -205,6 +204,7 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
           style={styles.map}
           toolbarEnabled={false}
           showsCompass={false}
+          onTouchStart={onMapPress}
           onMapReady={() => setShouldTrack(false)}
           region={{ ...markers[0].location, latitudeDelta: 0.0922, longitudeDelta: 0.0421 }}>
           {markers.map((marker: MarkerType, index: number) => (
@@ -228,7 +228,7 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
             layout={"default"}
             ref={carouselRef}
             data={tracks}
-            renderItem={props => <RenderItem {...props} onStartPress={onTrackNav} />}
+            renderItem={props => <RenderItem {...props} onNavigate={onTrackNav} openTrackInfo={openTrackInfo} />}
             sliderWidth={SCREEN_WIDTH}
             itemWidth={SCREEN_WIDTH - padding.LARGE * 2}
             enableSnap
@@ -239,6 +239,8 @@ const TracksMap = ({ navigation, route: { params } }: TracksMapScreenProps) => {
           />
         </View>
       ) : null}
+
+      <TrackInfoSheet ref={sheetRef} topSnap={SCREEN_HEIGHT - top} headerPos={headerPos} />
 
       <Animated.View
         style={[

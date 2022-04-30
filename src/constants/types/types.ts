@@ -10,7 +10,7 @@ export type EmailAuthData = {
   repeatedPassword?: string;
 };
 export type TrackCardType = {
-  onPress: () => void;
+  onPress: (track: TrackData) => void;
   onFavouritePress: (index: number) => void;
 } & TrackData;
 export type MarkerCardType = {
@@ -31,6 +31,7 @@ export type TrackData = {
   rating: number;
   description?: string;
   markers: MarkerType[];
+  peopleRated: number;
 };
 export type ItemProps = {
   value: any;
@@ -69,10 +70,11 @@ export type AlertParams = {
   message?: string;
   ok?: string;
   cancel?: string;
-  onCancel?: void;
+  onCancel?: () => void;
   onOk?: () => void;
   cancelStyle?: ViewStyle;
   okStyle?: ViewStyle;
+  render?: boolean;
 };
 
 export type Position = {

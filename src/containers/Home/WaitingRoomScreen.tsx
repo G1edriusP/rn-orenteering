@@ -183,10 +183,10 @@ const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenP
     if (!!roomData.trackID.length) {
       firestore()
         .collection("tracks")
-        .where("id", "==", roomData.trackID)
+        .doc(roomData.trackID)
         .get()
         .then(response => {
-          setTrackData(response.docs[0].data() as TrackData);
+          setTrackData(response.data() as TrackData);
         })
         .catch(err => console.log(err));
     }

@@ -145,5 +145,11 @@
     "gotPointsTime": "You could not find all the route points. Good luck next time!",
     "continue": "Continue",
     "watchStats": "View statistics"
+  },
+  "track": {
+    "start": "Start",
+    "markers": "Route points",
+    "emptyDesc": "No description",
+    "rate": "Rate"
   }
 }

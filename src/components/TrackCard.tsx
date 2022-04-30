@@ -15,21 +15,12 @@ import { TrackCardIcons } from "constants/values";
 import { formatSToMsString } from "utils/time";
 import colors from "constants/colors";
 
-const TrackCard: React.FC<TrackCardType> = ({
-  onPress,
-  onFavouritePress,
-  title,
-  description,
-  rating,
-  type,
-  relief,
-  markers,
-  duration,
-}) => {
+const TrackCard: React.FC<TrackCardType> = track => {
+  const { onPress, onFavouritePress, title, description, rating, type, relief, markers, duration } = track;
   const Icon = TrackCardIcons[relief];
 
   return (
-    <TouchableOpacity style={styles.wrap} onPress={onPress}>
+    <TouchableOpacity style={styles.wrap} onPress={() => onPress(track)}>
       <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
         <Text style={styles.title} numberOfLines={1}>
           {title}

@@ -44,7 +44,7 @@ export const fetchTracks = (callback: (data: TrackData[]) => void): void => {
     .get()
     .then(docs => {
       docs.forEach(doc => {
-        data.push({ id: doc.id, ...doc.data() } as TrackData);
+        data.push({ ...doc.data(), id: doc.id } as TrackData);
       });
     })
     .catch(e => console.log(e))
@@ -59,7 +59,7 @@ export const fetchMyTracks = (uid: string | undefined, callback: (data: TrackDat
     .get()
     .then(docs => {
       docs.forEach(doc => {
-        data.push({ id: doc.id, ...doc.data() } as TrackData);
+        data.push({ ...doc.data(), id: doc.id } as TrackData);
       });
     })
     .catch(e => console.log(e))
@@ -79,5 +79,14 @@ export const updateWaitingRoomDuration = (roomID: string, duration: number) => {
     .collection("rooms")
     .doc(roomID)
     .update({ duration })
-    .catch(err => console.log(err, "Single single"));
+    .catch(err => console.log("Waiting room error: ", err));
+};
+
+export const updateTrackRating = (trackID: string, rating: number, peopleRated: number, callback: () => void) => {
+  firestore()
+    .collection("tracks")
+    .doc(trackID)
+    .update({ rating, peopleRated })
+    .finally(callback)
+    .catch(err => console.log("Rating error: ", err));
 };

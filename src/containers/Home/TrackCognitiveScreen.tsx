@@ -141,7 +141,12 @@ const TrackCognitiveScreen = ({ navigation, route: { params } }: TrackMapCogniti
               <MarkerIcon2 height={72} width={72} />
             </Marker>
           ))}
-          <Polyline coordinates={coordinates} fillColor={"black"} strokeColor={colors.ORANGE} strokeWidth={2} />
+          <Polyline
+            coordinates={coordinates}
+            fillColor={colors.DARK_GREEN}
+            strokeColor={colors.DARK_GREEN}
+            strokeWidth={5}
+          />
         </MapView>
       ) : null}
 

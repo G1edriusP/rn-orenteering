@@ -1,6 +1,6 @@
 import colors from "constants/colors";
 import { fontBold, fontMedium, fontRegular } from "constants/fonts";
-import { fontSizes, padding } from "constants/spacing";
+import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
 import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 
 interface Styles {
@@ -10,6 +10,7 @@ interface Styles {
   title: TextStyle;
   text: TextStyle;
   titleWrap: ViewStyle;
+  statusBar: ViewStyle;
 }
 
 export default StyleSheet.create<Styles>({
@@ -53,5 +54,10 @@ export default StyleSheet.create<Styles>({
     left: 0,
     alignItems: "center",
     zIndex: -5,
+  },
+  statusBar: {
+    backgroundColor: colors.WHITE,
+    width: SCREEN_WIDTH,
+    position: "absolute",
   },
 });

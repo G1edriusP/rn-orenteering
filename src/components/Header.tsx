@@ -4,21 +4,26 @@ import React, { memo } from "react";
 import styles from "styles/components/Header";
 
 // Components
-import { View, TouchableOpacity, Text } from "react-native";
+import { View, TouchableOpacity, Text, Platform } from "react-native";
 import { BackIcon, FilterIcon } from "assets/svg";
 
 // Types
 import { StackHeaderProps } from "@react-navigation/stack";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { Routes } from "constants/navigation/routes";
 import { t } from "i18next";
 import { useTranslation } from "react-i18next";
 import { onSignOutPress } from "utils/firebase/auth";
 import EventRegister from "utils/eventRegister";
 import { removePlayerFromWaitingRoom, removeWaitingRoom } from "utils/firebase/track";
+import { SCREEN_WIDTH } from "constants/spacing";
+import colors from "constants/colors";
+import Animated, { useAnimatedStyle, useDerivedValue, useSharedValue, withTiming } from "react-native-reanimated";
 
 const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
   const { t } = useTranslation();
+  const { top } = useSafeAreaInsets();
+
   const isProfileScreen = route.name === Routes.PROFILE_SCREEN;
   const isTrackSearchScreen = route.name === Routes.TRACKS_SCREEN;
 
@@ -42,30 +47,43 @@ const Header: React.FC<StackHeaderProps> = ({ navigation, options, route }) => {
     }
   };
 
+  const disappearingHeader = useAnimatedStyle(() => ({
+    transform: [
+      {
+        translateY: options.tracksScreenOpen
+          ? withTiming(-top * 3, { duration: 100 })
+          : withTiming(top, { duration: 100 }),
+      },
+    ],
+  }));
+
   return (
-    <SafeAreaView style={[styles.wrap, { transform: [{ translateY: 0 }] }]} edges={["top"]}>
-      <View style={styles.row}>
-        <TouchableOpacity style={styles.button} onPress={customBack}>
-          <BackIcon size={24} />
-        </TouchableOpacity>
-        <View style={styles.titleWrap}>
-          <Text style={[styles.title, !isProfileScreen && {}]}>
-            {/* @ts-ignore */}
-            {t(`navigation:${route.name}`)}
-          </Text>
-        </View>
-        {isProfileScreen ? (
-          <TouchableOpacity onPress={onSignOutPress}>
-            <Text style={styles.text}>{t("profileScreen:logout")}</Text>
-          </TouchableOpacity>
-        ) : null}
-        {isTrackSearchScreen ? (
-          <TouchableOpacity onPress={() => options.onFilterPress(options.isFiltersOpened)}>
-            <FilterIcon size={24} />
-          </TouchableOpacity>
-        ) : null}
-      </View>
-    </SafeAreaView>
+    <>
+      <View style={[styles.statusBar, { height: top, top: 5 }]} />
+      {Platform.select({ android: !options.tracksScreenOpen, ios: true }) ? (
+        <Animated.View style={[styles.wrap, Platform.select({ ios: disappearingHeader })]}>
+          <View style={[styles.statusBar, { height: top, top: -top }]} />
+          <View style={styles.row}>
+            <TouchableOpacity style={styles.button} onPress={customBack}>
+              <BackIcon size={24} />
+            </TouchableOpacity>
+            <View style={styles.titleWrap}>
+              <Text style={[styles.title, !isProfileScreen && {}]}>{t(`navigation:${route.name}`)}</Text>
+            </View>
+            {isProfileScreen ? (
+              <TouchableOpacity onPress={onSignOutPress}>
+                <Text style={styles.text}>{t("profileScreen:logout")}</Text>
+              </TouchableOpacity>
+            ) : null}
+            {isTrackSearchScreen ? (
+              <TouchableOpacity onPress={() => options.onFilterPress(options.isFiltersOpened)}>
+                <FilterIcon size={24} />
+              </TouchableOpacity>
+            ) : null}
+          </View>
+        </Animated.View>
+      ) : null}
+    </>
   );
 };
 

@@ -6,24 +6,25 @@ import styles from "styles/containers/Home/TracksScreen";
 
 // Components
 import { FlatList, ListRenderItemInfo, Platform, Text, View } from "react-native";
-import { Button, Loader, Slider, TrackCard } from "components";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Button, Loader, Slider, TrackCard, TrackInfoSheet } from "components";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import BottomSheet, { BottomSheetScrollView, TouchableOpacity } from "@gorhom/bottom-sheet";
 import MultiSlider from "@ptomasroos/react-native-multi-slider";
 
 // Constants
-import { Filters, TrackData } from "constants/types/types";
+import { Filters, TrackData, TrackInfoHandle } from "constants/types/types";
 import colors from "constants/colors";
 import { TracksScreenProps } from "constants/navigation/types";
 
 // Utils
 import { fetchTracks, filtersReducer } from "utils/firebase/track";
 import { useCallbackOne, useMemoOne } from "use-memo-one";
-import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
+import { fontSizes, padding, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
 import { BinIcon, CityIcon, CloseIcon, CountrysideIcon, FlameIcon, OffroadIcon } from "assets/svg";
 import { defaultFilterData, IDS, TrackCardIcons } from "constants/values";
 import { fontMedium, fontRegular } from "constants/fonts";
 import { findTracksMinMaxDuration } from "utils/other";
+import { useSharedValue } from "react-native-reanimated";
 
 type FilterButtonProps = {
   id: string;
@@ -48,11 +49,15 @@ const filtersData = {
   ],
 };
 
-const TracksList = ({ tracks, title }: { tracks: TrackData[]; title: string }) => {
-  const onPress = () => {
-    console.log("Pressed");
-  };
-
+const TracksList = ({
+  tracks,
+  title,
+  onPress,
+}: {
+  tracks: TrackData[];
+  title: string;
+  onPress: (track: TrackData) => void;
+}) => {
   const onFavouritePress = () => {
     console.log("Favourite");
   };
@@ -106,14 +111,19 @@ const RatingButton: React.FC<RatingButtonProps> = ({ isSelected, onPress, index 
 const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
   const { tracks } = params;
   const { t } = useTranslation();
+  const { top } = useSafeAreaInsets();
 
   const bottomSheetSnapPoints = useMemoOne(() => ["99%"], []);
 
   const filterRef = useRef<BottomSheet>(null);
+  const sheetRef = useRef<TrackInfoHandle>(null);
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [routes, setRoutes] = useState<TrackData[]>(tracks);
   const [selectedFilters, dispatch] = useReducer(filtersReducer, defaultFilterData);
+
+  // For hiding header while marker is pressed
+  const headerPos = useSharedValue(0);
 
   const onFetchTracksEnd = (data: TrackData[]) => {
     dispatch({ type: "duration", value: findTracksMinMaxDuration(data) });
@@ -137,9 +147,10 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
 
   const onFilterValueChange = useCallbackOne(
     (type: string, value: string | []) => {
+      console.log(value, selectedFilters.rating);
       if (selectedFilters.isDefault) dispatch({ type: "isDefault", value: false });
       // If to clear rating field without clearing any other
-      if (type === "rating" && selectedFilters.rating.length === 1 && value.length === 1) {
+      if (type === "rating" && value.length === selectedFilters.rating.length) {
         dispatch({ type, value: [] });
       } else {
         dispatch({ type, value });
@@ -147,6 +158,10 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
     },
     [dispatch, selectedFilters, routes],
   );
+
+  const openTrackInfo = (track: TrackData) => {
+    sheetRef.current?.open(track);
+  };
 
   useEffect(() => {
     navigation.setOptions({ onFilterPress, isFiltersOpened: false });
@@ -188,14 +203,16 @@ const TracksScreen = ({ route: { params }, navigation }: TracksScreenProps) => {
   return (
     <SafeAreaView
       style={{ flex: 1, backgroundColor: colors.WHITE, paddingTop: padding.SMALL }}
-      edges={["bottom", "left", "right"]}>
+      edges={["bottom", "left", "right", "top"]}>
       {isLoading && (
         <View style={styles.loadingWrap}>
           <Loader size='large' color={colors.BLACK} />
         </View>
       )}
 
-      <TracksList tracks={routes} title={t("tracks:emptyTracks")} />
+      <TracksList tracks={routes} title={t("tracks:emptyTracks")} onPress={openTrackInfo} />
+
+      <TrackInfoSheet ref={sheetRef} topSnap={SCREEN_HEIGHT - top} headerPos={headerPos} fullScreen />
 
       <BottomSheet
         ref={filterRef}
