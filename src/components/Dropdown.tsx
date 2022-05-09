@@ -1,13 +1,16 @@
-import React, { memo } from "react";
-import { useCallbackOne } from "use-memo-one";
-import { useTranslation } from "react-i18next";
+import React, { memo } from 'react';
+import { useCallbackOne } from 'use-memo-one';
+import { useTranslation } from 'react-i18next';
 
 // Styling
-import styles, { chevronColor, chevronSize } from "styles/components/Dropdown";
+import styles, { chevronColor, chevronSize } from 'styles/components/Dropdown';
 
 // Components
-import { View, Text, TouchableOpacity, ViewStyle } from "react-native";
-import { TapGestureHandler, TapGestureHandlerGestureEvent } from "react-native-gesture-handler";
+import { View, Text, TouchableOpacity, ViewStyle } from 'react-native';
+import {
+  TapGestureHandler,
+  TapGestureHandlerGestureEvent,
+} from 'react-native-gesture-handler';
 import Animated, {
   measure,
   useAnimatedGestureHandler,
@@ -17,13 +20,13 @@ import Animated, {
   useSharedValue,
   withSpring,
   withTiming,
-} from "react-native-reanimated";
-import { DropdownIcon } from "assets/svg";
+} from 'react-native-reanimated';
+import { DropdownIcon } from 'assets/svg';
 
 // Constants
-import { springConfig, timingConfig } from "constants/animations";
-import { ItemProps } from "constants/types/types";
-import { padding } from "constants/spacing";
+import { springConfig, timingConfig } from 'constants/animations';
+import { ItemProps } from 'constants/types/types';
+import { padding } from 'constants/spacing';
 
 type DropdownProps = {
   items: Array<ItemProps>;
@@ -33,39 +36,56 @@ type DropdownProps = {
   style?: ViewStyle;
 };
 
-const Item: React.FC<ItemProps> = memo(({ value, label, onSelect, isLast, isSelected }) => (
-  <TouchableOpacity
-    onPress={() => onSelect && onSelect(value)}
-    style={[styles.itemWrap, isSelected && { backgroundColor: "#d5e3af" }, !isLast && styles.borderBottom]}>
-    <Text style={styles.itemLabel}>{label}</Text>
-  </TouchableOpacity>
-));
+const Item: React.FC<ItemProps> = memo(
+  ({ value, label, onSelect, isLast, isSelected }) => (
+    <TouchableOpacity
+      onPress={() => onSelect && onSelect(value)}
+      style={[
+        styles.itemWrap,
+        isSelected && { backgroundColor: '#d5e3af' },
+        !isLast && styles.borderBottom,
+      ]}
+    >
+      <Text style={styles.itemLabel}>{label}</Text>
+    </TouchableOpacity>
+  )
+);
 
-const Dropdown: React.FC<DropdownProps> = ({ items = [], title, selected, onChange = () => null, style }) => {
+const Dropdown: React.FC<DropdownProps> = ({
+  items = [],
+  title,
+  selected,
+  onChange = () => null,
+  style,
+}) => {
   const { t } = useTranslation();
 
   const open = useSharedValue<boolean>(false);
-  const selectedLabel = t(`tracks:${selected}`) || title || "";
-  const progress = useDerivedValue(() => (open.value ? withSpring(1, springConfig) : withTiming(0)));
+  const selectedLabel = t(`tracks:${selected}`) || title || '';
+  const progress = useDerivedValue(() =>
+    open.value ? withSpring(1, springConfig) : withTiming(0)
+  );
   const itemsHeight = useSharedValue<number>(0);
   const placeholderOpacity = useSharedValue<number>(1);
 
   const itemsRef = useAnimatedRef();
 
-  const eventHandler = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>({
-    onStart: () => {
-      if (itemsHeight.value === 0) {
-        itemsHeight.value = measure(itemsRef).height;
-      }
-      placeholderOpacity.value = withTiming(0.4, timingConfig);
-    },
-    onEnd: () => {
-      open.value = !open.value;
-    },
-    onFinish: () => {
-      placeholderOpacity.value = withTiming(1, timingConfig);
-    },
-  });
+  const eventHandler = useAnimatedGestureHandler<TapGestureHandlerGestureEvent>(
+    {
+      onStart: () => {
+        if (itemsHeight.value === 0) {
+          itemsHeight.value = measure(itemsRef).height;
+        }
+        placeholderOpacity.value = withTiming(0.4, timingConfig);
+      },
+      onEnd: () => {
+        open.value = !open.value;
+      },
+      onFinish: () => {
+        placeholderOpacity.value = withTiming(1, timingConfig);
+      },
+    }
+  );
 
   const animatedItemsStyle = useAnimatedStyle(() => ({
     height: itemsHeight.value * progress.value + 1,
@@ -74,8 +94,10 @@ const Dropdown: React.FC<DropdownProps> = ({ items = [], title, selected, onChan
 
   const animatedPlaceholderStyle = useAnimatedStyle(() => ({
     opacity: placeholderOpacity.value,
-    borderBottomLeftRadius: progress.value === 0 ? withTiming(padding.SMALL, timingConfig) : 0,
-    borderBottomRightRadius: progress.value === 0 ? withTiming(padding.SMALL, timingConfig) : 0,
+    borderBottomLeftRadius:
+      progress.value === 0 ? withTiming(padding.SMALL, timingConfig) : 0,
+    borderBottomRightRadius:
+      progress.value === 0 ? withTiming(padding.SMALL, timingConfig) : 0,
   }));
 
   const animatedChevronStyle = useAnimatedStyle(() => ({
@@ -91,7 +113,14 @@ const Dropdown: React.FC<DropdownProps> = ({ items = [], title, selected, onChan
     <View style={[styles.wrap, style]}>
       <TapGestureHandler onGestureEvent={eventHandler}>
         <Animated.View style={[styles.placeholder, animatedPlaceholderStyle]}>
-          <Text style={[styles.placeholderLabel, selectedLabel === title && { opacity: 0.3 }]}>{selectedLabel}</Text>
+          <Text
+            style={[
+              styles.placeholderLabel,
+              selectedLabel === title && { opacity: 0.3 },
+            ]}
+          >
+            {selectedLabel}
+          </Text>
           <Animated.View style={[styles.chevronWrap, animatedChevronStyle]}>
             <DropdownIcon size={chevronSize} color={chevronColor} />
           </Animated.View>

@@ -76,7 +76,8 @@
     "leaveCancel": "Stay"
   },
   "profileScreen": {
-    "logout": "Log out"
+    "logout": "Log out",
+    "email": "Email"
   },
   "settingsScreen": {
     "language": "Language"

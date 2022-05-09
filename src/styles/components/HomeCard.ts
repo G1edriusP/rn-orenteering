@@ -1,9 +1,9 @@
-import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import colors from "constants/colors";
-import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
-import { fontMedium } from "constants/fonts";
+import colors from 'constants/colors';
+import { fontSizes, padding, SCREEN_WIDTH } from 'constants/spacing';
+import { fontMedium } from 'constants/fonts';
 
 type Props = {
   wrap: ViewStyle;
@@ -21,9 +21,9 @@ export default StyleSheet.create<Props>({
     padding: padding.MEDIUM,
     borderRadius: padding.SMALL,
     backgroundColor: colors.SECONDARY_COLOR,
-    justifyContent: "flex-end",
-    alignItems: "flex-start",
-    shadowColor: "#000",
+    justifyContent: 'flex-end',
+    alignItems: 'flex-start',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -44,11 +44,11 @@ export default StyleSheet.create<Props>({
   },
   icon: {
     ...StyleSheet.absoluteFillObject,
-    alignItems: "flex-end",
-    justifyContent: "flex-start",
+    alignItems: 'flex-end',
+    justifyContent: 'flex-start',
     paddingTop: padding.MEDIUM,
     paddingRight: padding.SMALL,
-    overflow: "hidden",
+    overflow: 'hidden',
     borderRadius: padding.SMALL,
   },
 });

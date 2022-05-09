@@ -1,25 +1,27 @@
-import React, { useLayoutEffect } from "react";
+import React, { useLayoutEffect } from 'react';
 
 // Styles
-import styles from "styles/containers/SplashScreen";
+import styles from 'styles/containers/SplashScreen';
 
 // Components
-import { View, Text, Image } from "react-native";
-import Splash from "react-native-splash-screen";
-import Logo from "../assets/images/Logo.svg";
-import LaunchLogo from "../assets/images/splash_icon.png";
+import { View, Text, Image } from 'react-native';
+import Splash from 'react-native-splash-screen';
+import Logo from '../assets/images/Logo.svg';
+import LaunchLogo from '../assets/images/splash_icon.png';
 
 // Types
-import { SplashScreenProps } from "constants/navigation/types";
+import { SplashScreenProps } from 'constants/navigation/types';
 
 // Constants
-import { firebase } from "@react-native-firebase/auth";
-import { resetNavigation } from "utils/navigation/navigation";
-import { Routes, Stacks } from "constants/navigation/routes";
+import { firebase } from '@react-native-firebase/auth';
+import { resetNavigation } from 'utils/navigation/navigation';
+import { Routes, Stacks } from 'constants/navigation/routes';
 
-const SplashScreen = ({ navigation: { navigate, dispatch } }: SplashScreenProps) => {
+const SplashScreen = ({
+  navigation: { navigate, dispatch },
+}: SplashScreenProps) => {
   useLayoutEffect(() => {
-    firebase.auth().onIdTokenChanged(user => {
+    firebase.auth().onIdTokenChanged((user) => {
       if (user) navigate(Stacks.HOME);
       else dispatch(resetNavigation([{ name: Routes.LOGIN_SCREEN }]));
       Splash.hide();

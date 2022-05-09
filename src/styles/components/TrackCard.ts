@@ -1,9 +1,9 @@
-import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import colors from "constants/colors";
-import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
-import { fontMedium, fontRegular } from "constants/fonts";
+import colors from 'constants/colors';
+import { fontSizes, padding, SCREEN_WIDTH } from 'constants/spacing';
+import { fontMedium, fontRegular } from 'constants/fonts';
 
 type Props = {
   wrap: ViewStyle;
@@ -35,19 +35,19 @@ export default StyleSheet.create<Props>({
     elevation: 8,
   },
   subWrap: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   content: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   title: {
     fontFamily: fontMedium,
     fontSize: fontSizes.MIDI,
     color: colors.DARK_BLUE,
-    maxWidth: width - 60,
+    // maxWidth: width - 60,
     marginBottom: padding.SMALL / 2,
   },
   subtitle: {
@@ -57,12 +57,12 @@ export default StyleSheet.create<Props>({
     maxWidth: width - 60,
   },
   iconRowWrap: {
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: padding.SMALL,
   },
   iconWrap: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginLeft: padding.MEDIUM,
   },
 });

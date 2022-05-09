@@ -1,6 +1,6 @@
-import { EnglishFlag, LithuaniaFlag } from "assets/svg";
+import { EnglishFlag, LithuaniaFlag } from 'assets/svg';
 
 export const LANGUAGES = [
-  { code: "lt", label: "Lietuvių", Icon: LithuaniaFlag },
-  { code: "en", label: "English", Icon: EnglishFlag },
+  { code: 'lt', label: 'Lietuvių', Icon: LithuaniaFlag },
+  { code: 'en', label: 'English', Icon: EnglishFlag },
 ];

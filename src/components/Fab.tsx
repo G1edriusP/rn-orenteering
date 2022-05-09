@@ -1,11 +1,11 @@
-import React, { memo } from "react";
+import React, { memo } from 'react';
 
 // Styles
-import styles, { iconSize } from "styles/components/Fab";
+import styles, { iconSize } from 'styles/components/Fab';
 
 // Components
-import { TouchableOpacity, ViewStyle } from "react-native";
-import { PlusIcon } from "assets/svg";
+import { TouchableOpacity, ViewStyle } from 'react-native';
+import { PlusIcon } from 'assets/svg';
 
 export type Props = {
   onPress: () => void;

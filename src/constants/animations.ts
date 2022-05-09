@@ -1,4 +1,8 @@
-import { Easing, WithSpringConfig, WithTimingConfig } from "react-native-reanimated";
+import {
+  Easing,
+  WithSpringConfig,
+  WithTimingConfig,
+} from 'react-native-reanimated';
 
 export const springConfig: WithSpringConfig = {
   mass: 1,

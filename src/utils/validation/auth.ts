@@ -1,13 +1,16 @@
-import { EmailAuthData } from "constants/types/types";
-import { TFunction } from "react-i18next";
+import { EmailAuthData } from 'constants/types/types';
+import { TFunction } from 'react-i18next';
 
 const checkField = (
   key: string,
   value: string,
-  t: TFunction,
+  t: TFunction
 ): { next: boolean; problem: Object } => {
   let next = true;
-  const problem: { title: string; description: string } = { title: "", description: "" };
+  const problem: { title: string; description: string } = {
+    title: '',
+    description: '',
+  };
 
   // Check if field is not empty
   if (value.length === 0) {
@@ -19,21 +22,21 @@ const checkField = (
   }
 
   // Check if it is email field
-  if (key === "email") {
+  if (key === 'email') {
     const emailRegex = new RegExp(
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     );
     // Check if email is written correctly
     if (!RegExp(emailRegex).test(value)) {
       next = false;
-      problem.title = t("errors:email:faulty") as string;
+      problem.title = t('errors:email:faulty') as string;
     }
   }
 
-  if (key === "password" && value.length < 6) {
+  if (key === 'password' && value.length < 6) {
     next = false;
-    problem.title = t("errors:password:faulty") as string;
-    problem.description = t("errors:password:shorty") as string;
+    problem.title = t('errors:password:faulty') as string;
+    problem.description = t('errors:password:shorty') as string;
   }
 
   return { next, problem };
@@ -41,17 +44,20 @@ const checkField = (
 
 export const validateInputFields = (
   data: EmailAuthData,
-  t: TFunction,
+  t: TFunction
 ): { isValid: boolean; error: Object } => {
   let isValid = true;
-  const error: { title: string; description: string } = { title: "", description: "" };
+  const error: { title: string; description: string } = {
+    title: '',
+    description: '',
+  };
 
   Object.entries(data).every(([key, value]) => {
     const { next, problem } = checkField(key, value, t);
 
-    if (key === "repeatedPassword" && value !== data["password"]) {
+    if (key === 'repeatedPassword' && value !== data['password']) {
       isValid = false;
-      error.title = t("errors:repeatedPassword:faulty") as string;
+      error.title = t('errors:repeatedPassword:faulty') as string;
       return false;
     }
 

@@ -1,9 +1,9 @@
-import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import colors from "constants/colors";
-import { fontSizes, padding } from "constants/spacing";
-import { fontRegular } from "constants/fonts";
+import colors from 'constants/colors';
+import { fontSizes, padding } from 'constants/spacing';
+import { fontRegular } from 'constants/fonts';
 
 type Props = {
   input: TextStyle;
@@ -19,17 +19,17 @@ export default StyleSheet.create<Props>({
   },
   input: {
     backgroundColor: `${colors.PRIMARY_COLOR}10`,
-    paddingVertical: padding.MIDI + padding.SMALL / 2,
+    paddingVertical: padding.MIDI,
     paddingHorizontal: padding.MEDIUM,
     borderWidth: StyleSheet.hairlineWidth,
     borderColor: colors.DARK_GREY,
     borderRadius: padding.SMALL,
     fontFamily: fontRegular,
-    fontSize: fontSizes.MIDI,
-    textAlign: "center",
+    fontSize: fontSizes.SMALL,
+    textAlign: 'center',
   },
   shadow: {
-    backgroundColor: "white",
+    backgroundColor: 'white',
     shadowColor: colors.DARK_BLUE,
     shadowOffset: {
       width: 0,

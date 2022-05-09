@@ -1,4 +1,4 @@
-import { LatLng } from "react-native-maps";
+import { LatLng } from 'react-native-maps';
 
 export type MarkerType = {
   title: string;

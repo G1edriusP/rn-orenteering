@@ -1,18 +1,19 @@
-import React from "react";
-import { useTranslation } from "react-i18next";
+import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 // Styles
-import styles from "styles/containers/Home/SettingsScreen";
+import styles from 'styles/containers/Home/SettingsScreen';
 
 // Components
-import { Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 // Types
-import { SettingsScreenProps } from "constants/navigation/types";
-import { LANGUAGES } from "constants/languages";
-import { IconButton } from "components";
-import { padding } from "constants/spacing";
+import { SettingsScreenProps } from 'constants/navigation/types';
+import { LANGUAGES } from 'constants/languages';
+import { IconButton } from 'components';
+import { padding } from 'constants/spacing';
+import { LogoIcon } from 'assets/svg';
 
 const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   const { t, i18n } = useTranslation();
@@ -23,11 +24,14 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
   };
 
   return (
-    <View style={styles.wrap}>
+    <SafeAreaView style={styles.wrap}>
+      <View style={styles.icon}>
+        <LogoIcon size={48} />
+      </View>
       <View style={styles.block}>
-        <Text style={styles.subtitle}>{t("settingsScreen:language")}</Text>
+        <Text style={styles.subtitle}>{t('settingsScreen:language')}</Text>
         <View style={styles.languages}>
-          {LANGUAGES.map(lang => (
+          {LANGUAGES.map((lang) => (
             <IconButton
               key={lang.code}
               onPress={() => setLanguage(lang.code)}
@@ -39,7 +43,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
           ))}
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 

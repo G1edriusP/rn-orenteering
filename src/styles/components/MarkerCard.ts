@@ -1,9 +1,9 @@
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import colors from "constants/colors";
-import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
-import { fontLight, fontMedium, fontRegular } from "constants/fonts";
+import colors from 'constants/colors';
+import { fontSizes, padding, SCREEN_WIDTH } from 'constants/spacing';
+import { fontLight, fontMedium, fontRegular } from 'constants/fonts';
 
 type Props = {
   wrap: ViewStyle;
@@ -27,18 +27,18 @@ export default StyleSheet.create<Props>({
     borderWidth: 1,
     borderColor: colors.DARK_GREEN,
     backgroundColor: colors.WHITE,
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
     marginBottom: 8,
   },
   trackData: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: 'center',
   },
   image: {
-    backgroundColor: "orange",
-    justifyContent: "center",
-    alignItems: "center",
+    backgroundColor: 'orange',
+    justifyContent: 'center',
+    alignItems: 'center',
     height: 80,
     width: 80,
     marginRight: padding.MEDIUM,
@@ -59,7 +59,7 @@ export default StyleSheet.create<Props>({
     color: colors.BLACK,
   },
   remove: {
-    alignSelf: "flex-start",
+    alignSelf: 'flex-start',
     marginLeft: padding.SMALL,
     borderRadius: padding.MEDIUM,
     paddingLeft: 4,

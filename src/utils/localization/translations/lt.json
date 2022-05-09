@@ -76,7 +76,8 @@
     "leaveCancel": "Pasilikti"
   },
   "profileScreen": {
-    "logout": "Atsijungti"
+    "logout": "Atsijungti",
+    "email": "El. paštas"
   },
   "settingsScreen": {
     "language": "Kalba"

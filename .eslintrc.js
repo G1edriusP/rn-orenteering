@@ -4,39 +4,36 @@ module.exports = {
     node: true,
   },
   extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
+    'eslint:recommended',
+    'plugin:react/recommended',
+    'plugin:@typescript-eslint/recommended',
   ],
   settings: {
-    "import/resolver": {
-      "babel-module": {
+    'import/resolver': {
+      'babel-module': {
         alias: {
-          assets: "./src/assets",
-          "components/*": "./src/components",
-          constants: "./src/constants",
-          containers: "./src/containers",
-          utils: "./src/utils",
-          styles: "./src/styles",
+          assets: './src/assets',
+          'components/*': './src/components',
+          constants: './src/constants',
+          containers: './src/containers',
+          utils: './src/utils',
+          styles: './src/styles',
         },
         allowExistingDirectories: true,
       },
     },
   },
-  parser: "@typescript-eslint/parser",
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
-    ecmaVersion: "latest",
-    sourceType: "module",
+    ecmaVersion: 'latest',
+    sourceType: 'module',
   },
-  plugins: ["react", "@typescript-eslint", "prettier"],
+  plugins: ['react', '@typescript-eslint', 'prettier'],
   rules: {
-    indent: ["error", 4],
-    "linebreak-style": ["error", "unix"],
-    quotes: ["error", "single"],
-    semi: ["error", "always"],
-    "prettier/prettier": "error",
+    indent: ['error', 2],
+    'prettier/prettier': 'error',
   },
 };

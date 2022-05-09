@@ -63,7 +63,7 @@
     "babel-plugin-module-resolver": "^4.1.0",
     "eslint": "^8.8.0",
     "eslint-plugin-react": "^7.28.0",
-    "jest": "^26.6.3",
+    "jest": "^28.1.0",
     "metro-react-native-babel-preset": "^0.66.2",
     "react-native-svg-transformer": "^1.0.0",
     "react-test-renderer": "17.0.2",
@@ -82,5 +82,8 @@
       "json",
       "node"
     ]
+  },
+  "prettier": {
+    "singleQuote": true
   }
 }

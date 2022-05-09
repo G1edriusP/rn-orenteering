@@ -1,19 +1,22 @@
-import { MarkerType } from "constants/types/firestore";
-import { TrackData } from "constants/types/types";
-import { TFunction } from "react-i18next";
-import { LatLng } from "react-native-maps";
+import { MarkerType } from 'constants/types/firestore';
+import { TrackData } from 'constants/types/types';
+import { TFunction } from 'react-i18next';
+import { LatLng } from 'react-native-maps';
 
 const checkField = (
   key: string,
   value: string | LatLng,
   t: TFunction,
-  isMarker: boolean,
-): { next: boolean; problem: Object } => {
+  isMarker: boolean
+): { next: boolean; problem: { title: string; description: string } } => {
   let next = true;
-  const problem: { title: string; description: string } = { title: "", description: "" };
+  const problem: { title: string; description: string } = {
+    title: '',
+    description: '',
+  };
   const updatedKey = isMarker ? `${key}Marker` : `${key}Track`;
 
-  if (key === "location" && (value.latitude === 0 || value.longitude === 0)) {
+  if (key === 'location' && (value.latitude === 0 || value.longitude === 0)) {
     // Check if field is called "location"
     next = false;
     problem.title = t(`trackErrors:${updatedKey}:emptyTitle`) as string;
@@ -33,17 +36,26 @@ const checkField = (
 export const validateField = (
   data: MarkerType | TrackData,
   t: TFunction,
-  isMarker: boolean,
-): { isValid: boolean; error: Object } => {
+  isMarker: boolean
+): { isValid: boolean; error: { title: string; description: string } } => {
   let isValid = true;
-  const error: { title: string; description: string } = { title: "", description: "" };
+  const error: { title: string; description: string } = {
+    title: '',
+    description: '',
+  };
 
   Object.entries(data).every(([key, value]) => {
-    if ((key === "markers" && value.length > 0) || key === "description" || key === "id" || key === "uid") return true;
-    else if (key === "markers" && value.length === 0) {
+    if (
+      (key === 'markers' && value.length > 0) ||
+      key === 'description' ||
+      key === 'id' ||
+      key === 'uid'
+    )
+      return true;
+    else if (key === 'markers' && value.length === 0) {
       isValid = false;
-      error.title = t("trackErrors:markersTrack:emptyTitle");
-      error.description = t("trackErrors:markersTrack:emptyDesc");
+      error.title = t('trackErrors:markersTrack:emptyTitle');
+      error.description = t('trackErrors:markersTrack:emptyDesc');
       return false;
     }
 

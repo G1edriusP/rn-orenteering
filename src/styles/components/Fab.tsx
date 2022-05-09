@@ -1,8 +1,8 @@
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import colors from "constants/colors";
-import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
+import colors from 'constants/colors';
+import { fontSizes, padding, SCREEN_WIDTH } from 'constants/spacing';
 
 type Props = {
   wrap: ViewStyle;
@@ -13,7 +13,7 @@ export const iconSize = 24;
 
 export default StyleSheet.create<Props>({
   wrap: {
-    position: "absolute",
+    position: 'absolute',
     bottom: padding.MEDIUM,
     right: padding.MEDIUM,
     zIndex: 10,
@@ -21,9 +21,9 @@ export default StyleSheet.create<Props>({
     width: buttonSize,
     borderRadius: buttonSize / 2,
     backgroundColor: colors.PRIMARY_COLOR,
-    justifyContent: "center",
-    alignItems: "center",
-    shadowColor: "#000",
+    justifyContent: 'center',
+    alignItems: 'center',
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 2,

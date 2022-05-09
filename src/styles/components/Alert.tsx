@@ -1,7 +1,7 @@
-import colors from "constants/colors";
-import { fontMedium, fontRegular } from "constants/fonts";
-import { fontSizes, padding } from "constants/spacing";
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import colors from 'constants/colors';
+import { fontMedium, fontRegular } from 'constants/fonts';
+import { fontSizes, padding } from 'constants/spacing';
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 export interface Styles {
   wrap: ViewStyle;
@@ -24,17 +24,17 @@ export default StyleSheet.create<Styles>({
   wrap: {
     ...StyleSheet.absoluteFillObject,
     padding: padding.LARGE,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: "rgba(0,0,0,0.3)",
+    backgroundColor: 'rgba(0,0,0,0.3)',
   },
   alertWrap: {
-    justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
+    justifyContent: 'center',
+    alignItems: 'center',
+    width: '100%',
     backgroundColor: colors.WHITE,
     borderRadius: 20,
     padding: cardPadding,
@@ -43,34 +43,34 @@ export default StyleSheet.create<Styles>({
     fontFamily: fontMedium,
     fontSize: fontSizes.MEDIUM - 4,
     color: colors.DARK_BLUE,
-    textAlign: "center",
+    textAlign: 'center',
     paddingBottom: cardPadding,
   },
   description: {
     fontFamily: fontRegular,
     fontSize: fontSizes.MIDI - 2,
     color: colors.DARK_GREY,
-    textAlign: "center",
+    textAlign: 'center',
     paddingBottom: cardPadding,
   },
   buttonsWrap: {
-    width: "100%",
+    width: '100%',
   },
   buttonsSpacing: {
     height: cardPadding / 2,
   },
   btnWrap: {
-    alignItems: "center",
+    alignItems: 'center',
   },
   filledButton: {
     backgroundColor: colors.SECONDARY_COLOR,
-    width: "100%",
+    width: '100%',
     paddingVertical: padding.MIDI,
     borderRadius: padding.SMALL,
   },
   dangerButton: {
     backgroundColor: colors.RED,
-    width: "100%",
+    width: '100%',
     paddingVertical: padding.MIDI,
     borderRadius: padding.SMALL,
   },

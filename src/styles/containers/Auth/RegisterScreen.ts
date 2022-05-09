@@ -1,8 +1,8 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet, ViewStyle } from 'react-native';
 
 // Constants
-import { padding } from "constants/spacing";
-import colors from "constants/colors";
+import { padding } from 'constants/spacing';
+import colors from 'constants/colors';
 
 type Props = {
   wrap: ViewStyle;
@@ -31,7 +31,7 @@ export default StyleSheet.create<Props>({
   },
   icon: {
     flex: 0.3,
-    alignItems: "center",
+    alignItems: 'center',
   },
   content: {
     flex: 0.7,

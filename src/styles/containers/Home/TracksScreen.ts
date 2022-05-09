@@ -1,12 +1,17 @@
-import { Platform, StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { Platform, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import colors from "constants/colors";
-import { fontSizes, padding, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
-import { fontLight, fontMedium, fontRegular } from "constants/fonts";
+import colors from 'constants/colors';
+import {
+  fontSizes,
+  padding,
+  SCREEN_HEIGHT,
+  SCREEN_WIDTH,
+} from 'constants/spacing';
+import { fontLight, fontMedium, fontRegular } from 'constants/fonts';
 
 type Props = {
-  tabBarLabel: TextStyle;
+  // tabBarLabel: TextStyle;
   loadingWrap: ViewStyle;
   sheetBackground: ViewStyle;
   title: TextStyle;
@@ -25,8 +30,8 @@ type Props = {
 };
 
 const center: ViewStyle = {
-  justifyContent: "center",
-  alignItems: "center",
+  justifyContent: 'center',
+  alignItems: 'center',
   paddingHorizontal: 8,
   paddingVertical: 13,
 };
@@ -42,22 +47,22 @@ export default StyleSheet.create<Props>({
   },
   emptyWrap: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
-  tabBarLabel: {
-    width: "100%",
-    margin: padding.SMALL,
-    fontSize: fontSizes.MIDI - 2,
-    fontFamily: fontLight,
-  },
+  // tabBarLabel: {
+  //   width: "100%",
+  //   margin: padding.SMALL,
+  //   fontSize: fontSizes.MIDI - 2,
+  //   fontFamily: fontLight,
+  // },
   loadingWrap: {
     ...StyleSheet.absoluteFillObject,
     height: SCREEN_HEIGHT,
     width: SCREEN_WIDTH,
     backgroundColor: colors.WHITE,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 10,
   },
   sheetBackground: {
@@ -102,11 +107,11 @@ export default StyleSheet.create<Props>({
   wrapShadow: {
     paddingTop: padding.MEDIUM,
     paddingHorizontal: padding.MEDIUM,
-    paddingBottom: Platform.OS === "android" ? padding.MEDIUM : 0,
+    paddingBottom: Platform.OS === 'android' ? padding.MEDIUM : 0,
     borderTopRightRadius: padding.SMALL,
     borderTopLeftRadius: padding.SMALL,
     backgroundColor: colors.WHITE,
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 7,
@@ -117,9 +122,9 @@ export default StyleSheet.create<Props>({
   },
   footerWrap: {
     paddingRight: padding.MEDIUM,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
   },
   footerFlex: {
     ...halfFlex,
@@ -127,8 +132,8 @@ export default StyleSheet.create<Props>({
     borderWidth: 1,
   },
   btnWrap: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: padding.LARGE,
   },
   smallTitle: {
@@ -138,9 +143,9 @@ export default StyleSheet.create<Props>({
     marginBottom: padding.MEDIUM,
   },
   filterHeader: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: padding.LARGE,
   },
 });

@@ -20,7 +20,7 @@ class EventRegister {
 
   static removeAllListeners() {
     let removeError = false;
-    Object.keys(EventRegister.Listeners.refs).forEach(id => {
+    Object.keys(EventRegister.Listeners.refs).forEach((id) => {
       const removed = delete EventRegister.Listeners.refs[id];
       removeError = !removeError ? !removed : removeError;
     });
@@ -29,7 +29,7 @@ class EventRegister {
 
   static emit(eventName: string, data: Object) {
     const event = Object.keys(EventRegister.Listeners.refs).find(
-      id => EventRegister.Listeners.refs[id].name === eventName,
+      (id) => EventRegister.Listeners.refs[id].name === eventName
     );
     if (event) {
       return EventRegister.Listeners.refs[event].callback(data);

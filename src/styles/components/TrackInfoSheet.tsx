@@ -1,9 +1,9 @@
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import colors from "constants/colors";
-import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
-import { fontMedium, fontRegular } from "constants/fonts";
+import colors from 'constants/colors';
+import { fontSizes, padding, SCREEN_WIDTH } from 'constants/spacing';
+import { fontMedium, fontRegular } from 'constants/fonts';
 
 type Props = {
   wrap: ViewStyle;
@@ -33,8 +33,8 @@ export default StyleSheet.create<Props>({
     zIndex: 20,
   },
   image: {
-    backgroundColor: "orange",
-    width: "100%",
+    backgroundColor: 'orange',
+    width: '100%',
     height: SCREEN_WIDTH / 2,
     marginBottom: padding.SMALL,
   },
@@ -52,17 +52,17 @@ export default StyleSheet.create<Props>({
     marginBottom: padding.MEDIUM,
   },
   valuesWrap: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     backgroundColor: colors.LIGHT_GREY,
     padding: padding.MIDI,
     borderRadius: padding.SMALL,
     marginBottom: padding.MEDIUM + padding.MIDI,
   },
   valueItemWrap: {
-    flexDirection: "row",
-    alignItems: "center",
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   valueText: {
     fontFamily: fontRegular,

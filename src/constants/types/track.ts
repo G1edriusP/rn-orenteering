@@ -1,4 +1,4 @@
-import { MarkerType } from "./firestore";
+import { MarkerType } from './firestore';
 
 export type TrackPlayer = {
   uid: string;
@@ -17,8 +17,8 @@ export type IndicativeTrackRoom = {
 };
 
 export const emptyTrackRoom: IndicativeTrackRoom = {
-  roomID: "",
-  trackID: "",
+  roomID: '',
+  trackID: '',
   isStarted: false,
   duration: 3600,
 };

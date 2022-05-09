@@ -1,9 +1,9 @@
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import colors from "constants/colors";
-import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
-import { fontBold, fontLight, fontMedium, fontRegular } from "constants/fonts";
+import colors from 'constants/colors';
+import { fontSizes, padding, SCREEN_WIDTH } from 'constants/spacing';
+import { fontBold, fontLight, fontMedium, fontRegular } from 'constants/fonts';
 
 type Props = {
   wrap: ViewStyle;
@@ -21,6 +21,7 @@ type Props = {
   joinedList: ViewStyle;
   sheetBackground: ViewStyle;
   sheetWrap: ViewStyle;
+  icon: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
@@ -31,18 +32,19 @@ export default StyleSheet.create<Props>({
   guestWrap: {
     flex: 1,
     padding: padding.MEDIUM,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: colors.WHITE,
   },
   guestInput: {
     width: SCREEN_WIDTH / 2,
     height: 80,
-    textAlign: "center",
+    textAlign: 'center',
     marginBottom: padding.MIDI,
     fontSize: fontSizes.MIDI + 2,
   },
   topView: {
-    shadowColor: "#000",
+    shadowColor: '#000',
     shadowOffset: {
       width: 0,
       height: 4,
@@ -70,19 +72,19 @@ export default StyleSheet.create<Props>({
     marginTop: padding.SMALL,
   },
   buttons: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginTop: padding.MEDIUM,
   },
   button: {
     width: SCREEN_WIDTH / 2 - padding.MEDIUM * 1.5,
   },
   card: {
-    backgroundColor: colors.KHAKI,
+    backgroundColor: colors.SECONDARY_COLOR,
     width: SCREEN_WIDTH / 2 - padding.MEDIUM * 1.5,
     borderRadius: padding.SMALL,
-    alignItems: "center",
-    justifyContent: "center",
+    alignItems: 'center',
+    justifyContent: 'center',
     padding: padding.MIDI,
     marginBottom: padding.MEDIUM,
   },
@@ -91,7 +93,7 @@ export default StyleSheet.create<Props>({
     fontSize: fontSizes.SMALL,
   },
   columnWrap: {
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
   },
   joinedList: {
     marginTop: padding.MEDIUM,
@@ -107,5 +109,10 @@ export default StyleSheet.create<Props>({
     shadowOpacity: 0.39,
     shadowRadius: 8.3,
     elevation: 13,
+  },
+  icon: {
+    // flex: 0.15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

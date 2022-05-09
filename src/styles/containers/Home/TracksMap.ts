@@ -1,6 +1,6 @@
-import colors from "constants/colors";
-import { padding, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
-import { StyleSheet, ViewStyle } from "react-native";
+import colors from 'constants/colors';
+import { padding, SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/spacing';
+import { StyleSheet, ViewStyle } from 'react-native';
 
 // Constants
 
@@ -21,20 +21,21 @@ export default StyleSheet.create<Props>({
     height: SCREEN_HEIGHT,
     width: SCREEN_WIDTH,
     backgroundColor: colors.WHITE,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
     zIndex: 10,
   },
   headerWrap: {
-    position: "absolute",
+    position: 'absolute',
     paddingHorizontal: padding.LARGE,
     width: SCREEN_WIDTH,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     zIndex: 10,
   },
   map: {
     ...StyleSheet.absoluteFillObject,
+    zIndex: 0,
   },
 });

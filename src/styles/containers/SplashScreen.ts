@@ -1,8 +1,8 @@
-import { ImageStyle, StyleSheet, ViewStyle } from "react-native";
+import { ImageStyle, StyleSheet, ViewStyle } from 'react-native';
 
 // Constants
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
-import colors from "constants/colors";
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/spacing';
+import colors from 'constants/colors';
 
 type Props = {
   wrap: ViewStyle;
@@ -13,7 +13,7 @@ export default StyleSheet.create<Props>({
     flex: 1,
     paddingTop: 24,
     backgroundColor: colors.SECONDARY_COLOR,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

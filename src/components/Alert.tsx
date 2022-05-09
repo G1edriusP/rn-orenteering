@@ -1,12 +1,19 @@
-import React, { forwardRef, useImperativeHandle, memo, useState } from "react";
-import { useCallbackOne } from "use-memo-one";
+import React, { forwardRef, useImperativeHandle, memo, useState } from 'react';
+import { useCallbackOne } from 'use-memo-one';
 
 // Styling
-import styles, { Styles } from "styles/components/Alert";
-import { springConfig, timingConfig } from "constants/animations";
+import styles, { Styles } from 'styles/components/Alert';
+import { springConfig, timingConfig } from 'constants/animations';
 
 // Components
-import { View, Text, Modal, TouchableOpacity, ViewStyle, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Modal,
+  TouchableOpacity,
+  ViewStyle,
+  StyleSheet,
+} from 'react-native';
 import Animated, {
   useDerivedValue,
   withTiming,
@@ -14,27 +21,32 @@ import Animated, {
   useAnimatedStyle,
   useAnimatedReaction,
   runOnJS,
-} from "react-native-reanimated";
-import { AlertHandle, AlertParams } from "constants/types/types";
-import { TouchableWithoutFeedback } from "react-native-gesture-handler";
-import { SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
+} from 'react-native-reanimated';
+import { AlertHandle, AlertParams } from 'constants/types/types';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/spacing';
 
 const alertAnimation = { ...timingConfig, duration: 444 };
 
 interface ButtonProps {
-  type: "filled" | "danger";
+  type: 'filled' | 'danger';
   title: string;
   onPress: () => void;
   style?: ViewStyle;
 }
 
-const Button: React.FC<ButtonProps> = memo(({ type, title = "", onPress, style }) => {
-  return (
-    <TouchableOpacity onPress={onPress} style={[styles.btnWrap, type && styles[`${type}Button`], style]}>
-      <Text style={[type && styles[`${type}Title`]]}>{title}</Text>
-    </TouchableOpacity>
-  );
-});
+const Button: React.FC<ButtonProps> = memo(
+  ({ type, title = '', onPress, style }) => {
+    return (
+      <TouchableOpacity
+        onPress={onPress}
+        style={[styles.btnWrap, type && styles[`${type}Button`], style]}
+      >
+        <Text style={[type && styles[`${type}Title`]]}>{title}</Text>
+      </TouchableOpacity>
+    );
+  }
+);
 
 const Alert = forwardRef<AlertHandle>((_, ref) => {
   const [alert, setAlert] = useState({
@@ -47,12 +59,18 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
     okStyle: {},
   });
 
-  const backdropOpacity = useDerivedValue(() => withTiming(alert.visible, alertAnimation), [alert.visible]);
-  const alertScale = useDerivedValue(() => withSpring(alert.visible, springConfig), [alert.visible]);
+  const backdropOpacity = useDerivedValue(
+    () => withTiming(alert.visible, alertAnimation),
+    [alert.visible]
+  );
+  const alertScale = useDerivedValue(
+    () => withSpring(alert.visible, springConfig),
+    [alert.visible]
+  );
 
   const hideAlert = useCallbackOne(
-    returnValue =>
-      setAlert(currentState => {
+    (returnValue) =>
+      setAlert((currentState) => {
         if (returnValue !== null) {
           return { ...currentState, visible: 0, returnValue };
         }
@@ -61,7 +79,7 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
         }
         return { ...currentState, render: false };
       }),
-    [],
+    []
   );
 
   const onButtonPress = useCallbackOne((func, callback) => {
@@ -77,7 +95,7 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
     ref,
     () => ({
       showAlert: (params: AlertParams): Promise<void> =>
-        new Promise(resolver => {
+        new Promise((resolver) => {
           const onCancel = () => hideAlert(false);
           const onOk = () => hideAlert(true);
           const alertParams = {} as AlertParams;
@@ -106,7 +124,7 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
           });
         }),
     }),
-    [],
+    []
   );
 
   useAnimatedReaction(
@@ -118,14 +136,14 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
         }
       }
     },
-    [alert.render, backdropOpacity],
+    [alert.render, backdropOpacity]
   );
 
   const backdropStyle = useAnimatedStyle(
     () => ({
       opacity: backdropOpacity.value,
     }),
-    [backdropOpacity],
+    [backdropOpacity]
   );
 
   const alertStyle = useAnimatedStyle(
@@ -133,26 +151,54 @@ const Alert = forwardRef<AlertHandle>((_, ref) => {
       opacity: backdropOpacity.value,
       transform: [{ scale: alertScale.value }],
     }),
-    [backdropOpacity, alertScale],
+    [backdropOpacity, alertScale]
   );
 
-  const { title, message, cancel, ok, cancelStyle = {}, okStyle = {} } = alert.params;
+  const {
+    title,
+    message,
+    cancel,
+    ok,
+    cancelStyle = {},
+    okStyle = {},
+  } = alert.params;
 
   return (
-    <Modal statusBarTranslucent animationType='none' transparent visible={alert.render} onRequestClose={alert.onCancel}>
+    <Modal
+      statusBarTranslucent
+      animationType="none"
+      transparent
+      visible={alert.render}
+      onRequestClose={alert.onCancel}
+    >
       <View style={styles.wrap}>
-        <Animated.View style={[styles.backdrop, backdropStyle]} onTouchEnd={() => hideAlert(true)} />
+        <Animated.View
+          style={[styles.backdrop, backdropStyle]}
+          onTouchEnd={() => hideAlert(true)}
+        />
         <Animated.View style={[styles.alertWrap, alertStyle]}>
           {title && <Text style={styles.title}>{title}</Text>}
           {message && <Text style={styles.description}>{message}</Text>}
           <View style={styles.buttonsWrap}>
             {ok && (
               <>
-                <Button type={"filled"} title={ok} onPress={alert.onOk} style={okStyle} />
+                <Button
+                  type={'filled'}
+                  title={ok}
+                  onPress={alert.onOk}
+                  style={okStyle}
+                />
                 <View style={styles.buttonsSpacing} />
               </>
             )}
-            {cancel && <Button type={"danger"} title={cancel} onPress={alert.onCancel} style={cancelStyle} />}
+            {cancel && (
+              <Button
+                type={'danger'}
+                title={cancel}
+                onPress={alert.onCancel}
+                style={cancelStyle}
+              />
+            )}
           </View>
         </Animated.View>
       </View>

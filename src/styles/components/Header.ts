@@ -1,7 +1,7 @@
-import colors from "constants/colors";
-import { fontBold, fontMedium, fontRegular } from "constants/fonts";
-import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import colors from 'constants/colors';
+import { fontBold, fontMedium, fontRegular } from 'constants/fonts';
+import { fontSizes, padding, SCREEN_WIDTH } from 'constants/spacing';
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 interface Styles {
   wrap: ViewStyle;
@@ -28,14 +28,14 @@ export default StyleSheet.create<Styles>({
   },
   button: {
     height: 48,
-    alignItems: "flex-start",
-    justifyContent: "center",
+    alignItems: 'flex-start',
+    justifyContent: 'center',
     backgroundColor: colors.WHITE,
   },
   row: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     paddingHorizontal: padding.MEDIUM,
   },
   title: {
@@ -49,15 +49,15 @@ export default StyleSheet.create<Styles>({
     color: colors.BLACK,
   },
   titleWrap: {
-    position: "absolute",
+    position: 'absolute',
     right: 0,
     left: 0,
-    alignItems: "center",
+    alignItems: 'center',
     zIndex: -5,
   },
   statusBar: {
     backgroundColor: colors.WHITE,
     width: SCREEN_WIDTH,
-    position: "absolute",
+    position: 'absolute',
   },
 });

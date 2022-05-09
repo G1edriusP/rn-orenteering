@@ -1,10 +1,10 @@
-import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import { fontSizes, SCREEN_HEIGHT, SCREEN_WIDTH } from "constants/spacing";
-import colors from "constants/colors";
-import { padding } from "constants/spacing";
-import { fontMedium } from "constants/fonts";
+import { fontSizes, SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/spacing';
+import colors from 'constants/colors';
+import { padding } from 'constants/spacing';
+import { fontMedium } from 'constants/fonts';
 
 type Props = {
   wrap: ViewStyle;
@@ -35,8 +35,8 @@ export default StyleSheet.create<Props>({
   },
   icon: {
     flex: 0.3,
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   content: {},
   inputTitle: {
@@ -44,9 +44,9 @@ export default StyleSheet.create<Props>({
     fontSize: fontSizes.SMALL,
   },
   languages: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "flex-end",
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
     marginBottom: padding.MEDIUM * 2,
   },
 });

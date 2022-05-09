@@ -1,8 +1,8 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet, ViewStyle } from 'react-native';
 
 // Constants
-import colors from "constants/colors";
-import { padding } from "constants/spacing";
+import colors from 'constants/colors';
+import { padding } from 'constants/spacing';
 
 type Props = {
   wrap: ViewStyle;
@@ -16,7 +16,7 @@ export default StyleSheet.create<Props>({
     backgroundColor: colors.WHITE,
   },
   listColumn: {
-    justifyContent: "space-evenly",
+    justifyContent: 'space-evenly',
     paddingBottom: padding.SMALL * 1.5,
   },
 });

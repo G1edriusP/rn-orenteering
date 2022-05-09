@@ -1,12 +1,12 @@
-import React, { memo } from "react";
+import React, { memo } from 'react';
 
 // Styles
-import styles from "styles/components/HomeCard";
+import styles from 'styles/components/HomeCard';
 
 // Components
-import { Text, ViewStyle, TouchableOpacity, View } from "react-native";
-import { SettingsIcon } from "assets/svg";
-import { padding } from "constants/spacing";
+import { Text, ViewStyle, TouchableOpacity, View } from 'react-native';
+import { SettingsIcon } from 'assets/svg';
+import { padding } from 'constants/spacing';
 
 export type Props = {
   title: string;

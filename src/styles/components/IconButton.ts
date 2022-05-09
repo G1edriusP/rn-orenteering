@@ -1,7 +1,7 @@
-import { StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet, ViewStyle } from 'react-native';
 
 // Constants
-import { padding } from "constants/spacing";
+import { padding } from 'constants/spacing';
 
 type Props = {
   wrap: ViewStyle;
@@ -9,7 +9,7 @@ type Props = {
 
 export default StyleSheet.create<Props>({
   wrap: {
-    justifyContent: "center",
-    alignItems: "center",
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

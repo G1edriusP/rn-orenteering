@@ -1,15 +1,16 @@
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import colors from "constants/colors";
-import { fontSizes, padding } from "constants/spacing";
-import { fontMedium } from "constants/fonts";
+import colors from 'constants/colors';
+import { fontSizes, padding } from 'constants/spacing';
+import { fontMedium } from 'constants/fonts';
 
 type Props = {
   wrap: ViewStyle;
   block: ViewStyle;
   languages: ViewStyle;
   subtitle: TextStyle;
+  icon: ViewStyle;
 };
 
 export default StyleSheet.create<Props>({
@@ -22,12 +23,17 @@ export default StyleSheet.create<Props>({
     marginBottom: padding.LARGE,
   },
   languages: {
-    flexDirection: "row",
+    flexDirection: 'row',
   },
   subtitle: {
     fontFamily: fontMedium,
     fontSize: fontSizes.MEDIUM,
     color: colors.BLACK,
     marginBottom: padding.SMALL,
+  },
+  icon: {
+    flex: 0.15,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

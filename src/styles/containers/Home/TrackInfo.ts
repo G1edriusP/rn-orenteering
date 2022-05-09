@@ -1,10 +1,10 @@
-import { StyleSheet, TextStyle, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
-import { fontSizes, SCREEN_WIDTH } from "constants/spacing";
-import { padding } from "constants/spacing";
-import colors from "constants/colors";
-import { fontMedium, fontRegular } from "constants/fonts";
+import { fontSizes, SCREEN_WIDTH } from 'constants/spacing';
+import { padding } from 'constants/spacing';
+import colors from 'constants/colors';
+import { fontMedium, fontRegular } from 'constants/fonts';
 
 type Props = {
   wrap: ViewStyle;
@@ -32,7 +32,7 @@ export default StyleSheet.create<Props>({
     backgroundColor: colors.WHITE,
   },
   sheetScrollWrap: {
-    justifyContent: "space-between",
+    justifyContent: 'space-between',
     paddingBottom: padding.MEDIUM,
   },
   smallBottomSpacer: {
@@ -43,7 +43,7 @@ export default StyleSheet.create<Props>({
   },
   multilineInput: {
     height: 96,
-    textAlignVertical: "top",
+    textAlignVertical: 'top',
     paddingTop: padding.SMALL,
   },
   addMarker: {
@@ -51,18 +51,18 @@ export default StyleSheet.create<Props>({
     backgroundColor: colors.DARK_GREEN,
   },
   addMarkerWrap: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: padding.MIDI,
   },
   locationWrap: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     marginBottom: padding.SMALL,
   },
   locationInput: {
-    width: "46%",
+    width: '46%',
   },
   markerMap: {
     height: 192,
@@ -70,11 +70,11 @@ export default StyleSheet.create<Props>({
     marginVertical: padding.SMALL,
   },
   markerFixed: {
-    left: "50%",
-    top: "50%",
+    left: '50%',
+    top: '50%',
     marginLeft: -11.6546762588,
     marginTop: -36,
-    position: "absolute",
+    position: 'absolute',
   },
   dropdown: {
     marginBottom: padding.MIDI,
@@ -99,7 +99,7 @@ export default StyleSheet.create<Props>({
     marginBottom: padding.LARGE,
   },
   textInput: {
-    textAlign: "left",
+    textAlign: 'left',
     borderColor: colors.DARK_GREEN,
     borderWidth: 1,
     fontSize: fontSizes.SMALL,
