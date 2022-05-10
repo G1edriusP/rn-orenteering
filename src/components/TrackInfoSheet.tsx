@@ -1,39 +1,31 @@
-import React, {
-  forwardRef,
-  memo,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from 'react';
-import { useCallbackOne, useMemoOne } from 'use-memo-one';
-import { useNavigation } from '@react-navigation/native';
+import React, { forwardRef, memo, useImperativeHandle, useRef, useState } from "react";
+import { useMemoOne } from "use-memo-one";
+import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 // Styles
-import styles from 'styles/components/TrackInfoSheet';
+import styles from "styles/components/TrackInfoSheet";
 
 // Components
-import BottomSheet, {
-  BottomSheetScrollView,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
+import BottomSheet from "@gorhom/bottom-sheet";
+import { ListRenderItemInfo, Text, View } from "react-native";
+import { SharedValue } from "react-native-reanimated";
+import { FlatList, TouchableOpacity } from "react-native-gesture-handler";
+import Button from "./Button";
+import { ClockIcon, FlameIcon } from "assets/svg";
 
 // Constants
-import { TrackData, TrackInfoHandle } from 'constants/types/types';
-import { Alert, ListRenderItemInfo, Text, View } from 'react-native';
-import { SharedValue } from 'react-native-reanimated';
-import { fontSizes, padding, SCREEN_WIDTH } from 'constants/spacing';
-import Button from './Button';
-import { Routes } from 'constants/navigation/routes';
-import { MarkerType } from 'constants/types/firestore';
-import { showAlert } from 'utils/other';
-import colors from 'constants/colors';
-import { TrackCardIcons } from 'constants/values';
-import { ClockIcon, FlameIcon } from 'assets/svg';
-import { fontLight, fontRegular } from 'constants/fonts';
-import { formatSToMsString } from 'utils/time';
-import { useTranslation } from 'react-i18next';
-import { FlatList, TouchableOpacity } from 'react-native-gesture-handler';
-import { updateTrackRating } from 'utils/firebase/track';
+import { TrackData, TrackInfoHandle } from "constants/types/types";
+import { padding, SCREEN_WIDTH } from "constants/spacing";
+import { Routes } from "constants/navigation/routes";
+import { MarkerType } from "constants/types/firestore";
+import colors from "constants/colors";
+import { TrackCardIcons } from "constants/values";
+
+// Utils
+import { showAlert } from "utils/other";
+import { formatSToMsString } from "utils/time";
+import { updateTrackRating } from "utils/firebase/track";
 
 type Props = {
   topSnap: number;
@@ -54,18 +46,11 @@ type RatingProps = {
   peopleRated: number;
 };
 
-const RatingButton: React.FC<RatingButtonProps> = ({
-  isSelected,
-  onPress,
-  index,
-}) => {
+const RatingButton: React.FC<RatingButtonProps> = ({ isSelected, onPress, index }) => {
   return (
     <TouchableOpacity
-      onPress={() =>
-        onPress && onPress('rating', [...Array(index + 1).keys()] as [])
-      }
-      style={{ marginRight: padding.SMALL }}
-    >
+      onPress={() => onPress && onPress("rating", [...Array(index + 1).keys()] as [])}
+      style={{ marginRight: padding.SMALL }}>
       <FlameIcon size={48} isSelected={isSelected} />
     </TouchableOpacity>
   );
@@ -77,17 +62,11 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(
     const { t } = useTranslation();
 
     const sheetRef = useRef<BottomSheet>(null);
-    const [info, setInfo] = useState<TrackData | MarkerType>(
-      {} as TrackData | MarkerType
-    );
+    const [info, setInfo] = useState<TrackData | MarkerType>({} as TrackData | MarkerType);
     const [rating, setRating] = useState<RatingProps>({} as RatingProps);
-    const [Icon, setIcon] =
-      useState<React.FC<{ size: number; color?: string }>>();
+    const [Icon, setIcon] = useState<React.FC<{ size: number; color?: string }>>();
 
-    const sheetSnapPoints = useMemoOne(
-      () => (fullScreen ? ['99%'] : ['35%', topSnap]),
-      []
-    );
+    const sheetSnapPoints = useMemoOne(() => (fullScreen ? ["99%"] : ["35%", topSnap]), []);
 
     const onSheetClose = () => {
       navigation.setOptions({ sheetOpen: false });
@@ -117,9 +96,9 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(
     const onTrackStartPress = () => {
       const { id } = info as TrackData;
       showAlert({
-        title: t('track:selectType'),
-        ok: t('tracks:COGNITIVE'),
-        cancel: t('tracks:INDICATIVE'),
+        title: t("track:selectType"),
+        ok: t("tracks:COGNITIVE"),
+        cancel: t("tracks:INDICATIVE"),
         onOk: () => onTrackNav(Routes.TRACK_SCREEN_COGNITIVE, { track: info }),
         onCancel: () => onTrackNav(Routes.WAITING_ROOM, { trackID: id }),
         cancelStyle: { backgroundColor: colors.SECONDARY_COLOR },
@@ -130,29 +109,17 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(
 
     const onRatingSet = (index: number) => {
       const newPeopleCount = rating.peopleRated + 1;
-      const newRating = +(
-        (rating.rating * rating.peopleRated + index + 1) /
-        newPeopleCount
-      ).toFixed(1);
-      setRating((old) => ({
+      const newRating = +((rating.rating * rating.peopleRated + index + 1) / newPeopleCount).toFixed(1);
+      setRating(old => ({
         ...old,
         selectedRating: index + 1,
         peopleRated: newPeopleCount,
         rating: newRating,
       }));
-      updateTrackRating(
-        info.id,
-        newRating,
-        rating.peopleRated + 1,
-        onRatingSetFinish
-      );
+      updateTrackRating(info.id, newRating, rating.peopleRated + 1, onRatingSetFinish);
     };
 
-    useImperativeHandle(
-      ref,
-      () => ({ open: onSheetOpen, close: onSheetClose }),
-      [sheetRef]
-    );
+    useImperativeHandle(ref, () => ({ open: onSheetOpen, close: onSheetClose }), [sheetRef]);
 
     return (
       <BottomSheet
@@ -161,8 +128,7 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(
         index={-1}
         style={styles.wrap}
         enablePanDownToClose
-        onClose={onSheetClose}
-      >
+        onClose={onSheetClose}>
         {info.markers ? (
           <FlatList
             keyExtractor={(_, index) => String(index)}
@@ -171,21 +137,15 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(
             showsVerticalScrollIndicator={false}
             ListHeaderComponent={
               <>
-                {info.title ? (
-                  <Text style={styles.title}>{info.title}</Text>
-                ) : null}
-                {info.description ? (
-                  <Text style={styles.description}>{info.description}</Text>
-                ) : null}
+                {info.title ? <Text style={styles.title}>{info.title}</Text> : null}
+                {info.description ? <Text style={styles.description}>{info.description}</Text> : null}
 
                 <View style={styles.valuesWrap}>
                   {Icon ? <Icon size={24} /> : null}
                   {info.duration ? (
                     <View style={styles.valueItemWrap}>
                       <ClockIcon size={24} />
-                      <Text style={styles.valueText}>
-                        {formatSToMsString(info.duration)}
-                      </Text>
+                      <Text style={styles.valueText}>{formatSToMsString(info.duration)}</Text>
                     </View>
                   ) : null}
                   {info.rating ? (
@@ -198,7 +158,7 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(
 
                 {info.markers ? (
                   <Text style={styles.markersTitle}>
-                    {t('track:markers')} ({info.markers.length}):
+                    {t("track:markers")} ({info.markers.length}):
                   </Text>
                 ) : null}
               </>
@@ -208,20 +168,17 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(
                 <Text style={styles.markerTitle}>
                   #{index + 1} {item.title}
                 </Text>
-                <Text style={styles.markerDesc}>
-                  {item.description || t('track:emptyDesc')}
-                </Text>
+                <Text style={styles.markerDesc}>{item.description || t("track:emptyDesc")}</Text>
               </View>
             )}
             ListFooterComponent={
               <>
-                <Text style={styles.markersTitle}>{t('track:rate')}:</Text>
+                <Text style={styles.markersTitle}>{t("track:rate")}:</Text>
                 <View
                   style={{
-                    flexDirection: 'row',
+                    flexDirection: "row",
                     marginBottom: padding.MEDIUM + padding.MIDI,
-                  }}
-                >
+                  }}>
                   {[...Array(5).keys()].map((index: number) => (
                     <RatingButton
                       key={index}
@@ -238,13 +195,13 @@ const TrackInfoSheet = forwardRef<TrackInfoHandle, Props>(
 
         {fromMap && (
           <Button
-            title={t('track:start')}
+            title={t("track:start")}
             onPress={onTrackStartPress}
             style={{ marginBottom: padding.LARGE, marginTop: padding.MEDIUM }}
           />
         )}
       </BottomSheet>
     );
-  }
+  },
 );
 export default memo(TrackInfoSheet);

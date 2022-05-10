@@ -1,13 +1,6 @@
 import { CityIcon, CountrysideIcon, OffroadIcon } from 'assets/svg';
 import { MarkerType } from './types/firestore';
-import {
-  CardIcons,
-  EmailAuthData,
-  Filters,
-  ItemProps,
-  LocalStorageKeys,
-  TrackData,
-} from './types/types';
+import { CardIcons, EmailAuthData, Filters, ItemProps, LocalStorageKeys, TrackData } from './types/types';
 
 export const defaultEmailLoginData: EmailAuthData = {
   email: '',
@@ -21,10 +14,7 @@ export const defaultEmailRegisterData: EmailAuthData = {
   repeatedPassword: '',
 };
 
-export const defaultTrackTypes: Array<ItemProps> = [
-  { value: 'PUBLIC' },
-  { value: 'PRIVATE' },
-];
+export const defaultTrackTypes: Array<ItemProps> = [{ value: 'PUBLIC' }, { value: 'PRIVATE' }];
 export const defaultTrackReliefs: Array<ItemProps> = [
   { value: 'CITY' },
   { value: 'COUNTRYSIDE' },

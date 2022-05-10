@@ -1,20 +1,21 @@
-import React, { memo } from 'react';
+import React, { memo } from "react";
 
 // Styles
-import styles, { iconSize } from 'styles/components/Fab';
+import styles, { iconSize } from "styles/components/Fab";
 
 // Components
-import { TouchableOpacity, ViewStyle } from 'react-native';
-import { PlusIcon } from 'assets/svg';
+import { TouchableOpacity, ViewStyle } from "react-native";
+import { PlusIcon } from "assets/svg";
 
 export type Props = {
+  testID?: string;
   onPress: () => void;
   style?: ViewStyle;
 };
 
-const Fab: React.FC<Props> = ({ onPress, style }) => {
+const Fab: React.FC<Props> = ({ onPress, style, testID }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.wrap, style]}>
+    <TouchableOpacity testID={testID} onPress={onPress} style={[styles.wrap, style]}>
       <PlusIcon size={iconSize} />
     </TouchableOpacity>
   );

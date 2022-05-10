@@ -26,24 +26,19 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
   const { t } = useTranslation();
 
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [data, dispatch] = useReducer(
-    emailAuthReducer,
-    defaultEmailRegisterData
-  );
+  const [data, dispatch] = useReducer(emailAuthReducer, defaultEmailRegisterData);
 
   const onRegisterButtonPress = () => {
     setIsLoading(true);
     onRegisterPress(
       data,
       t,
-      (user) => onRegisterCallback(user),
-      () => setIsLoading(false)
+      user => onRegisterCallback(user),
+      () => setIsLoading(false),
     );
   };
 
-  const onRegisterCallback = async ({
-    user,
-  }: FirebaseAuthTypes.UserCredential): Promise<void> => {
+  const onRegisterCallback = async ({ user }: FirebaseAuthTypes.UserCredential): Promise<void> => {
     // Save user data in firebase
     const userData = {
       uid: user.uid,
@@ -62,10 +57,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
       <View style={styles.icon}>
         <LogoIcon size={48} />
       </View>
-      <KeyboardAwareScrollView
-        showsVerticalScrollIndicator={false}
-        style={styles.scroll}
-      >
+      <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
         <View style={styles.content}>
           <TextInput
             id={IDS.EMAIL}
@@ -73,8 +65,8 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             value={data.email}
             placeholder={t('authStack:email')}
             onChangeText={onInputChange}
-            keyboardType="email-address"
-            autoCapitalize="none"
+            keyboardType='email-address'
+            autoCapitalize='none'
             style={styles.smallBottomSpacer}
           />
           <TextInput
@@ -83,7 +75,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             value={data.username}
             placeholder={t('authStack:username')}
             onChangeText={onInputChange}
-            autoCapitalize="none"
+            autoCapitalize='none'
             style={styles.smallBottomSpacer}
           />
           <TextInput
@@ -92,7 +84,7 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             value={data.password}
             placeholder={t('authStack:password')}
             onChangeText={onInputChange}
-            autoCapitalize="none"
+            autoCapitalize='none'
             secureTextEntry
             style={styles.smallBottomSpacer}
           />
@@ -102,17 +94,13 @@ const RegisterScreen = ({ navigation }: RegisterScreenProps) => {
             value={data.repeatedPassword || ''}
             placeholder={t('authStack:repeatPassword')}
             onChangeText={onInputChange}
-            autoCapitalize="none"
+            autoCapitalize='none'
             secureTextEntry
             style={styles.mediumBottomSpacer}
           />
         </View>
       </KeyboardAwareScrollView>
-      <Button
-        title={t('authStack:register')}
-        onPress={onRegisterButtonPress}
-        isLoading={isLoading}
-      />
+      <Button title={t('authStack:register')} onPress={onRegisterButtonPress} isLoading={isLoading} />
     </SafeAreaView>
   );
 };

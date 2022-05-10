@@ -2,12 +2,7 @@ import { Platform, StyleSheet, TextStyle, ViewStyle } from 'react-native';
 
 // Constants
 import colors from 'constants/colors';
-import {
-  fontSizes,
-  padding,
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-} from 'constants/spacing';
+import { fontSizes, padding, SCREEN_HEIGHT, SCREEN_WIDTH } from 'constants/spacing';
 import { fontLight, fontMedium, fontRegular } from 'constants/fonts';
 
 type Props = {

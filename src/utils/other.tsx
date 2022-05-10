@@ -8,10 +8,7 @@ import EventRegister from './eventRegister';
 export const combineProviders =
   (...providers: any) =>
   ({ children }: any) => {
-    return providers.reduceRight(
-        (child: any, Provider: any) => <Provider>{child}</Provider>,
-        children
-      );
+    return providers.reduceRight((child: any, Provider: any) => <Provider>{child}</Provider>, children);
   };
 
 export const showAlert = (params: AlertParams) => {
@@ -43,18 +40,16 @@ const coordsFetchParams = {
 
 export const fetchCoordinatesBetweenPoints = (
   markers: MarkerType[],
-  setCoordinates: React.Dispatch<React.SetStateAction<LatLng[]>>
+  setCoordinates: React.Dispatch<React.SetStateAction<LatLng[]>>,
 ): void => {
   if (markers.length > 1) {
-    const url = configureCoordsFetchRoute(markers.map((m) => m.location));
+    const url = configureCoordsFetchRoute(markers.map(m => m.location));
     axios
       .get(url, { params: coordsFetchParams })
       .then((res: AxiosResponse) => {
         const formatted: LatLng[] = [];
         const coords: [] = res.data.routes[0].geometry.coordinates;
-        coords.forEach((c) =>
-          formatted.push({ longitude: c[0], latitude: c[1] } as LatLng)
-        );
+        coords.forEach(c => formatted.push({ longitude: c[0], latitude: c[1] } as LatLng));
         setCoordinates(formatted);
       })
       .catch((err: AxiosError) => console.log(err.message));
@@ -62,13 +57,7 @@ export const fetchCoordinatesBetweenPoints = (
 };
 
 export const findTracksMinMaxDuration = (tracks: TrackData[]) => {
-  const mini =
-    tracks
-      .map((track) => track.duration)
-      .reduce((prev, curr) => (curr < prev ? curr : prev)) || 0;
-  const maxi =
-    tracks
-      .map((track) => track.duration)
-      .reduce((prev, curr) => (curr > prev ? curr : prev)) || 5;
+  const mini = tracks.map(track => track.duration).reduce((prev, curr) => (curr < prev ? curr : prev)) || 0;
+  const maxi = tracks.map(track => track.duration).reduce((prev, curr) => (curr > prev ? curr : prev)) || 5;
   return [mini / 3600, maxi / 3600] as [from: number, to: number];
 };

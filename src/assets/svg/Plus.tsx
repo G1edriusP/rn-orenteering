@@ -13,13 +13,13 @@ type Props = {
 
 const Plus: React.FC<Props> = ({ size, color = colors.WHITE }) => {
   return (
-    <Svg height={size} width={size} strokeWidth={1.5} viewBox="0 0 24 24">
+    <Svg height={size} width={size} strokeWidth={1.5} viewBox='0 0 24 24'>
       <Path
         fill={color}
         stroke={color}
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M6 12H12M18 12H12M12 12V6M12 12V18"
+        strokeLinecap='round'
+        strokeLinejoin='round'
+        d='M6 12H12M18 12H12M12 12V6M12 12V18'
       />
     </Svg>
   );

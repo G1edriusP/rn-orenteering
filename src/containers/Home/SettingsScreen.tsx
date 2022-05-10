@@ -31,7 +31,7 @@ const SettingsScreen = ({ navigation }: SettingsScreenProps) => {
       <View style={styles.block}>
         <Text style={styles.subtitle}>{t('settingsScreen:language')}</Text>
         <View style={styles.languages}>
-          {LANGUAGES.map((lang) => (
+          {LANGUAGES.map(lang => (
             <IconButton
               key={lang.code}
               onPress={() => setLanguage(lang.code)}

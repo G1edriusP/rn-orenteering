@@ -1,36 +1,21 @@
-import React, {
-  useEffect,
-  useLayoutEffect,
-  useReducer,
-  useRef,
-  useState,
-} from 'react';
-import { useMemoOne } from 'use-memo-one';
+import React, { useReducer, useRef, useState } from "react";
+import { useMemoOne } from "use-memo-one";
+import { useTranslation } from "react-i18next";
 
 // Styles
-import styles from 'styles/containers/Home/TrackInfo';
+import styles from "styles/containers/Home/TrackInfo";
 
 // Components
-import {
-  View,
-  Text,
-  TextStyle,
-  ListRenderItemInfo,
-  FlatList,
-} from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { MarkerCard, TextInput, Button, Dropdown } from 'components';
-import { PlusIcon, MarkerIcon } from 'assets/svg';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import BottomSheet, {
-  BottomSheetScrollView,
-  BottomSheetView,
-} from '@gorhom/bottom-sheet';
-import MapView, { LatLng, Region } from 'react-native-maps';
+import { View, Text, ListRenderItemInfo, FlatList } from "react-native";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { MarkerCard, TextInput, Button, Dropdown } from "components";
+import { PlusIcon, MarkerIcon } from "assets/svg";
+import { SafeAreaView } from "react-native-safe-area-context";
+import BottomSheet, { BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
+import MapView, { LatLng, Region } from "react-native-maps";
 
 // Types and constants
-import { TrackInfoScreenProps } from 'constants/navigation/types';
+import { TrackInfoScreenProps } from "constants/navigation/types";
 import {
   defaultMarkerData,
   defaultTrackData,
@@ -38,26 +23,24 @@ import {
   defaultTrackTypes,
   IDS,
   initialMarkerMapRegion,
-} from 'constants/values';
-import { MarkerType } from 'constants/types/firestore';
-import colors from 'constants/colors';
-// @ts-ignore
-import mapStyle from 'constants/mapStyle';
+} from "constants/values";
+import { MarkerType } from "constants/types/firestore";
+import colors from "constants/colors";
+import mapStyle from "constants/mapStyle.json";
+import { Routes } from "constants/navigation/routes";
 
 // Utils
-import { markerReducer, saveTrack, tracksReducer } from 'utils/firebase/track';
-import { fontSizes, padding, SCREEN_WIDTH } from 'constants/spacing';
-import { firebase } from '@react-native-firebase/auth';
-import { createUID, showAlert } from 'utils/other';
-import { useTranslation } from 'react-i18next';
-import { validateField } from 'utils/validation/track';
-import { Routes } from 'constants/navigation/routes';
-import { resetNavigation } from 'utils/navigation/navigation';
-import { formatNewTrackTimeToS } from 'utils/time';
-import { StackNavigationOptions } from '@react-navigation/stack';
+import { markerReducer, saveTrack, tracksReducer } from "utils/firebase/track";
+import { padding, SCREEN_WIDTH } from "constants/spacing";
+import { firebase } from "@react-native-firebase/auth";
+import { createUID, showAlert } from "utils/other";
+import { validateField } from "utils/validation/track";
+import { resetNavigation } from "utils/navigation/navigation";
+import { formatNewTrackTimeToS } from "utils/time";
+import { StackNavigationOptions } from "@react-navigation/stack";
 
 const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
-  const { type } = params;
+  const { type } = params; // TODO: make track edit work
 
   const { t } = useTranslation();
 
@@ -67,15 +50,9 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
 
   // States and variables
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [trackData, dispatchTrackInfo] = useReducer(
-    tracksReducer,
-    defaultTrackData
-  );
-  const [markerData, dispatchMarkerInfo] = useReducer(
-    markerReducer,
-    defaultMarkerData
-  );
-  const bottomSheetSnapPoints = useMemoOne(() => ['99%'], []);
+  const [trackData, dispatchTrackInfo] = useReducer(tracksReducer, defaultTrackData);
+  const [markerData, dispatchMarkerInfo] = useReducer(markerReducer, defaultMarkerData);
+  const bottomSheetSnapPoints = useMemoOne(() => ["99%"], []);
 
   // Update track data state
   const onTrackInputChange = (id: string, val: string | MarkerType[]): void => {
@@ -165,16 +142,14 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
       showAlert({
         title: error.title,
         message: error.description,
-        cancel: t('errors:goBack'),
+        cancel: t("errors:goBack"),
       });
     }
   };
 
   // Remove selected marker from track data state
   const onMarkerRemove = (index: number): void => {
-    const filteredMarkers: MarkerType[] = trackData.markers.filter(
-      (_, i) => index !== i
-    );
+    const filteredMarkers: MarkerType[] = trackData.markers.filter((_, i) => index !== i);
     dispatchTrackInfo({ type: IDS.TRACK_MARKERS, value: filteredMarkers });
   };
 
@@ -186,12 +161,12 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
           { name: Routes.HOME_SCREEN },
           {
             name: Routes.TRACKS_MAP_SCREEN,
-            params: { infoType: 'OTHER_TRACKS' },
+            params: { infoType: "OTHER_TRACKS" },
           },
           { name: Routes.TRACKS_SCREEN, params: { tracks: [] } },
         ],
-        2
-      )
+        2,
+      ),
     );
     dispatchTrackInfo({ type: IDS.RESET });
     setIsLoading(false);
@@ -216,66 +191,61 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
           uid: firebase.auth().currentUser?.uid,
           id: createUID(),
         },
-        onTrackSave
+        onTrackSave,
       );
     } else {
       showAlert({
         title: error.title,
         message: error.description,
-        cancel: t('errors:goBack'),
+        cancel: t("errors:goBack"),
       });
       setIsLoading(false);
     }
   };
 
   return (
-    <SafeAreaView
-      style={styles.wrap}
-      edges={['bottom', 'left', 'right', 'top']}
-    >
+    <SafeAreaView style={styles.wrap} edges={["bottom", "left", "right", "top"]}>
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={(item: MarkerType) =>
-          String(
-            `${item.title}_${item.location?.latitude}, ${item.location?.longitude}`
-          )
+          String(`${item.title}_${item.location?.latitude}, ${item.location?.longitude}`)
         }
         data={trackData.markers}
         ListHeaderComponent={
           <>
-            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
-              {t('createTrack:commonInfo')}
-            </Text>
+            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>{t("createTrack:commonInfo")}</Text>
             <TextInput
+              testID='title'
               id={IDS.TRACK_TITLE}
               editable={!isLoading}
               value={trackData.title}
-              placeholder={t('createTrack:name')}
+              placeholder={t("createTrack:name")}
               onChangeText={onTrackInputChange}
-              keyboardType="default"
+              keyboardType='default'
               style={{ ...styles.smallBottomSpacer, ...styles.textInput }}
             />
             <Dropdown
               items={defaultTrackTypes}
-              title={t('createTrack:type')}
+              title={t("createTrack:type")}
               selected={trackData.type}
-              onChange={(value) => onTrackInputChange(IDS.TRACK_TYPE, value)}
+              onChange={value => onTrackInputChange(IDS.TRACK_TYPE, value)}
               style={styles.dropdown}
             />
             <Dropdown
               items={defaultTrackReliefs}
-              title={t('createTrack:relief')}
+              title={t("createTrack:relief")}
               selected={trackData.relief}
-              onChange={(value) => onTrackInputChange(IDS.TRACK_RELIEF, value)}
+              onChange={value => onTrackInputChange(IDS.TRACK_RELIEF, value)}
               style={styles.dropdown}
             />
             <TextInput
+              testID='description'
               id={IDS.TRACK_DESCRIPTION}
               editable={!isLoading}
-              value={trackData.description || ''}
-              placeholder={t('createTrack:description')}
+              value={trackData.description || ""}
+              placeholder={t("createTrack:description")}
               onChangeText={onTrackInputChange}
-              keyboardType="default"
+              keyboardType='default'
               multiline
               style={{
                 ...styles.mediumBottomSpacer,
@@ -284,23 +254,20 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
               }}
             />
 
-            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
-              {t('createTrack:duration')}
-            </Text>
+            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>{t("createTrack:duration")}</Text>
             <View
               style={{
-                width: '100%',
-                flexDirection: 'row',
-                justifyContent: 'space-between',
-              }}
-            >
+                width: "100%",
+                flexDirection: "row",
+                justifyContent: "space-between",
+              }}>
               <TextInput
                 id={IDS.TRACK_DURATION_DAYS}
                 editable={!isLoading}
-                value={!trackData.days ? '' : String(trackData.days)}
-                placeholder={t('createTrack:days')}
+                value={!trackData.days ? "" : String(trackData.days)}
+                placeholder={t("createTrack:days")}
                 onChangeText={onTrackInputChange}
-                keyboardType="numeric"
+                keyboardType='numeric'
                 style={{
                   ...styles.smallBottomSpacer,
                   ...styles.textInput,
@@ -308,12 +275,13 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
                 }}
               />
               <TextInput
+                testID='hours'
                 id={IDS.TRACK_DURATION_HOURS}
                 editable={!isLoading}
-                value={!trackData.hours ? '' : String(trackData.hours)}
-                placeholder={t('createTrack:hours')}
+                value={!trackData.hours ? "" : String(trackData.hours)}
+                placeholder={t("createTrack:hours")}
                 onChangeText={onTrackInputChange}
-                keyboardType="numeric"
+                keyboardType='numeric'
                 style={{
                   ...styles.smallBottomSpacer,
                   ...styles.textInput,
@@ -323,10 +291,10 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
               <TextInput
                 id={IDS.TRACK_DURATION_MINS}
                 editable={!isLoading}
-                value={!trackData.minutes ? '' : String(trackData.minutes)}
-                placeholder={t('createTrack:minutes')}
+                value={!trackData.minutes ? "" : String(trackData.minutes)}
+                placeholder={t("createTrack:minutes")}
                 onChangeText={onTrackInputChange}
-                keyboardType="numeric"
+                keyboardType='numeric'
                 style={{
                   ...styles.mediumBottomSpacer,
                   ...styles.textInput,
@@ -337,12 +305,9 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
 
             <View style={styles.addMarkerWrap}>
               <Text style={styles.title}>
-                {t('createTrack:routePoints')} ({trackData.markers.length || 0})
+                {t("createTrack:routePoints")} ({trackData.markers.length || 0})
               </Text>
-              <TouchableOpacity
-                style={styles.addMarker}
-                onPress={bottomSheetOpen}
-              >
+              <TouchableOpacity testID='addMarker' style={styles.addMarker} onPress={bottomSheetOpen}>
                 <PlusIcon size={24} color={colors.WHITE} />
               </TouchableOpacity>
             </View>
@@ -360,7 +325,8 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
       />
 
       <Button
-        title={t('createTrack:create')}
+        testID='create'
+        title={t("createTrack:create")}
         onPress={onTrackSavePress}
         style={{ marginTop: 12 }}
         isLoading={isLoading}
@@ -372,34 +338,31 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
         index={-1}
         enablePanDownToClose
         backgroundStyle={styles.sheetBackground}
-        onClose={bottomSheetClose}
-      >
+        onClose={bottomSheetClose}>
         <BottomSheetScrollView
           style={styles.wrap}
           contentContainerStyle={styles.sheetScrollWrap}
-          showsVerticalScrollIndicator={false}
-        >
+          showsVerticalScrollIndicator={false}>
           <BottomSheetView>
-            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
-              {t('createTrack:routePointInfo')}
-            </Text>
+            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>{t("createTrack:routePointInfo")}</Text>
 
             <TextInput
+              testID='mTitle'
               id={IDS.MARKER_TITLE}
               editable={!isLoading}
               value={markerData.title}
-              placeholder={t('createTrack:name')}
+              placeholder={t("createTrack:name")}
               onChangeText={onMarkerInputChange}
-              keyboardType="default"
+              keyboardType='default'
               style={{ ...styles.smallBottomSpacer, ...styles.textInput }}
             />
             <TextInput
               id={IDS.MARKER_DESCRIPTION}
               editable={!isLoading}
-              value={markerData.description || ''}
-              placeholder={t('createTrack:description')}
+              value={markerData.description || ""}
+              placeholder={t("createTrack:description")}
               onChangeText={onMarkerInputChange}
-              keyboardType="default"
+              keyboardType='default'
               multiline
               style={{
                 ...styles.mediumBottomSpacer,
@@ -408,40 +371,36 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
               }}
             />
 
-            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>
-              {t('createTrack:routePointLocation')}
-            </Text>
+            <Text style={[styles.title, { marginBottom: padding.MIDI }]}>{t("createTrack:routePointLocation")}</Text>
 
             <BottomSheetView style={styles.locationWrap}>
               <BottomSheetView style={styles.locationInput}>
                 <TextInput
+                  testID='lat'
                   id={IDS.MARKER_LATITUDE}
                   editable={!isLoading}
                   value={
-                    markerData.location && markerData.location.latitude
-                      ? String(markerData.location.latitude)
-                      : ''
+                    markerData.location && markerData.location.latitude ? String(markerData.location.latitude) : ""
                   }
-                  placeholder={t('createTrack:latitude')}
+                  placeholder={t("createTrack:latitude")}
                   onChangeText={onMarkerLocationManualChange}
                   onSubmitEditing={onMarkerLocationManualChangeSubmit}
-                  keyboardType="numeric"
+                  keyboardType='numeric'
                   style={styles.textInput}
                 />
               </BottomSheetView>
               <BottomSheetView style={styles.locationInput}>
                 <TextInput
+                  testID='lon'
                   id={IDS.MARKER_LONGITUDE}
                   editable={!isLoading}
                   value={
-                    markerData.location && markerData.location.longitude
-                      ? String(markerData.location.longitude)
-                      : ''
+                    markerData.location && markerData.location.longitude ? String(markerData.location.longitude) : ""
                   }
-                  placeholder={t('createTrack:longitude')}
+                  placeholder={t("createTrack:longitude")}
                   onChangeText={onMarkerLocationManualChange}
                   onSubmitEditing={onMarkerLocationManualChangeSubmit}
-                  keyboardType="numeric"
+                  keyboardType='numeric'
                   style={styles.textInput}
                 />
               </BottomSheetView>
@@ -449,21 +408,23 @@ const TrackInfo = ({ route: { params }, navigation }: TrackInfoScreenProps) => {
 
             <BottomSheetView>
               <MapView
+                testID='map'
                 ref={markerMapRef}
                 customMapStyle={mapStyle}
-                provider={'google'}
+                provider={"google"}
                 style={styles.markerMap}
                 initialRegion={initialMarkerMapRegion}
                 onRegionChangeComplete={onMarkerMapRegionChange}
               />
-              <BottomSheetView style={styles.markerFixed} pointerEvents="none">
+              <BottomSheetView style={styles.markerFixed} pointerEvents='none'>
                 <MarkerIcon size={36} />
               </BottomSheetView>
-              <Text style={styles.subtitle}>{t('createTrack:moveCursor')}</Text>
+              <Text style={styles.subtitle}>{t("createTrack:moveCursor")}</Text>
             </BottomSheetView>
           </BottomSheetView>
           <Button
-            title={t('createTrack:save')}
+            testID='save'
+            title={t("createTrack:save")}
             onPress={onNewMarkerSavePress}
             style={{ marginBottom: padding.MEDIUM }}
           />

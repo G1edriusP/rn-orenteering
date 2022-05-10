@@ -7,7 +7,7 @@ const checkField = (
   key: string,
   value: string | LatLng,
   t: TFunction,
-  isMarker: boolean
+  isMarker: boolean,
 ): { next: boolean; problem: { title: string; description: string } } => {
   let next = true;
   const problem: { title: string; description: string } = {
@@ -36,7 +36,7 @@ const checkField = (
 export const validateField = (
   data: MarkerType | TrackData,
   t: TFunction,
-  isMarker: boolean
+  isMarker: boolean,
 ): { isValid: boolean; error: { title: string; description: string } } => {
   let isValid = true;
   const error: { title: string; description: string } = {
@@ -45,13 +45,7 @@ export const validateField = (
   };
 
   Object.entries(data).every(([key, value]) => {
-    if (
-      (key === 'markers' && value.length > 0) ||
-      key === 'description' ||
-      key === 'id' ||
-      key === 'uid'
-    )
-      return true;
+    if ((key === 'markers' && value.length > 0) || key === 'description' || key === 'id' || key === 'uid') return true;
     else if (key === 'markers' && value.length === 0) {
       isValid = false;
       error.title = t('trackErrors:markersTrack:emptyTitle');

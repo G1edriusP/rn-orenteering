@@ -1,23 +1,22 @@
-import React, { memo } from 'react';
+import React, { memo } from "react";
 
 // Styles
-import styles from 'styles/components/HomeCard';
+import styles from "styles/components/HomeCard";
 
 // Components
-import { Text, ViewStyle, TouchableOpacity, View } from 'react-native';
-import { SettingsIcon } from 'assets/svg';
-import { padding } from 'constants/spacing';
+import { Text, ViewStyle, TouchableOpacity, View } from "react-native";
 
 export type Props = {
+  testID?: string;
   title: string;
   onPress: () => void;
   style?: ViewStyle;
   Icon?: React.FC<{ size: number }>;
 };
 
-const HomeCard: React.FC<Props> = ({ title, onPress, style, Icon }) => {
+const HomeCard: React.FC<Props> = ({ testID, title, onPress, style, Icon }) => {
   return Icon ? (
-    <TouchableOpacity onPress={onPress} style={[styles.wrap, style]}>
+    <TouchableOpacity testID={testID} onPress={onPress} style={[styles.wrap, style]}>
       <View style={styles.icon}>
         <Icon size={200} />
       </View>

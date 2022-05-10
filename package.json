@@ -8,7 +8,9 @@
     "start": "patch-package && react-native start",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx",
-    "postinstall": "patch-package"
+    "postinstall": "patch-package",
+    "e2e:test": "detox test -c ios.release",
+    "e2e:build": "detox build -c ios.release"
   },
   "dependencies": {
     "@gorhom/bottom-sheet": "^4",
@@ -61,6 +63,7 @@
     "@typescript-eslint/parser": "^5.10.2",
     "babel-jest": "^26.6.3",
     "babel-plugin-module-resolver": "^4.1.0",
+    "detox": "^19.6.9",
     "eslint": "^8.8.0",
     "eslint-plugin-react": "^7.28.0",
     "jest": "^28.1.0",
@@ -83,7 +86,15 @@
       "node"
     ]
   },
-  "prettier": {
-    "singleQuote": true
+  "detox": {
+    "test-runner": "jest",
+    "configurations": {
+      "ios.release": {
+        "binaryPath": "./ios/build/Build/Products/Release-iphonesimulator/orienteering.app",
+        "build": "xcodebuild -workspace ios/orienteering.xcworkspace -configuration release -scheme orienteering -sdk iphonesimulator -derivedDataPath ios/build",
+        "type": "ios.simulator",
+        "name": "iPhone 13"
+      }
+    }
   }
 }

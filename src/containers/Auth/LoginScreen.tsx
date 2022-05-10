@@ -44,13 +44,12 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
     onLoginPress(data, t, () => setIsLoading(false));
   };
 
-  const onRegisterScreenButtonPress = (): void =>
-    navigation.navigate(Routes.REGISTER_SCREEN);
+  const onRegisterScreenButtonPress = (): void => navigation.navigate(Routes.REGISTER_SCREEN);
 
   return (
     <SafeAreaView style={styles.wrap} edges={['top', 'bottom']}>
       <View style={styles.languages}>
-        {LANGUAGES.map((lang) => (
+        {LANGUAGES.map(lang => (
           <IconButton
             key={lang.code}
             onPress={() => setLanguage(lang.code)}
@@ -66,28 +65,27 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
         <View style={styles.icon}>
           <LogoIcon size={48} />
         </View>
-        <KeyboardAwareScrollView
-          showsVerticalScrollIndicator={false}
-          style={styles.scroll}
-        >
+        <KeyboardAwareScrollView showsVerticalScrollIndicator={false} style={styles.scroll}>
           <View style={styles.content}>
             <TextInput
+              testID={'email'}
               id={IDS.EMAIL}
               editable={!isLoading}
               value={data.email}
               placeholder={t('authStack:email')}
               onChangeText={onInputChange}
-              keyboardType="email-address"
-              autoCapitalize="none"
+              keyboardType='email-address'
+              autoCapitalize='none'
               style={styles.smallBottomSpacer}
             />
             <TextInput
+              testID={'password'}
               id={IDS.PASSWORD}
               editable={!isLoading}
               value={data.password}
               placeholder={t('authStack:password')}
               onChangeText={onInputChange}
-              autoCapitalize="none"
+              autoCapitalize='none'
               secureTextEntry
               style={styles.mediumBottomSpacer}
             />
@@ -96,6 +94,7 @@ const LoginScreen = ({ navigation }: LoginScreenProps) => {
 
         <View>
           <Button
+            testID={'button'}
             title={t('authStack:login')}
             onPress={onLoginButtonPress}
             style={styles.mediumBottomSpacer}

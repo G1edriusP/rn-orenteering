@@ -1,58 +1,37 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from "react";
+import { useCallbackOne } from "use-memo-one";
 
 // Styles
-import styles from 'styles/containers/Home/TracksMap';
+import styles from "styles/containers/Home/TracksMap";
 
 // Components
-import { Platform, Text, TouchableWithoutFeedback, View } from 'react-native';
-import { SmallButton, TrackInfoSheet } from 'components';
-import { BackIcon, CloseIcon, SearchIcon } from 'assets/svg';
-import {
-  SafeAreaView,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
-import MapView, {
-  Callout,
-  CalloutSubview,
-  LatLng,
-  Marker,
-  Polyline,
-} from 'react-native-maps';
-import { firebase } from '@react-native-firebase/auth';
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withTiming,
-  useDerivedValue,
-} from 'react-native-reanimated';
-import MarkerIcon2 from 'assets/images/akytes.svg';
+import { Platform, Text, View } from "react-native";
+import { SmallButton } from "components";
+import { CloseIcon } from "assets/svg";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
+import MapView, { LatLng, Marker, Polyline } from "react-native-maps";
+import Animated, { useSharedValue, useAnimatedStyle, withTiming } from "react-native-reanimated";
+import MarkerIcon2 from "assets/images/akytes.svg";
+import { TouchableOpacity } from "react-native-gesture-handler";
+import Carousel from "react-native-snap-carousel";
 
 // Constants
-import { TrackMapCognitiveScreenProps } from 'constants/navigation/types';
-// @ts-ignore
-import mapStyle from 'constants/mapStyle';
-import { TrackData, TrackInfoHandle } from 'constants/types/types';
-import { MarkerType } from 'constants/types/firestore';
-import {
-  fontSizes,
-  padding,
-  SCREEN_HEIGHT,
-  SCREEN_WIDTH,
-} from 'constants/spacing';
-import { fetchCoordinatesBetweenPoints } from 'utils/other';
-import colors from 'constants/colors';
-import { formatSToMsString, formatTimeString } from 'utils/time';
-import Carousel from 'react-native-snap-carousel';
-import { useCallbackOne } from 'use-memo-one';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { fontMedium, fontRegular } from 'constants/fonts';
-import { TrackCardIcons } from 'constants/values';
-import { hasLocationPermission } from 'utils/location/permissions';
+import { TrackMapCognitiveScreenProps } from "constants/navigation/types";
+import mapStyle from "constants/mapStyle.json";
+import { TrackInfoHandle } from "constants/types/types";
+import { MarkerType } from "constants/types/firestore";
+import { fontSizes, padding, SCREEN_WIDTH } from "constants/spacing";
+import colors from "constants/colors";
+import { fontMedium, fontRegular } from "constants/fonts";
+
+// Utils
+import { fetchCoordinatesBetweenPoints } from "utils/other";
+import { formatSToMsString } from "utils/time";
 
 const RenderItem: React.FC<{
   item: MarkerType;
   index: number;
-}> = ({ item, index }) => {
+}> = ({ item }) => {
   return (
     <TouchableOpacity
       style={{
@@ -61,17 +40,15 @@ const RenderItem: React.FC<{
         height: 96,
         borderRadius: padding.SMALL,
         padding: padding.MIDI,
-        justifyContent: 'space-between',
-      }}
-    >
+        justifyContent: "space-between",
+      }}>
       <Text
         style={{
           fontFamily: fontMedium,
           fontSize: fontSizes.MIDI,
           color: colors.DARK_BLUE,
           marginBottom: padding.SMALL,
-        }}
-      >
+        }}>
         {item.title}
       </Text>
       <Text
@@ -81,18 +58,14 @@ const RenderItem: React.FC<{
           fontSize: fontSizes.SMALL,
           color: colors.DARK_GREY,
           marginBottom: padding.SMALL,
-        }}
-      >
+        }}>
         {item.description}
       </Text>
     </TouchableOpacity>
   );
 };
 
-const TrackCognitiveScreen = ({
-  navigation,
-  route: { params },
-}: TrackMapCognitiveScreenProps) => {
+const TrackCognitiveScreen = ({ navigation, route: { params } }: TrackMapCognitiveScreenProps) => {
   const { top } = useSafeAreaInsets();
   const { track } = params;
 
@@ -113,8 +86,7 @@ const TrackCognitiveScreen = ({
 
   const onMarkerPress = (index: number, location: LatLng) => {
     carouselRef.current?.snapToItem(index, true);
-    if (Platform.OS === 'ios')
-      mapRef.current?.animateCamera({ center: location, pitch: 2 });
+    if (Platform.OS === "ios") mapRef.current?.animateCamera({ center: location, pitch: 2 });
   };
 
   const onCardScroll = useCallbackOne(
@@ -122,7 +94,7 @@ const TrackCognitiveScreen = ({
       const { location } = track.markers[index];
       mapRef.current?.animateCamera({ center: location, pitch: 2 });
     },
-    [track.markers, mapRef]
+    [track.markers, mapRef],
   );
 
   useEffect(() => {
@@ -132,7 +104,7 @@ const TrackCognitiveScreen = ({
       fetchCoordinatesBetweenPoints(track.markers, setCoordinates);
       // Starts the timer
       interval = setInterval(() => {
-        setTime((lastTimerCount) => {
+        setTime(lastTimerCount => {
           return lastTimerCount + 1;
         });
       }, 1000);
@@ -146,7 +118,7 @@ const TrackCognitiveScreen = ({
         <MapView
           ref={mapRef}
           customMapStyle={mapStyle}
-          provider={'google'}
+          provider={"google"}
           style={styles.map}
           toolbarEnabled={false}
           showsCompass={false}
@@ -157,16 +129,14 @@ const TrackCognitiveScreen = ({
             longitude: track.markers[0].location.longitude,
             latitudeDelta: 0.01,
             longitudeDelta: 0.01,
-          }}
-        >
+          }}>
           {track.markers.map((marker: MarkerType, index: number) => (
             <Marker
               onPress={() => onMarkerPress(index, marker.location)}
               key={index}
               coordinate={marker.location}
               title={marker.title}
-              description={marker.description}
-            >
+              description={marker.description}>
               <MarkerIcon2 height={72} width={72} />
             </Marker>
           ))}
@@ -182,33 +152,26 @@ const TrackCognitiveScreen = ({
       {track ? (
         <View
           style={{
-            position: 'absolute',
+            position: "absolute",
             bottom: padding.LARGE + padding.SMALL,
-          }}
-        >
+          }}>
           <Carousel
-            layout={'default'}
+            layout={"default"}
             ref={carouselRef}
             data={track.markers}
-            renderItem={(props) => <RenderItem {...props} />}
+            renderItem={props => <RenderItem {...props} />}
             sliderWidth={SCREEN_WIDTH}
             itemWidth={SCREEN_WIDTH - padding.LARGE * 2}
             enableSnap
             inactiveSlideScale={0.94}
             inactiveSlideOpacity={0.7}
-            activeSlideAlignment="center"
+            activeSlideAlignment='center'
             onBeforeSnapToItem={onCardScroll}
           />
         </View>
       ) : null}
 
-      <Animated.View
-        style={[
-          styles.headerWrap,
-          headerRStyle,
-          { paddingTop: top + padding.MEDIUM },
-        ]}
-      >
+      <Animated.View style={[styles.headerWrap, headerRStyle, { paddingTop: top + padding.MEDIUM }]}>
         <SmallButton Icon={CloseIcon} size={28} onPress={onBackPress} />
         <SmallButton isTimer time={formatSToMsString(time)} />
       </Animated.View>

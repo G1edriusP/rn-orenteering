@@ -14,16 +14,11 @@ const Types: KeychainConst = {
   accessToken: 'RN-AUTH_ACCESS-TOKEN',
 };
 
-const keychainSetValue = (
-  value: string,
-  type: string
-): Promise<false | Result> => setInternetCredentials(type, type, value);
-const keychainRemoveValue = (type: string): Promise<void> =>
-  resetInternetCredentials(type);
+const keychainSetValue = (value: string, type: string): Promise<false | Result> =>
+  setInternetCredentials(type, type, value);
+const keychainRemoveValue = (type: string): Promise<void> => resetInternetCredentials(type);
 const keychainGetValue = async (type: string): Promise<string | null> => {
-  const result: false | SharedWebCredentials = await getInternetCredentials(
-    type
-  );
+  const result: false | SharedWebCredentials = await getInternetCredentials(type);
   return result ? result.password : null;
 };
 

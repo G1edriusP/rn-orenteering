@@ -1,11 +1,7 @@
 import { EmailAuthData } from 'constants/types/types';
 import { TFunction } from 'react-i18next';
 
-const checkField = (
-  key: string,
-  value: string,
-  t: TFunction
-): { next: boolean; problem: Object } => {
+const checkField = (key: string, value: string, t: TFunction): { next: boolean; problem: Object } => {
   let next = true;
   const problem: { title: string; description: string } = {
     title: '',
@@ -24,7 +20,7 @@ const checkField = (
   // Check if it is email field
   if (key === 'email') {
     const emailRegex = new RegExp(
-      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
     );
     // Check if email is written correctly
     if (!RegExp(emailRegex).test(value)) {
@@ -42,10 +38,7 @@ const checkField = (
   return { next, problem };
 };
 
-export const validateInputFields = (
-  data: EmailAuthData,
-  t: TFunction
-): { isValid: boolean; error: Object } => {
+export const validateInputFields = (data: EmailAuthData, t: TFunction): { isValid: boolean; error: Object } => {
   let isValid = true;
   const error: { title: string; description: string } = {
     title: '',

@@ -16,15 +16,8 @@ import BottomSheet from '@gorhom/bottom-sheet';
 // Constants
 import { WaitingRoomScreenProps } from 'constants/navigation/types';
 import { TrackData } from 'constants/types/types';
-import {
-  emptyTrackRoom,
-  IndicativeTrackRoom,
-  TrackPlayer,
-} from 'constants/types/track';
-import {
-  IDigits,
-  IValue,
-} from 'react-native-number-please/dist/src/NumberPlease.interface';
+import { emptyTrackRoom, IndicativeTrackRoom, TrackPlayer } from 'constants/types/track';
+import { IDigits, IValue } from 'react-native-number-please/dist/src/NumberPlease.interface';
 
 // Utils
 import { createUID, showAlert } from 'utils/other';
@@ -38,10 +31,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { LogoIcon } from 'assets/svg';
 import colors from 'constants/colors';
 
-const WaitingRoomScreen = ({
-  navigation,
-  route: { params },
-}: WaitingRoomScreenProps) => {
+const WaitingRoomScreen = ({ navigation, route: { params } }: WaitingRoomScreenProps) => {
   const { t } = useTranslation();
   const { trackID } = params || {};
   const isCreator = !!trackID;
@@ -64,9 +54,8 @@ const WaitingRoomScreen = ({
   ];
 
   const onRoomIdInput = useCallbackOne(
-    (id: string, text: string) =>
-      setRoomData((old) => ({ ...old, [id]: text.toUpperCase() })),
-    []
+    (id: string, text: string) => setRoomData(old => ({ ...old, [id]: text.toUpperCase() })),
+    [],
   );
 
   const bottomSheetOpen = useCallbackOne((): void => {
@@ -97,7 +86,7 @@ const WaitingRoomScreen = ({
         });
         setInitial(false);
       })
-      .catch((err) => {
+      .catch(err => {
         console.log(err);
       });
   }, []);
@@ -123,7 +112,7 @@ const WaitingRoomScreen = ({
                 players: players,
               },
             },
-          ])
+          ]),
         );
       });
   }, [trackData, roomData, players]);
@@ -144,7 +133,7 @@ const WaitingRoomScreen = ({
         trackID,
         creatorID: currUser!.uid,
       };
-      setRoomData((old) => ({ ...old, ...data }));
+      setRoomData(old => ({ ...old, ...data }));
       // Create room in firestore
       firestore().collection('rooms').doc(roomID).set(data);
       // Add player (creator) in room players collection
@@ -171,7 +160,7 @@ const WaitingRoomScreen = ({
       .collection('rooms')
       .doc(roomData.roomID)
       .onSnapshot(
-        (docSnap) => {
+        docSnap => {
           // Check if room still exists
           if (!initial && !isCreator && !docSnap.data() && roomData.roomID) {
             // If not, navigate user to home screen and show alert
@@ -183,11 +172,11 @@ const WaitingRoomScreen = ({
             });
           }
           // If room still exists, update data
-          if (!initial) setRoomData((old) => ({ ...old, ...docSnap.data() }));
+          if (!initial) setRoomData(old => ({ ...old, ...docSnap.data() }));
         },
-        (error) => {
+        error => {
           console.log(error);
-        }
+        },
       );
     return () => sub();
   }, [roomData.roomID, initial]);
@@ -197,11 +186,9 @@ const WaitingRoomScreen = ({
       .collection('rooms')
       .doc(roomData.roomID)
       .collection('players')
-      .onSnapshot((collSnapshot) => {
+      .onSnapshot(collSnapshot => {
         if (!initial) {
-          setPlayers(
-            collSnapshot.docs.map((docSnap) => docSnap.data()) as TrackPlayer[]
-          );
+          setPlayers(collSnapshot.docs.map(docSnap => docSnap.data()) as TrackPlayer[]);
         }
       });
     return () => sub();
@@ -220,7 +207,7 @@ const WaitingRoomScreen = ({
               players: players,
             },
           },
-        ])
+        ]),
       );
     }
   }, [roomData, trackData, players]);
@@ -232,17 +219,17 @@ const WaitingRoomScreen = ({
         .collection('tracks')
         .doc(roomData.trackID)
         .get()
-        .then((response) => {
+        .then(response => {
           setTrackData(response.data() as TrackData);
         })
-        .catch((err) => console.log(err));
+        .catch(err => console.log(err));
     }
   }, [roomData.trackID]);
 
   useEffect(() => {
     // Update duration value in firestore
     if (!initial && time && roomData.roomID) {
-      setRoomData((old) => ({ ...old, duration: formatPickerToS(time) }));
+      setRoomData(old => ({ ...old, duration: formatPickerToS(time) }));
       updateWaitingRoomDuration(roomData.roomID, formatPickerToS(time));
     }
   }, [time, roomData.roomID]);
@@ -256,8 +243,7 @@ const WaitingRoomScreen = ({
           flex: 1,
           backgroundColor: colors.WHITE,
           padding: padding.LARGE,
-        }}
-      >
+        }}>
         <View style={styles.icon}>
           <LogoIcon size={48} />
         </View>
@@ -267,7 +253,7 @@ const WaitingRoomScreen = ({
             value={roomData.roomID}
             onChangeText={onRoomIdInput}
             placeholder={t('waitingRoom:roomCode')}
-            autoCapitalize="characters"
+            autoCapitalize='characters'
             style={styles.guestInput}
             maxLength={6}
           />
@@ -295,16 +281,8 @@ const WaitingRoomScreen = ({
         </Text>
         {isCreator && (
           <View style={styles.buttons}>
-            <Button
-              title={t('waitingRoom:edit')}
-              onPress={bottomSheetOpen}
-              style={styles.button}
-            />
-            <Button
-              title={t('waitingRoom:start')}
-              onPress={onStartPress}
-              style={styles.button}
-            />
+            <Button title={t('waitingRoom:edit')} onPress={bottomSheetOpen} style={styles.button} />
+            <Button title={t('waitingRoom:start')} onPress={onStartPress} style={styles.button} />
           </View>
         )}
       </View>
@@ -329,13 +307,12 @@ const WaitingRoomScreen = ({
         index={-1}
         enablePanDownToClose
         style={styles.sheetWrap}
-        backgroundStyle={styles.sheetBackground}
-      >
+        backgroundStyle={styles.sheetBackground}>
         <Text style={styles.title}>{t('waitingRoom:duration')}:</Text>
         <NumbersPlease
           digits={timeNumbers}
           values={time}
-          onChange={(values) => setTime(values)}
+          onChange={values => setTime(values)}
           itemStyle={{}}
           pickerStyle={{
             width: SCREEN_WIDTH / 4,

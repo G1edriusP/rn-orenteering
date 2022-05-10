@@ -1,43 +1,32 @@
-import React, { memo } from 'react';
+import React, { memo } from "react";
 
 // Styles
-import styles from 'styles/components/TrackCard';
+import styles from "styles/components/TrackCard";
 
 // Components
-import { View, Text, TouchableOpacity } from 'react-native';
-import { ClockIcon, FlameIcon, HeartIcon, StarIcon } from 'assets/svg';
+import { View, Text, TouchableOpacity } from "react-native";
+import { ClockIcon, FlameIcon } from "assets/svg";
 
 // Constants
-import { TrackCardType } from 'constants/types/types';
-import { TrackCardIcons } from 'constants/values';
+import { TrackCardType } from "constants/types/types";
+import { TrackCardIcons } from "constants/values";
 
 // Utils
-import { formatSToMsString } from 'utils/time';
-import colors from 'constants/colors';
+import { formatSToMsString } from "utils/time";
+import colors from "constants/colors";
 
-const TrackCard: React.FC<TrackCardType> = (track) => {
-  const {
-    onPress,
-    onFavouritePress,
-    title,
-    description,
-    rating,
-    type,
-    relief,
-    markers,
-    duration,
-  } = track;
+const TrackCard: React.FC<TrackCardType> = track => {
+  const { testID, onPress, onFavouritePress, title, description, rating, type, relief, markers, duration } = track;
   const Icon = TrackCardIcons[relief];
-
+  console.log(testID);
   return (
-    <TouchableOpacity style={styles.wrap} onPress={() => onPress(track)}>
+    <TouchableOpacity testID={testID} style={styles.wrap} onPress={() => onPress(track)}>
       <View
         style={{
-          flexDirection: 'row',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-        }}
-      >
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}>
         <Text style={styles.title} numberOfLines={1}>
           {title}
         </Text>
@@ -53,9 +42,7 @@ const TrackCard: React.FC<TrackCardType> = (track) => {
         {duration ? (
           <View style={styles.iconWrap}>
             <ClockIcon size={28} color={colors.DARK_BLUE} />
-            <Text style={[styles.subtitle, { marginLeft: 4 }]}>
-              {formatSToMsString(duration)}
-            </Text>
+            <Text style={[styles.subtitle, { marginLeft: 4 }]}>{formatSToMsString(duration)}</Text>
           </View>
         ) : null}
         {rating ? (

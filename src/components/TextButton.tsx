@@ -1,10 +1,10 @@
-import React, { memo } from 'react';
+import React, { memo } from "react";
 
 // Styles
-import styles from 'styles/components/TextButton';
+import styles from "styles/components/TextButton";
 
 // Components
-import { TouchableOpacity, Text } from 'react-native';
+import { TouchableOpacity, Text } from "react-native";
 
 type Props = {
   text: string;

@@ -1,13 +1,14 @@
-import React, { memo } from 'react';
+import React, { memo } from "react";
 
 // Style
-import styles from 'styles/components/Button';
+import styles from "styles/components/Button";
 
 // Components
-import { Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native';
-import Loader from './Loader';
+import { Text, TextStyle, TouchableOpacity, ViewStyle } from "react-native";
+import Loader from "./Loader";
 
 export type Props = {
+  testID?: string;
   title: string;
   onPress: () => void;
   style?: ViewStyle;
@@ -15,15 +16,9 @@ export type Props = {
   isLoading?: boolean;
 };
 
-const Button: React.FC<Props> = ({
-  title,
-  onPress,
-  style,
-  isLoading,
-  textStyle,
-}) => {
+const Button: React.FC<Props> = ({ testID, title, onPress, style, isLoading, textStyle }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={[styles.wrap, style]}>
+    <TouchableOpacity testID={testID} onPress={onPress} style={[styles.wrap, style]}>
       {!isLoading && <Text style={[styles.title, textStyle]}>{title}</Text>}
       {isLoading && <Loader />}
     </TouchableOpacity>

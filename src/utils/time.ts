@@ -8,19 +8,18 @@ export const formatTimeString = (time: number): string => {
   seconds = seconds - minutes * 60;
   minutes = minutes - hours * 60;
 
-  const formatted = `${hours < 10 ? 0 : ''}${hours}:${
-    minutes < 10 ? 0 : ''
-  }${minutes}:${seconds < 10 ? 0 : ''}${seconds}`;
+  const formatted = `${hours < 10 ? 0 : ''}${hours}:${minutes < 10 ? 0 : ''}${minutes}:${
+    seconds < 10 ? 0 : ''
+  }${seconds}`;
 
   return formatted;
 };
 
-export const formatSToMsString = (time: number): string =>
-  formatTimeString(time * 1000);
+export const formatSToMsString = (time: number): string => formatTimeString(time * 1000);
 
 export const formatPickerToS = (time: IValue[]): number => {
-  const hours: number = time.find((item) => item.id === 'hours')!.value;
-  const minutes = time.find((item) => item.id === 'minutes')!.value;
+  const hours: number = time.find(item => item.id === 'hours')!.value;
+  const minutes = time.find(item => item.id === 'minutes')!.value;
   return hours * 3600 + minutes * 60;
 };
 

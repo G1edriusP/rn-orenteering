@@ -7,7 +7,7 @@ import lt from './translations/lt.json';
 import en from './translations/en.json';
 import { LANGUAGES } from 'constants/languages';
 
-const LANG_CODES = Object.keys(LANGUAGES.map((lang) => lang.code));
+const LANG_CODES = Object.keys(LANGUAGES.map(lang => lang.code));
 
 const LANGUAGE_DETECTOR: LanguageDetectorAsyncModule = {
   type: 'languageDetector',
@@ -20,9 +20,8 @@ const LANGUAGE_DETECTOR: LanguageDetectorAsyncModule = {
         } else {
           console.log('No language is set, choosing English as fallback');
         }
-        const findBestAvailableLanguage:
-          | { languageTag: string; isRTL: boolean }
-          | undefined = RNLocalize.findBestAvailableLanguage(LANG_CODES);
+        const findBestAvailableLanguage: { languageTag: string; isRTL: boolean } | undefined =
+          RNLocalize.findBestAvailableLanguage(LANG_CODES);
 
         callback(findBestAvailableLanguage?.languageTag || 'en');
         return;

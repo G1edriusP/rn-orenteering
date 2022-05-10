@@ -11,18 +11,11 @@ import { FirebaseToken } from 'constants/types/auth';
 import { validateInputFields } from 'utils/validation/auth';
 import { showAlert } from 'utils/other';
 
-export const emailAuthReducer = (
-  state: EmailAuthData,
-  action: EmailAuthDataAction
-): EmailAuthData => {
+export const emailAuthReducer = (state: EmailAuthData, action: EmailAuthDataAction): EmailAuthData => {
   return { ...state, [action.type]: action.value };
 };
 
-export const onLoginPress = (
-  data: EmailAuthData,
-  t: TFunction,
-  callback: () => void
-): void => {
+export const onLoginPress = (data: EmailAuthData, t: TFunction, callback: () => void): void => {
   const { isValid, error } = validateInputFields(data, t);
 
   if (isValid) {
@@ -63,7 +56,7 @@ export const onRegisterPress = (
   data: EmailAuthData,
   t: TFunction,
   onSuccess: (user: FirebaseAuthTypes.UserCredential) => void,
-  callback: () => void
+  callback: () => void,
 ): void => {
   const { isValid, error } = validateInputFields(data, t);
 
