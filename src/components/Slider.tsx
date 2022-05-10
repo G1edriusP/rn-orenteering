@@ -2,7 +2,7 @@ import React, { memo } from "react";
 import { useCallbackOne } from "use-memo-one";
 
 // Styles
-import styles from "styles/components/Slider";
+import styles, { rangeSliderWidth } from "styles/components/Slider";
 
 // Components
 import { Text, View } from "react-native";
